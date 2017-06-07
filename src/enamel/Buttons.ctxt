@@ -1,6 +1,0 @@
-#BlueJ class context
-comment0.params=pinNumber
-comment0.target=Buttons(int)
-comment1.params=
-comment1.target=int\ getPinNumber()
-numComments=2
