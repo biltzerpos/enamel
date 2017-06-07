@@ -1,0 +1,74 @@
+Cell 1
+Button 3
+
+Pin orientation
+
+/~disp-cell-clear:0
+/~disp-cell-raise:0 1 
+This is pin 1.
+/~pause:1
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~reset-buttons
+/~pause:1
+/~disp-cell-raise:0 2
+This is pin 2.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~reset-buttons
+/~pause:1
+/~disp-cell-raise:0 3
+This is pin 3.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~reset-buttons
+/~pause:1
+/~disp-cell-raise:0 4
+This is pin 4.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~reset-buttons
+/~pause:1
+/~disp-cell-raise:0 5
+This is pin 5.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~reset-buttons
+/~pause:1
+/~disp-cell-raise:0 6
+And this is pin 6.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+That's the end of Pin orientation!

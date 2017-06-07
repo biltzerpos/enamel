@@ -1,11 +1,13 @@
 package enamel;
 
+import com.pi4j.wiringpi.Gpio;
+ 
+
 public class ToyAuthoring {
 
-	public static void main(String[] args) {
-		SoundPlayer s = new SoundPlayer();
-        //s.setScenarioFile("/Users/bil/York/workspace/git/LaSSoftE/Enamel/SampleScenarios/Scenario_One.txt");
-        s.setScenarioFile("SampleScenarios/Scenario_Two.txt");
-	}
-
+    public static void main(String[] args) {
+        Gpio.wiringPiSetup();
+        SoundPlayer s = new SoundPlayer();
+        s.setScenarioFile("SampleScenarios/Scenario_" + args + ".txt"); 
+    }
 }

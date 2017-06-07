@@ -1,0 +1,90 @@
+Cell 7
+Button 4
+Dynamic Questions incoming
+
+/~pause:2
+/~disp-cell-char:0 K
+/~disp-cell-pins:1 00110000
+/~set-voice:2
+/~repeat
+Which braille shows the alphabet K?
+The choices are braille one, braille two
+Press button two to repeat
+/~endrepeat
+
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~repeat-button:2
+/~user-input
+
+/~ONEE
+/~sound:correct.wav
+Correct
+/~skip:NEXTT
+
+/~TWOO
+/~sound:wrong.wav
+Incorrect, the correct answer was braille one
+/~skip:NEXTT
+
+
+/~NEXTT
+
+/~disp-clearAll
+/~disp-string:aabbccr
+/~set-voice:2
+/~repeat
+What is the alphabet on the last braille?
+The choices are O
+R
+Press button 2 to repeat
+/~endrepeat
+
+/~reset-buttons
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~repeat-button:2
+/~user-input
+
+/~ONEE
+/~sound:wrong.wav
+Incorrect, the correct answer was O
+/~skip:NEXTT
+
+/~TWOO
+/~sound:correct.wav
+Correct
+/~skip:NEXTT
+
+
+/~NEXTT
+
+/~disp-clearAll
+/~disp-string:ZZZZzzz
+/~set-voice:2
+/~repeat
+What is the same alphabet on all the brailles?
+The choices are Z
+X
+Press button two to repeat
+/~endrepeat
+
+/~reset-buttons
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~repeat-button:2
+/~user-input
+
+/~ONEE
+/~sound:correct.wav
+Correct
+/~skip:NEXTT
+
+/~TWOO
+/~sound:wrong.wav
+Incorrect, the correct answer was Z
+/~skip:NEXTT
+
+
+/~NEXTT
+You have completed all dynamic questions

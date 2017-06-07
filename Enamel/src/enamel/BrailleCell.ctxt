@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.params=
+comment0.target=void\ initializeAlphabet()
+comment1.params=radio1x1\ radio1x2\ radio2x1\ radio2x2\ radio3x1\ radio3x2\ radio4x1\ radio4x2
+comment1.target=BrailleCell(javax.swing.JRadioButton,\ javax.swing.JRadioButton,\ javax.swing.JRadioButton,\ javax.swing.JRadioButton,\ javax.swing.JRadioButton,\ javax.swing.JRadioButton,\ javax.swing.JRadioButton,\ javax.swing.JRadioButton)
+comment2.params=a
+comment2.target=void\ displayCharacter(char)
+comment3.params=pins
+comment3.target=void\ setPins(java.lang.String)
+comment4.params=pin
+comment4.target=void\ raiseOnePin(int)
+comment5.params=pin
+comment5.target=void\ lowerOnePin(int)
+comment6.params=pins
+comment6.target=void\ raiseMultiplePins(int[])
+comment7.params=pins
+comment7.target=void\ lowerMultiplePins(int[])
+comment8.params=
+comment8.target=void\ clear()
+comment9.params=
+comment9.target=void\ cellWrite()
+comment9.text=\ Next\ 2\ methods\ are\ for\ the\ Metec\ B11\ Braille\ cell.\n\ Should\ be\ the\ only\ methods\ needed.\n
+numComments=10
