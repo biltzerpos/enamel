@@ -1,35 +1,26 @@
 package enamel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.JButton;
 import java.util.logging.*;
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 
-import com.pi4j.wiringpi.Gpio;
-import com.pi4j.wiringpi.GpioInterruptCallback;
-
-import com.pi4j.io.gpio.*;
-
-public class SoundPlayer 
+public class ScenarioParser
 {
     private Voice voice;
     private VoiceManager vm;
     private Scanner fileScanner;
     private int cellNum;
     private int buttonNum;
-    public Simulator sim;
+    public Player sim;
     private boolean repeat;
     private ArrayList<String> repeatedText;
-    private boolean userInput;
+    public boolean userInput;
     private String scenarioFilePath;
     private int score;
-    private long debounce = 0;
-    public SoundPlayer() 
+    public ScenarioParser() 
     {
         //The first two lines allow the use of the mbrola voices.
         String currDir = System.getProperty("user.dir");
@@ -52,6 +43,7 @@ public class SoundPlayer
     /*
      * This method removes the action listener of the JButton.
      */
+   /*
     private void removeListener (JButton button)
     {
         ActionListener [] aList = button.getActionListeners();
@@ -63,31 +55,24 @@ public class SoundPlayer
             }
         }
     }
-    
+    */
     /*
      * This method corresponds to the /~reset-buttons key phrase in the scenario, and it calls the removeListener
      * method on all the JButtons that were created, to remove their action listeners.
      */
     private void resetButtons ()
     {
-        for (int i = 0; i < sim.jButtonNumber; i ++)
+        for (int i = 0; i < sim.ButtonNumber; i ++)
         {
-            for (JButton j : sim.buttonList)
-            {
-                removeListener (j);
-            }
+                sim.removeButtonListener (i);
         }
-        for (Buttons s : sim.hardwareButtonsList) {
-            Gpio.wiringPiClearISR(s.getPinNumber());
-        }
-        
     }
     
     /*
      * This method corresponds to the /~skip: key phrase in the scenario, and it skips to the next occurrence
      * of the identifier specified as the argument.
      */
-    private void skip (String indicator)
+    void skip (String indicator)
     {
         while (fileScanner.hasNextLine ())
         {
@@ -132,7 +117,7 @@ public class SoundPlayer
         else
         {
             //The key phrase to indicate to play a sound file.
-            if (fileLine.length () >= 8 && fileLine.substring(0, 8).equals("/~sound:"))
+        	if (fileLine.length () >= 8 && fileLine.substring(0, 8).equals("/~sound:"))
             {
                 playSound (fileLine.substring(8));
             }
@@ -231,13 +216,12 @@ public class SoundPlayer
             //The key phrase to wait for the program to receive a user's input.
             else if (fileLine.length () >= 12 && fileLine.substring(0, 12).equals("/~user-input"))
             {   
-                userInput = true;
+                userInput = true;          
             }
             //Anything other than the specified commands above, is to be interpreted as text that
             //will be spoken for the user to hear.
             else
             {       
-                //System.out.println(fileLine);
                 speak(fileLine);
             }
         }
@@ -270,39 +254,14 @@ public class SoundPlayer
         try
         {
             int paramIndex = Integer.parseInt(paramArgs);
-            if (paramIndex < 0 || paramIndex > sim.jButtonNumber - 1)
+            if (paramIndex < 0 || paramIndex > sim.ButtonNumber - 1)
             {
                 errorLog ("Exception error: IllegalArgumentException", "Expected button number to be the range of 0 .. "
-                        + (sim.jButtonNumber - 1) + "\n Received input : "+ paramArgs);
+                        + (sim.ButtonNumber - 1) + "\n Received input : "+ paramArgs);
             }
-            
-            Gpio.wiringPiISR(sim.getHardwareButton(paramIndex).getPinNumber(), 
-                Gpio.INT_EDGE_RISING, new GpioInterruptCallback() {
-                @Override
-                public void callback(int pin) {
-                    if (userInput) {
-                        if (System.currentTimeMillis() > debounce) {
-                            debounce = System.currentTimeMillis() + 1000L;
-                            repeatText();
-                        }
-                    }
-                }
-            });
-          
-            sim.getButton(paramIndex).addActionListener(new ActionListener() {
-    
-                @Override
-                    public void actionPerformed(ActionEvent arg0) 
-                    {
-                        //This if statement is used to allow the user to press the button
-                        //after all the text has been read and that the program is expecting
-                        //a user input.
-                        if (userInput)
-                        {
-                            repeatText ();
-                        }
-                    }
-            });
+           
+            sim.addRepeatButtonListener(paramIndex, this);
+         
         }
         catch (Exception e)
         {
@@ -322,62 +281,15 @@ public class SoundPlayer
         {
             String [] param = paramArgs.split("\\s");
             int paramIndex = Integer.parseInt(param[0]);
-            if (paramIndex < 0 || paramIndex > sim.jButtonNumber - 1 || param.length > 2)
+            if (paramIndex < 0 || paramIndex > sim.ButtonNumber - 1 || param.length > 2)
             {
                 errorLog ("Exception error: IllegalArgumentException", "Expected button number to be the range of 0 .. "
-                        + (sim.jButtonNumber - 1) + "\n Or the parameters to have two values. "
+                        + (sim.ButtonNumber - 1) + "\n Or the parameters to have two values. "
                         + "\n Received input: "+ paramArgs);
             }
             
-            Gpio.wiringPiISR(sim.getHardwareButton(paramIndex).getPinNumber(), 
-                    Gpio.INT_EDGE_FALLING, new GpioInterruptCallback() {
-                @Override
-                public void callback(int pin) {
-                    if (userInput) {
-                        userInput = false;
-                        if (System.currentTimeMillis() > debounce) {                     
-                            debounce = System.currentTimeMillis() + 1000L;
-                            System.out.println("HW - UI IS TRUE");
-                            skip (param[1]);
-                        }
-                    } 
-                }
-            });
-         
-            /*
-            pio.wiringPiISR(sim.getHardwareButton(paramIndex).getPinNumber(), 
-                    Gpio.INT_EDGE_FALLING, new GpioInterruptCallback() {
-                @Override
-                public void callback(int pin) {
-                    System.out.println("HWButton");
-                    if (userInput) {
-                        System.out.println("HW - UI IS TRUE");
-                        userInput = false;
-                        skip (param[1]);  
-                    }
-                    /*      if (userInput) {
-                        skip (param[1]);
-                        userInput = false;
-                    }*/
-         //       }
-         //   });
+            sim.addSkipButtonListener(paramIndex, param[1], this);
             
-            sim.getButton(paramIndex).addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent arg0) 
-                    {
-                        //This if statement is used to allow the user to press the button
-                        //after all the text has been read and that the program is expecting
-                        //a user input.
-                        if (userInput)
-                        {
-                            System.out.println("SW - UI IS TRUE");
-                            skip (param[1]);
-                            userInput = false;
-
-                        }
-                    }
-            });
         }
         catch (Exception e)
         {
@@ -462,6 +374,7 @@ public class SoundPlayer
                 }
             }
             sim.getCell(paramIndex).setPins(param[1]);
+            sim.refresh();
         }
         catch (Exception e)
         {
@@ -490,6 +403,8 @@ public class SoundPlayer
                         + "alphabet, either lower or upper case. \n Received input : "  + paramArgs);
             }
             sim.getCell(paramIndex).displayCharacter(dispChar); 
+            sim.refresh();
+
         }
         catch (Exception e)
         {
@@ -520,6 +435,7 @@ public class SoundPlayer
                         + paramArgs);
             }           
             sim.getCell(paramIndex).raiseMultiplePins(pinNums);
+            sim.refresh();
         }
         catch (Exception e)
         {
@@ -544,6 +460,7 @@ public class SoundPlayer
                         + " of 0 .. " + (sim.brailleCellNumber - 1) + "\n Received cell number was: " + cellIndex);
             }
             sim.getCell(cellIndex).clear();
+            sim.refresh();
         }
         catch (Exception e)
         {
@@ -569,6 +486,8 @@ public class SoundPlayer
                         + paramArgs);
             }
             sim.getCell(paramIndex).lowerOnePin(pinNum);
+            sim.refresh();
+
         }
         catch (Exception e)
         {
@@ -709,7 +628,7 @@ public class SoundPlayer
     /*
      * This method repeats the text of the lines stored in between /~repeat and /~endrepeat.
      */
-    private void repeatText ()
+    void repeatText()
     {
         for (String i: repeatedText)
         {
@@ -727,7 +646,8 @@ public class SoundPlayer
         {
             cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
             buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
-            sim = new Simulator (cellNum, buttonNum);
+           
+            sim = new VisualPlayer (cellNum, buttonNum);
         }
         catch (Exception e)
         {
