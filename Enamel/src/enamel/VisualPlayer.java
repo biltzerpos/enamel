@@ -132,7 +132,6 @@ public class VisualPlayer extends Player {
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
 		int j = 0;
 		for (BrailleCell s : brailleList) {
 			for (int i = 0; i < s.getNumberOfPins(); i++) {
