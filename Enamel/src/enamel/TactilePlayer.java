@@ -27,17 +27,14 @@ public class TactilePlayer extends Player {
 			Gpio.digitalWrite(ON, 1);
 			Gpio.delay(2000);
 			Gpio.digitalWrite(ON, 0);
-		} catch (UnsatisfiedLinkError e) {
-    		System.out.println("The system does not support the hardware Braille cell. The program will ignore any code pertaining to the hardware Braille Cell.");
-		}
+		} catch (UnsatisfiedLinkError e) {}
 
 		try {
 			HWButtonList = new ArrayList<HWButton>(ButtonNumber);
 			for (int i = 0; i < ButtonNumber; i++) {
 				this.HWButtonList.add(new HWButton(i + 4));
 			}
-		} catch (UnsatisfiedLinkError e) {
-		}
+		} catch (UnsatisfiedLinkError e) {}
 	}
 
 	public HWButton getHWButton(int index) {

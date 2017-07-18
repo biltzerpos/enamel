@@ -27,6 +27,11 @@ public class BrailleCell {
 	private boolean[] listOfPins = new boolean[8];
 	private static HashMap<Character, String> alphabet = new HashMap<Character, String>();
 
+	
+	public BrailleCell() {
+		this.initializeAlphabet();
+	}
+	
 	private void initializeAlphabet() {
 		// new alphabet - matches the hardware B11 braille cell layout
 		alphabet.put('a', "10000000");
@@ -58,18 +63,6 @@ public class BrailleCell {
 		alphabet.put(' ', "11111111");
 	}
 
-	BrailleCell() {
-		this.initializeAlphabet();
-	}
-	/*
-	 * BrailleCell(boolean pin1x1, boolean pin1x2, boolean pin2x1, boolean
-	 * pin2x2, boolean pin3x1, boolean pin3x2, boolean pin4x1, boolean pin4x2) {
-	 * this.initializeAlphabet(); listOfPins[0] = pin1x1; listOfPins[1] =
-	 * pin2x1; listOfPins[2] = pin3x1; listOfPins[3] = pin1x2; listOfPins[4] =
-	 * pin2x2; listOfPins[5] = pin3x2; listOfPins[6] = pin4x1; listOfPins[7] =
-	 * pin4x2; this.clear(); }
-	 */
-
 	public void displayCharacter(char a) throws InterruptedException {
 
 		a = Character.toLowerCase(a);
@@ -97,7 +90,6 @@ public class BrailleCell {
 				listOfPins[i] = true;
 			}
 		}
-		// cellWrite();
 	}
 
 	public void raiseOnePin(int pin) {
@@ -105,7 +97,6 @@ public class BrailleCell {
 			throw new IllegalArgumentException("Invalid index");
 		}
 		listOfPins[pin - 1] = true;
-		// cellWrite();
 	}
 
 	public void lowerOnePin(int pin) {
@@ -113,7 +104,6 @@ public class BrailleCell {
 			throw new IllegalArgumentException("Invalid index");
 		}
 		listOfPins[pin - 1] = false;
-		// cellWrite();
 	}
 
 	public void raiseMultiplePins(int[] pins) {
@@ -122,13 +112,11 @@ public class BrailleCell {
 		for (int s : pins) {
 			listOfPins[s - 1] = true;
 		}
-		// cellWrite();
 	}
 
 	public void lowerMultiplePins(int[] pins) {
 		for (int s : pins) {
 			listOfPins[s - 1] = false;
-			// cellWrite();
 		}
 	}
 
@@ -142,7 +130,6 @@ public class BrailleCell {
 
 	public void clear() {
 		Arrays.fill(listOfPins, false);
-		// cellWrite();
 	}
 
 	public boolean getPinState(int index) {
@@ -152,9 +139,4 @@ public class BrailleCell {
 	public int getNumberOfPins() {
 		return listOfPins.length;
 	}
-	/*
-	 * Next 2 methods are for the Metec B11 Braille cell. Should be the only
-	 * methods needed.
-	 */
-
 }
