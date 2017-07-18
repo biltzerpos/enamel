@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.*;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+
 import java.util.logging.*;
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
@@ -605,7 +606,6 @@ public class ScenarioParser
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(new File(scenarioFilePath + File.separator + "AudioFiles" + File.separator + sound)));
             clip.start();
-
             //This while loop is to check if the audio file has played or not, and if it has not then it will
             //continue to wait until it does.
             while (!clip.isRunning())
@@ -646,8 +646,7 @@ public class ScenarioParser
         {
             cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
             buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
-           
-            sim = new VisualPlayer (cellNum, buttonNum);
+			sim = new VisualPlayer (cellNum, buttonNum);				           
         }
         catch (Exception e)
         {
@@ -667,6 +666,7 @@ public class ScenarioParser
     {
         try
         {
+        
             File f = new File (scenarioFile);
             fileScanner = new Scanner (f);
             String absolutePath = f.getAbsolutePath();

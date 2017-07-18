@@ -1,7 +1,6 @@
-Jul 14, 2017 12:08:39 PM enamel.ScenarioParser errorLog
-WARNING: Exception error: java.lang.IndexOutOfBoundsException: Index: 2, Size: 1
-Jul 14, 2017 12:08:39 PM enamel.ScenarioParser errorLog
-INFO: Expected format: Cell num1 
- Button num2 
- as the first two lines of the scenarion file, and where num1 and num2 are positive integers. 
-Did not receive such a format in the scenario file and program had to end due to the incorrectfile format.
+Jul 17, 2017 8:19:59 PM enamel.ScenarioParser errorLog
+WARNING: Exception error: java.lang.NullPointerException
+Jul 17, 2017 8:19:59 PM enamel.ScenarioParser errorLog
+INFO: Expected format: 
+ num1 string1 
+ where num1 is the cell affected, and string1 is the representation of the raised and lowered pins. Also that num1 is a valid interger and string1 is a valid 8 character sequence of 1's and 0's. Received format was: 0 11100000
