@@ -85,7 +85,6 @@ public class AudioPlayer extends Player {
 			@Override
 			public void keyTyped(KeyEvent e) {}
 		});
-		
 	}
 
 

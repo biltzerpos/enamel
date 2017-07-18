@@ -146,7 +146,6 @@ public class SCALP {
 				});
 			}
 		});
-		
 	}	
 	
 	static void startPlayer() {
