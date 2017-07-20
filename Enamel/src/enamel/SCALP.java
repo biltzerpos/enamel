@@ -50,6 +50,7 @@ public class SCALP {
 	}
 	
 	private static void HWButtonSelector() {
+		//give some instructions.
 		buttonList = new ArrayList<HWButton>();
 		
 		buttonList.add(new HWButton(4));
@@ -110,6 +111,8 @@ public class SCALP {
 	}
 	
 	private static void keySelector() {
+		//give some instructions.
+		//Say name of file - "press spacebar to run this script"
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				SFrame.addKeyListener(new KeyListener() {
@@ -125,6 +128,7 @@ public class SCALP {
 				        case KeyEvent.VK_LEFT :
 				        	current = li.previous();
 				            voice.speak(current);
+				            
 				        	System.out.println(current);
 				        	break;
 				        case KeyEvent.VK_ENTER :

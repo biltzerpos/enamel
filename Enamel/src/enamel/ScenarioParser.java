@@ -3,6 +3,7 @@ import java.io.*;
 import java.util.*;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+//import javax.swing.SwingWorker;
 
 import java.util.logging.*;
 import com.sun.speech.freetts.Voice;
@@ -505,7 +506,7 @@ public class ScenarioParser
     {
         try 
         {
-            voice.speak(text);
+			voice.speak(text);
         }
         catch (Exception e)
         {

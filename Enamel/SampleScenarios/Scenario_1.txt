@@ -3,9 +3,8 @@ Button 4
 Directional orientation
 
 /~disp-cell-pins:0 11100000
-These are pins 1, 2 and 3, the 3 pins on the left side. 
-Press button 1 to continue.
 /~skip-button:0 ONEE
+These are pins 1, 2 and 3, the 3 pins on the left side. Press button 1 to continue.
 /~user-input
 
 /~ONEE
