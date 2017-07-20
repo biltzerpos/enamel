@@ -159,10 +159,16 @@ public class VisualPlayer extends Player {
 				// after all the text has been read and that the program is
 				// expecting
 				// a user input.
-				if (sc.userInput) {
-					sc.skip(param);
-					sc.userInput = false;
-				}
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+				//		if (sc.userInput) {
+							sc.skip(param);
+							sc.userInput = false;
+						}
+				//	}	
+				}).start();
 			}
 		});
 	}
@@ -180,6 +186,12 @@ public class VisualPlayer extends Player {
 
 	@Override
 	public void addRepeatButtonListener(int index, ScenarioParser sp) {
+		
+		//combine into skipbuttonlistener
+		//if String param == null, sp.repeatText, else, sp.skip(param).
+		//add sp.userInput = false; in repeatbuttonlistener
+		//add userInpu = true at the end of repeatText();
+		
 		getButton(index).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
