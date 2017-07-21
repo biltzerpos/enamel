@@ -1,0 +1,13 @@
+Where to put the files:
+	Enamel Player Autostart - /home/pi/.config/autostart/
+	SCALP.sh, startSCALP.sh - /home/pi/
+	enamel_usb_autostart.rules - /etc/udev/rules.d/
+
+Need to install 'at' command:
+	(in terminal) sudo apt-get install at
+
+Install Java 1.8
+	(in terminal) sudo apt-get install oracle-java8-jdk
+	
+Set Java path to Java 1.8
+	(in terminal) sudo update-alternatives --config java

@@ -1,0 +1,1 @@
+ACTION=="add", KERNEL=="sd?1", RUN+="/usr/bin/sudo -u pi /home/pi/startSCALP.sh"
