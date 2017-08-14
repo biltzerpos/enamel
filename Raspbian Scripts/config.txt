@@ -1,0 +1,4 @@
+onefileplay=true
+multifilecopy=false
+usbbuffersize=10
+smartclobber=true
