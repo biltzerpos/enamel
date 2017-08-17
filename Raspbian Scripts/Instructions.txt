@@ -1,6 +1,6 @@
 Where to put the files:
-	Enamel Player Autostart - /home/pi/.config/autostart/
-	SCALP.sh, startSCALP.sh - /home/pi/
+	enamel.desktop (Enamel Player Autostart) - /home/pi/.config/autostart/
+	SCALP.sh, startSCALP.sh, unmountDrive.sh, changeconfig.sh, config.txt - /home/pi/
 	enamel_usb_autostart.rules - /etc/udev/rules.d/
 
 Need to install 'at' command:
