@@ -1,0 +1,22 @@
+Cell 1
+Button 2
+
+/~set-voice:4
+/~repeat
+There’s A, 
+B,
+E, 
+K, 
+and P. 
+Got it?
+Press button 1 for yes and continue, button 2 if you want the names repeated.
+/~endrepeat
+
+/~skip-button:0 ONEE
+/~repeat-button:1
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
