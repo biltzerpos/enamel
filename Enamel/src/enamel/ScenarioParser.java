@@ -22,6 +22,7 @@ public class ScenarioParser
     public boolean userInput;
     private String scenarioFilePath;
     private int score;
+    
     public ScenarioParser() 
     {
         //The first two lines allow the use of the mbrola voices.
@@ -647,7 +648,7 @@ public class ScenarioParser
         {
             cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
             buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
-			sim = new VisualPlayer (cellNum, buttonNum);				           
+			sim = new TactilePlayer (cellNum, buttonNum);				           
         }
         catch (Exception e)
         {

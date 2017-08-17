@@ -46,6 +46,9 @@ public class AudioPlayer extends Player {
     JFrame AFrame;
 
     public static final int ONE = 49;
+    public static final int TWO = 50;
+    public static final int THREE = 51;
+    public static final int FOUR = 52;
     /**
      * Creates and displays a blank window, which later will be populated with
      * KeyListeners. The two parameters <code>brailleCellNumber</code> and <code>ButtonNumber</code>
