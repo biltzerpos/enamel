@@ -15,26 +15,23 @@ import com.sun.speech.freetts.VoiceManager;
  * the cells, and keyboard keys to simulate the buttons.
  * <p>
  * The constructor initializes the window and takes as arguments the number of
- * Braille Cells and the number of buttons the simulator should display. This
+ * Braille Cells and the number of buttons the AudioPlayer should display. This
  * class also contains several methods that allow for the manipulation of the
- * Simulator.
+ * AudioPlayer.
  * <p>
  * The individual Braille Cells can be accessed using the
- * <code> getCell(int)</code> method and the cell's index. The cells are indexed
- * from top to bottom for the first left 3 cells, then top to bottom for the
- * first right 3 cells, and then left to right for the bottom two cells.
+ * <code> getCell(int)</code> method and the cell's index.
  * Similarly, the buttons can be accessed 
  * using the <code> getButton(int)</code> method, and they are indexed from left
- * to right. Both of these methods return the actual reference of the objects
- * displayed in the frame, meaning you can then call methods from each of the
+ * to right. Both of these methods return the actual reference of the objects,
+ *  meaning you can then call methods from each of the
  * object's respective classes to manipulate them. For example, you can call
- * <code> displayCharacter(char)</code> on any specific cell to display a
+ * <code> displayCharacter(char)</code> on any specific cell to set the audio to a
  * character on that cell. You can also, in a similar fashion, use the
  * <code> getButton(int) </code> method to get the reference of a specific
- * button. Then, you can call any methods specified in the JButton class on that
- * button, such as the <code> addActionListener() </code> method.
+ * button. 
  * 
- * @author Sunjik Lee, Lin Yi
+ * @author ENAMEL team: Sunjik Lee, Li Yin, Vassilios Tzerpos.
  *
  */
 public class AudioPlayer extends Player {
@@ -46,26 +43,24 @@ public class AudioPlayer extends Player {
     JFrame AFrame;
 
     public static final int ONE = 49;
-    public static final int TWO = 50;
-    public static final int THREE = 51;
-    public static final int FOUR = 52;
+    
     /**
      * Creates and displays a blank window, which later will be populated with
-     * KeyListeners. The two parameters <code>brailleCellNumber</code> and <code>ButtonNumber</code>
+     * KeyListeners. The two parameters <code>brailleCellNumber</code> and <code>buttonNumber</code>
      * are used for auditory feedback and keyboard, and are not displayed graphically.
-     * For the AudioPlayer class, it is assumed the number of <code>ButtonNumber</code> is 
+     * For the AudioPlayer class, it is assumed the number of <code>buttonNumber</code> is 
      * not greater than 10, as that is the available number of keys on a standard keyboard's number row. 
      * The two parameters must be positive integers.
      * 
      * @param brailleCellNumber
-     *            the number of braille cells the Simulator should have
-     * @param ButtonNumber
-     *            the number of buttons the Simulator should have
+     *            the number of braille cells the AudioPlayer should have
+     * @param buttonNumber
+     *            the number of buttons the AudioPlayer should have
      * @throws IllegalArgumentException
      *             if one or both of the two parameters is negative or 0
      */
-    public AudioPlayer(int brailleCellNumber, int ButtonNumber) {
-        super(brailleCellNumber, ButtonNumber);
+    public AudioPlayer(int brailleCellNumber, int buttonNumber) {
+        super(brailleCellNumber, buttonNumber);
                 
         AFrame = new JFrame();
         AFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,7 +71,7 @@ public class AudioPlayer extends Player {
     
     /**
      * Refreshes the "display" (audio) to match the current state of the 
-     * instantitated BrailleCell object. For this AudioPlayer class,
+     * instantiated BrailleCell object. For the AudioPlayer class,
      * this method forms a String that describes the current state of the Braille Cell object,
      * listing which of the 8 pins are currently up. If no pins are up, it will simply
      * state that no pins are up. The String is then spoken out loud to the user via
@@ -138,19 +133,32 @@ public class AudioPlayer extends Player {
         }
     }
     
-    /**
-     * Adds a KeyListener with the specified index passed as argument to
-     * both keyListenerList (for reference purposes) and to the JFrame for 
-     * the function.
-     * The index must be between 0 and ButtonNumber.
-     * The KeyListener requires a parameter from the ScenarioParser class,
-     * needed for it to call ScenarioParser.skip() method as well as have
-     * access to the userInput field. Pressing this key will skip to the
-     * specified area in the scenario file. 
-     * 
-     * @param index
-     *            the index of the KeyListener to be added.
-     */
+	/**
+	* Adds a KeyListener to both keyListenerList at the specified index 
+	* (for reference purposes) and to the JFrame (for  the key listening function). 
+	* This index will be used to specify 
+	* which keyboard KeyCode will need to be pressed to trigger the event.
+	* The index must be between 0 and buttonNumber. Since it's assumed that
+	* only the number row keys will be used, the index must also be between
+	* 0 and 9.
+	* <p>
+	* The KeyCode for the keyboard key "1" is defined as the parameter <code>ONE</code>.
+	* Since the rest of the number row keys are sequential in their KeyCode,
+	* adding the KeyCode <code>ONE</code> by the index gives the correct key that matches the index.
+	* <p>
+	* The keyPressed method requires a parameter from the ScenarioParser class,
+	* needed for it to call ScenarioParser.skip() method as well as have
+	* access to the userInput field. Pressing this key will skip to the
+	* specified area in the scenario file. 
+	* 
+	* @param index
+	*            the index of the KeyListener to be added.
+	* @param param
+	* 			the String in ScenarioParser to skip to, needed for ScenarioParser's <code>skip(String indicator)</code>
+	* 			method
+	* @param sp
+	* 			the reference to the current ScenarioParser object          
+	*/
     public void addSkipButtonListener(int index, String param, ScenarioParser sp) { 
         
         KeyListener button = new KeyListener() {
@@ -174,16 +182,26 @@ public class AudioPlayer extends Player {
     /**
      * Adds a KeyListener with the specified index passed as argument to
      * both keyListenerList (for reference purposes) and to the JFrame for 
-     * the function.
-     * The index must be between 0 and ButtonNumber.
+     * the function. This index will be used to specify which keyboard KeyCode
+     * will need to be pressed to trigger the event.
+     * The index must be between 0 and buttonNumber. Since it's assumed that
+     * only the number row keys will be used, the index must also be between
+     * 0 and 9.
+     * <p>
+     * The KeyCode for the keyboard key "1" is defined as the parameter <code>ONE</code>.
+     * Since the rest of the number row keys are sequential in their KeyCode,
+     * adding the KeyCode <code>ONE</code> by the index gives the correct key that matches the index.
+     * <p>
      * The KeyListener requires a parameter from the ScenarioParser class,
-     * needed for it to call ScenarioParser.repeatText() method as well as have
+     * needed for it to call <code>ScenarioParser.repeatText()</code> method as well as have
      * access to the userInput field. Pressing this key will repeat the
      * speech of the text specified in the scenario file.
      * 
      * @param index
-     *            the index of the KeyListener to be added.
-     */
+	 * 			the index of the button to add the KeyListener to
+	 * @param sp
+	 * 			the reference to the current ScenarioParser object
+	 */
     @Override
     public void addRepeatButtonListener(int index, ScenarioParser sp) {
         KeyListener button = new KeyListener() {
@@ -204,12 +222,12 @@ public class AudioPlayer extends Player {
     }
     
     /**
-     * Returns a reference to the button at the index passed as argument. The
+     * Returns a reference to the key at the index passed as argument. The
      * main purpose of providing this method is so the client can add
-     * KeyListeners to the button. Buttons are numbered from left to right as
+     * KeyListeners to the frame. Buttons are numbered from left to right as
      * matching the physical keyboard's "1" to "0" keys on the number row, 
-     * from 0 to (ButtonNumber-1), ButtonNumber
-     * being the number of buttons initialized by the constructor (again, ButtonNumber
+     * from 0 to (buttonNumber-1), buttonNumber
+     * being the number of buttons initialized by the constructor (again, buttonNumber
      * is assumed to be smaller or equal to 10).
      * 
      * @param index
@@ -217,10 +235,10 @@ public class AudioPlayer extends Player {
      * @return reference to the KeyListener at the index passed as argument
      * @throws IllegalArgumentException
      *             if the index is negative or equal to or bigger than
-     *             ButtonNumber (the number of buttons initialized)
+     *             buttonNumber (the number of buttons initialized)
      */
     public KeyListener getButton(int index) {
-        if (index >= this.ButtonNumber || index < 0) {
+        if (index >= this.buttonNumber || index < 0) {
             throw new IllegalArgumentException("Invalid button index.");
         }
         return this.keyListenerList.get(index);
@@ -228,21 +246,21 @@ public class AudioPlayer extends Player {
     
     /**
      * Removes the KeyListener at the specified index passed as argument. 
-     * The index must be between 0 and ButtonNumber.
+     * The index must be between 0 and buttonNumber.
      * 
      * @param index
      *            the index of the KeyListener to be removed.
      * @throws IllegalArgumentException
      *             if the index is negative or equal to or bigger than
-     *             ButtonNumber (the number of buttons initialized)
+     *             buttonNumber (the number of buttons initialized)
      */
     @Override
     public void removeButtonListener(int index) {
-        if (index >= this.ButtonNumber || index < 0) {
+        if (index >= this.buttonNumber || index < 0) {
             throw new IllegalArgumentException("Invalid index.");
         }
         if (keyListenerList.size() > 0 && keyListenerList.containsKey(index)) {
-            AFrame.removeKeyListener(keyListenerList.get(index));
+            AFrame.removeKeyListener(getButton(index));
         }
     }
 }

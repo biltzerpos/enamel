@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -37,7 +39,7 @@ import javax.swing.SwingUtilities;
  * button, such as the <code> addActionListener() </code> method.
  * 
  * @author Team 4: Yassin Mohamed, Qassim Allauddin, Derek Li, Artem Solovey.
- *
+ * @author ENAMEL team: Sunjik Lee, Li Yin, Vassilios Tzerpos.
  */
 public class VisualPlayer extends Player {
 
@@ -50,22 +52,26 @@ public class VisualPlayer extends Player {
 	JPanel centerPanel = new JPanel();
 	JRadioButton[] pins = new JRadioButton[8];
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
+    Logger logger = Logger.getLogger(VisualPlayer.class.getName());
+    private int repeat = 0;
+
 	
 	/**
 	 * Creates and displays a window with <code>brailleCellNumber</code> Braille
-	 * cells and <code>jButtonNumber</code> buttons. The two parameters must be
+	 * cells and <code>jbuttonNumber</code> buttons. The two parameters must be
 	 * positive integers.
 	 * 
 	 * @param brailleCellNumber
 	 *            the number of braille cells the Simulator should have
-	 * @param jButtonNumber
+	 * @param jbuttonNumber
 	 *            the number of buttons the Simulator should have
 	 * @throws IllegalArgumentException
 	 *             if one or both of the two parameters is negative or 0
 	 */
-	public VisualPlayer(int brailleCellNumber, int ButtonNumber) {
+	public VisualPlayer(int brailleCellNumber, int buttonNumber) {
 
-		super(brailleCellNumber, ButtonNumber);
+		super(brailleCellNumber, buttonNumber);
+        logger.setLevel(Level.FINE);
 
 		SwingUtilities.invokeLater(new Runnable() {
 			//@Override
@@ -103,7 +109,7 @@ public class VisualPlayer extends Player {
 						frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 				}
 
-				for (int i = 0; i < ButtonNumber; i++) {
+				for (int i = 0; i < buttonNumber; i++) {
 					JButton button = new JButton("" + (i + 1));
 
 					buttonList.add(button);
@@ -122,7 +128,7 @@ public class VisualPlayer extends Player {
 	 * Returns a reference to the button at the index passed as argument. The
 	 * main purpose of providing this method is so the client can add
 	 * actionListeners to the button. Buttons are numbered from left to right as
-	 * they appear in the frame, from 0 to (jButtonNumber-1), jButtonNumber
+	 * they appear in the frame, from 0 to (jbuttonNumber-1), jbuttonNumber
 	 * being the number of buttons initialized by the constructor.
 	 * 
 	 * @param index
@@ -130,15 +136,23 @@ public class VisualPlayer extends Player {
 	 * @return reference to the JButton object at the index passed as argument
 	 * @throws IllegalArgumentException
 	 *             if the index is negative or equal to or bigger than
-	 *             jButtonNumber (the number of buttons initialized)
+	 *             jbuttonNumber (the number of buttons initialized)
 	 */
 	public JButton getButton(int index) {
-		if (index >= this.ButtonNumber || index < 0) {
+		if (index >= this.buttonNumber || index < 0) {
 			throw new IllegalArgumentException("Invalid button index.");
 		}
 		return this.buttonList.get(index);
 	}
 
+	/**
+     * Refreshes the display to match the current state of the 
+     * instantiated BrailleCell object. For the VisualPlayer class,
+     * this method loops through the jRadioButton array and sets
+     * the corresponding jRadioButton pins to <code>setSelected(true)</code>
+     * or <code>setSelected(false)</code>, matching it with the 
+     * brailleList's BrailleCell object's current state of boolean pins.
+     */
 	@Override
 	public void refresh() {
 		for (BrailleCell s : brailleList) {
@@ -147,7 +161,24 @@ public class VisualPlayer extends Player {
 			}
 		}
 	}
-
+	
+	/**
+     * Adds an ActionListener to the JButton at the specified index of buttonList.
+     * The index must be between 0 and buttonNumber.
+     * <p>
+     * The actionPerformed method requires a reference to the ScenarioParser,
+     * needed for it to call ScenarioParser.skip() method as well as have
+     * access to the userInput field. Pressing this key will skip to the
+     * specified area in the scenario file.
+     * 
+     * @param index
+     *            the index of the KeyListener to be added.
+     * @param param
+	 * 			the String in ScenarioParser to skip to, needed for ScenarioParser's <code>skip(String indicator)</code>
+	 * 			method
+	 * @param sp
+	 * 			the reference to the current ScenarioParser object          
+     */
 	@Override
 	public void addSkipButtonListener(int index, String param, ScenarioParser sc) {
 
@@ -165,6 +196,7 @@ public class VisualPlayer extends Player {
 						// TODO Auto-generated method stub
 				//		if (sc.userInput) {
 							sc.skip(param);
+							logger.log(Level.INFO, "Button {0} was pressed", index+1);
 							sc.userInput = false;
 						}
 				//	}	
@@ -172,10 +204,22 @@ public class VisualPlayer extends Player {
 			}
 		});
 	}
-
+	
+	/**
+     * Removes the ActionListener from the button at specified index of buttonList passed as argument. 
+     * The index must be between 0 and buttonNumber.
+     * 
+     * @param index
+     *            the index of the KeyListener to be removed.
+     * @throws IllegalArgumentException
+     *             if the index is negative or equal to or bigger than
+     *             buttonNumber (the number of buttons initialized)
+     */
 	@Override
 	public void removeButtonListener(int index) {
-
+		if (index >= this.buttonNumber || index < 0) {
+            throw new IllegalArgumentException("Invalid index.");
+        }
 		ActionListener[] aList = getButton(index).getActionListeners();
 		if (aList.length > 0) {
 			for (int x = 0; x < aList.length; x++) {
@@ -183,14 +227,22 @@ public class VisualPlayer extends Player {
 			}
 		}
 	}
-
+	
+	/**
+      * Adds an ActionListener to the JButton at the specified index of buttonList.
+     * The index must be between 0 and buttonNumber.
+     * The ActionListener requires a reference of the ScenarioParser,
+     * needed for it to call <code>ScenarioParser.repeatText()</code> method as well as have
+     * access to the userInput field. Pressing this key will repeat the
+     * speech of the text specified in the scenario file.
+     * 
+    * @param index
+	 * 			the index of the button to add the KeyListener to
+	 * @param sp
+	 * 			the reference to the current ScenarioParser object
+	 */
 	@Override
 	public void addRepeatButtonListener(int index, ScenarioParser sp) {
-		
-		//combine into skipbuttonlistener
-		//if String param == null, sp.repeatText, else, sp.skip(param).
-		//add sp.userInput = false; in repeatbuttonlistener
-		//add userInpu = true at the end of repeatText();
 		
 		getButton(index).addActionListener(new ActionListener() {
 			@Override
@@ -201,6 +253,9 @@ public class VisualPlayer extends Player {
 				// expecting
 				// a user input.
 				if (sp.userInput) {
+					repeat++;
+					logger.log(Level.INFO, "Repeat Button was pressed.");
+					logger.log(Level.INFO, "Repeat Button was pressed {0} times", repeat);
 					sp.repeatText();
 				}
 			}

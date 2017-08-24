@@ -8,8 +8,12 @@ public class HWButton
     public HWButton(int GPIOpinNumber)
     {
       	this.DIN = GPIOpinNumber;
-      	Gpio.pullUpDnControl(DIN, Gpio.PUD_DOWN);
-      	Gpio.pinMode(DIN, Gpio.INPUT);
+      	try {
+	      	Gpio.pullUpDnControl(DIN, Gpio.PUD_DOWN);
+	      	Gpio.pinMode(DIN, Gpio.INPUT);
+      	} catch (UnsatisfiedLinkError e) {
+      		System.out.println("Hardware buttons not supported on this system.");
+      	}
     }
     
     public int getGPIOPinNumber() {
