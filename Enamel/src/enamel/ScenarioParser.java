@@ -209,6 +209,22 @@ public class ScenarioParser
                     speak("You currently have " + this.score + " points");
                 }
             }
+        	//The key phrase to log an incorrect answer.
+            else if (fileLine.length() >= 11 && fileLine.substring(0, 11).equals("/~incorrect"))
+            {
+            	logger.log(Level.INFO, "EVENT: User selected an incorrect answer.");
+            }
+        	//The key phrase to log a correct answer.
+            else if (fileLine.length() >= 9 && fileLine.substring(0, 9).equals("/~correct"))
+            {
+            	logger.log(Level.INFO, "EVENT: User selected a correct answer.");
+            }
+        	//The key phrase to log a button press.
+            else if (fileLine.length() >= 6 && fileLine.substring(0, 6).equals("/~next"))
+            {
+            	logger.log(Level.INFO, "EVENT: User pressed the next button.");
+            }
+        	
         	//The key phrase to speak the final score.
             else if (fileLine.length () >= 17 && fileLine.substring(0, 17).equals("/~say-final-score"))
             {
@@ -349,7 +365,7 @@ public class ScenarioParser
     
     private void incrementScore() {
         this.score++;
-        logger.log(Level.INFO, "REPORT: User's current score is {0}.", score);
+        logger.log(Level.INFO, "REPORT: User's current score is {0}", ((Integer)this.score).toString());
     }
     
     /*

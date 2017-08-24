@@ -1,9 +1,17 @@
 package enamel;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.pi4j.wiringpi.Gpio;
-import com.pi4j.wiringpi.GpioInterruptCallback;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 /**
  * This class controls the hardware for a Raspberry Pi with physical Braille cells
  * (Using "Metec B11 Braille Cell") and programmable buttons, using the Pi4J library.
@@ -16,8 +24,8 @@ import com.pi4j.wiringpi.GpioInterruptCallback;
  * specifically placed on the GPIO pins. See the Raspberry Pi GPIO pin diagram, found online, 
  * for more information on how the pins are numbered. Currently, the GPIO pins 4, 5, 6, 7
  * are connected to physical push buttons. New buttons could be added, but either
- * they must be placed in GPIO pins 8, 9... etc. (in sequence) or the constructor in
- * which the HWButton objects are created must be changed. 
+ * they must be placed in GPIO pins 8, 9... etc. (in sequence) or the way the
+ * buttonList is created must be changed. 
  * <p>
  * The individual Braille Cells can be accessed using the
  * <code> getCell(int)</code> method and the cell's index.
@@ -32,15 +40,15 @@ import com.pi4j.wiringpi.GpioInterruptCallback;
  *
  */
 public class TactilePlayer extends Player {
-
-	List<HWButton> HWButtonList;
-
-	int ON = 0;
-	int DOUT = 1;
-	int STROBE = 2;
-	int CLOCK = 3;
-	private long debounce = 0;
-
+	
+	GpioPinDigitalInput[] buttonList;
+	GpioPinDigitalOutput ON;
+	GpioPinDigitalOutput DOUT;
+	GpioPinDigitalOutput STROBE;
+	GpioPinDigitalOutput CLOCK;
+	Logger logger = Logger.getLogger(VisualPlayer.class.getName());
+	int repeat = 0;
+	
 	/**
      * Initializes the GPIO pins for the single Metec B11 braille cell, whose pins are
      * specified in the fields <code>ON, DOUT, STROBE, and CLOCK</code>.
@@ -54,6 +62,7 @@ public class TactilePlayer extends Player {
      *            the number of braille cells the TactilePlayer should have
      * @param buttonNumber
      *            the number of buttons the TactilePlayer should have
+	 * @throws InterruptedException 
      * @throws IllegalArgumentException
      *             if one or both of the two parameters is negative or 0,
      *             or if brailleCellNumber exceeds 1, or if buttonNumber exceeds
@@ -65,60 +74,82 @@ public class TactilePlayer extends Player {
 		if (brailleCellNumber > 1 || buttonNumber > 4)
 			throw new IllegalArgumentException("The current system for TactilePlayer does not support more than 1 braille cell or more than 4 buttons");
 		try {
-			Gpio.pinMode(ON, Gpio.OUTPUT);
-			Gpio.pinMode(DOUT, Gpio.OUTPUT);
-			Gpio.pinMode(STROBE, Gpio.OUTPUT);
-			Gpio.pinMode(CLOCK, Gpio.OUTPUT);
-			Gpio.digitalWrite(ON, 1);
-			Gpio.delay(2000);
-			Gpio.digitalWrite(ON, 0);
-		} catch (UnsatisfiedLinkError e) {}
-
-		try {
-			HWButtonList = new ArrayList<HWButton>(buttonNumber);
-			for (int i = 0; i < buttonNumber; i++) {
-				this.HWButtonList.add(new HWButton(i + 4));
+			GpioController gpio = GpioFactory.getInstance();
+			ON = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00, "ON", PinState.LOW);
+			DOUT = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "DOUT", PinState.LOW);
+			STROBE = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "STROBE", PinState.LOW);
+			CLOCK = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "CLOCK", PinState.LOW);
+			ON.high();
+			Thread.sleep(2000);
+			ON.low();
+			
+			buttonList = new GpioPinDigitalInput[buttonNumber];
+			for (int i = 0; i < buttonNumber - 1; i++) {
+				GpioPinDigitalInput button = gpio.provisionDigitalInputPin(RaspiPin.getPinByAddress(i+4), PinPullResistance.PULL_DOWN);
+				button.setDebounce(1000);
+				buttonList[i] = button;
 			}
-		} catch (UnsatisfiedLinkError e) {}
+		} catch (UnsatisfiedLinkError e) {
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
-
-	public HWButton getButton(int index) {
-		return this.HWButtonList.get(index);
+	
+	/**
+	 * Returns a reference to the button at the index passed as argument. The
+	 * main purpose of providing this method is so the client can add
+	 * actionListeners to the button. Buttons are numbered from left to right, 
+	 * from 0 to (buttonNumber-1), buttonNumber
+	 * being the number of buttons initialized by the constructor.
+	 * 
+	 * @param index
+	 *            the index of the button to be returned
+	 * @return reference to the GpioPinDigitalInput object at the index passed as argument
+	 * @throws IllegalArgumentException
+	 *             if the index is negative or equal to or bigger than
+	 *             buttonNumber (the number of buttons initialized)
+	 */
+	public GpioPinDigitalInput getButton(int index) {
+		return this.buttonList[index];
 	}
+	
 	/**
      * Refreshes the Metec B11 braille cell to match the current state of the 
      * instantiated BrailleCell object. For the TactilePlayer class,
      * this method calls a method of the GPIO library. 
-     * GPIO.digitalWrite turns off (0) or on (1) the specified pin.
+     * low() turns off the GPIO pin, high() turns on the GPIO pin.
      * To access all the pins on the braille cell, first, the STROBE must be
      * turned off. Then, for each pin (for one braille cell, 8 pins, two braille cells, 16), 
      * this method turns off the CLOCK, turns on/off the DOUT to match the BrailleCell
      * object's current pin<b>(matching in reverse order)</b>, then turns on the CLOCK again. 
      * At the end of the loop, the STROBE must be turned back on, at which point the 
-     * braille cell will display the pins. 
+     * braille cell will display the pins.
      */
 	@Override
 	public void refresh() {
 		try {
-			Gpio.digitalWrite(STROBE, 0);
+			STROBE.low();
 			for (int i = 0; i < brailleList.size(); i++) {
 				for (int j = brailleList.get(i).getNumberOfPins() - 1; j >= 0; j--) {
-					Gpio.digitalWrite(CLOCK, 0);
+					CLOCK.low();
 					if (brailleList.get(i).getPinState(j) == true) {
-						Gpio.digitalWrite(DOUT, 1);
+						DOUT.high();
 					} else {
-						Gpio.digitalWrite(DOUT, 0);
+						DOUT.low();
 					}
-					Gpio.delay(1);
-					Gpio.digitalWrite(CLOCK, 1);
+					Thread.sleep(2);
+					CLOCK.high();
 				}
 			}
-			Gpio.digitalWrite(STROBE, 1);
+			STROBE.high();
 		} catch (UnsatisfiedLinkError e) {
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
+	
 	/**
-     * Adds a GPIO ISR (which listens for GPIO pin interrupts) with the specified index passed as argument.
+     * Adds a Listener (which listens for GPIO pin interrupts) with the specified index passed as argument.
      * The index must be between 0 and buttonNumber.
      * <p>
      * The GPIO listener requires a parameter from the ScenarioParser class,
@@ -127,7 +158,7 @@ public class TactilePlayer extends Player {
      * specified area in the scenario file. 
      * 
      * @param index
-     *            the index of the KeyListener to be added.
+     *            the index of the Listener to be added
      * @param param
 	 * 			the String in ScenarioParser to skip to, needed for ScenarioParser's <code>skip(String indicator)</code>
 	 * 			method
@@ -137,17 +168,16 @@ public class TactilePlayer extends Player {
 	@Override
 	public void addSkipButtonListener(int index, String param, ScenarioParser sp) {
 		try {
-			Gpio.wiringPiISR(getButton(index).getGPIOPinNumber(), Gpio.INT_EDGE_FALLING, new GpioInterruptCallback() {
+			buttonList[index].addListener(new GpioPinListenerDigital() {
+
 				@Override
-				public void callback(int pin) {
+				public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
 					if (sp.userInput) {
+						sp.skip(param);
+						logger.log(Level.INFO, "Button {0} was pressed", index+1);
 						sp.userInput = false;
-						if (System.currentTimeMillis() > debounce) {
-							debounce = System.currentTimeMillis() + 1000L;
-							sp.skip(param);
-						}
 					}
-				}
+				}	
 			});
 		} catch (UnsatisfiedLinkError e) {
 		} catch (IndexOutOfBoundsException e) {
@@ -155,7 +185,7 @@ public class TactilePlayer extends Player {
 	}
 
 	/**
-     * Adds a GPIO ISR (which listens for GPIO pin interrupts) with the specified index passed as argument.
+     * Adds a Listener (which listens for GPIO pin interrupts) with the specified index passed as argument.
      * The index must be between 0 and buttonNumber.
      * <p>
      * The GPIO listener requires a parameter from the ScenarioParser class,
@@ -163,23 +193,24 @@ public class TactilePlayer extends Player {
      * Pressing this button will repeat the specified text in the scenario file. 
      * 
      * @param index
-     *            the index of the KeyListener to be added.
+     *            the index of the Listener to be added
 	 * @param sp
 	 * 			the reference to the current ScenarioParser object          
      */
 	@Override
 	public void addRepeatButtonListener(int index, ScenarioParser sp) {
 		try {
-			Gpio.wiringPiISR(getButton(index).getGPIOPinNumber(), Gpio.INT_EDGE_RISING, new GpioInterruptCallback() {
+			buttonList[index].addListener(new GpioPinListenerDigital() {
+
 				@Override
-				public void callback(int pin) {
+				public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
 					if (sp.userInput) {
-						if (System.currentTimeMillis() > debounce) {
-							debounce = System.currentTimeMillis() + 1000L;
-							sp.repeatText();
-						}
+						repeat++;
+						logger.log(Level.INFO, "Repeat Button was pressed.");
+						logger.log(Level.INFO, "Repeat Button was pressed {0} times", repeat);
+						sp.repeatText();
 					}
-				}
+				}	
 			});
 		} catch (UnsatisfiedLinkError e) {
 		} catch (IndexOutOfBoundsException e) {
@@ -187,11 +218,11 @@ public class TactilePlayer extends Player {
 	}
 	
 	/**
-     * Removes the ISR from the index of HWButtonList passed as argument. 
+     * Removes the Listener from the index of buttonList passed as argument. 
      * The index must be between 0 and buttonNumber.
      * 
      * @param index
-     *            the index of the GPIO ISR to be removed.
+     *            the index of the Listener to be removed.
      * @throws IllegalArgumentException
      *             if the index is negative or equal to or bigger than
      *             buttonNumber (the number of buttons initialized)
@@ -202,7 +233,7 @@ public class TactilePlayer extends Player {
             throw new IllegalArgumentException("Invalid index.");
         }
 		try {
-			Gpio.wiringPiClearISR(getButton(index).getGPIOPinNumber());
+			buttonList[index].removeAllListeners();
 		} catch (UnsatisfiedLinkError e) {
 		}
 	}

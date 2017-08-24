@@ -53,7 +53,7 @@ public class VisualPlayer extends Player {
 	JRadioButton[] pins = new JRadioButton[8];
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
     Logger logger = Logger.getLogger(VisualPlayer.class.getName());
-    private int repeat = 0;
+    int repeat = 0;
 
 	
 	/**
@@ -128,7 +128,7 @@ public class VisualPlayer extends Player {
 	 * Returns a reference to the button at the index passed as argument. The
 	 * main purpose of providing this method is so the client can add
 	 * actionListeners to the button. Buttons are numbered from left to right as
-	 * they appear in the frame, from 0 to (jbuttonNumber-1), jbuttonNumber
+	 * they appear in the frame, from 0 to (bbuttonNumber-1), bbuttonNumber
 	 * being the number of buttons initialized by the constructor.
 	 * 
 	 * @param index
@@ -136,7 +136,7 @@ public class VisualPlayer extends Player {
 	 * @return reference to the JButton object at the index passed as argument
 	 * @throws IllegalArgumentException
 	 *             if the index is negative or equal to or bigger than
-	 *             jbuttonNumber (the number of buttons initialized)
+	 *             buttonNumber (the number of buttons initialized)
 	 */
 	public JButton getButton(int index) {
 		if (index >= this.buttonNumber || index < 0) {
@@ -180,52 +180,18 @@ public class VisualPlayer extends Player {
 	 * 			the reference to the current ScenarioParser object          
      */
 	@Override
-	public void addSkipButtonListener(int index, String param, ScenarioParser sc) {
+	public void addSkipButtonListener(int index, String param, ScenarioParser sp) {
 
 		buttonList.get(index).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// This if statement is used to allow the user to press the
-				// button
-				// after all the text has been read and that the program is
-				// expecting
-				// a user input.
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-				//		if (sc.userInput) {
-							sc.skip(param);
-							logger.log(Level.INFO, "Button {0} was pressed", index+1);
-							sc.userInput = false;
-						}
-				//	}	
-				}).start();
+				if (sp.userInput) {
+					sp.skip(param);
+					logger.log(Level.INFO, "Button {0} was pressed", index+1);
+					sp.userInput = false;
+				}
 			}
 		});
-	}
-	
-	/**
-     * Removes the ActionListener from the button at specified index of buttonList passed as argument. 
-     * The index must be between 0 and buttonNumber.
-     * 
-     * @param index
-     *            the index of the KeyListener to be removed.
-     * @throws IllegalArgumentException
-     *             if the index is negative or equal to or bigger than
-     *             buttonNumber (the number of buttons initialized)
-     */
-	@Override
-	public void removeButtonListener(int index) {
-		if (index >= this.buttonNumber || index < 0) {
-            throw new IllegalArgumentException("Invalid index.");
-        }
-		ActionListener[] aList = getButton(index).getActionListeners();
-		if (aList.length > 0) {
-			for (int x = 0; x < aList.length; x++) {
-				getButton(index).removeActionListener(getButton(index).getActionListeners()[x]);
-			}
-		}
 	}
 	
 	/**
@@ -261,5 +227,27 @@ public class VisualPlayer extends Player {
 			}
 		});
 	}
-
+	
+	/**
+     * Removes the ActionListener from the button at specified index of buttonList passed as argument. 
+     * The index must be between 0 and buttonNumber.
+     * 
+     * @param index
+     *            the index of the KeyListener to be removed.
+     * @throws IllegalArgumentException
+     *             if the index is negative or equal to or bigger than
+     *             buttonNumber (the number of buttons initialized)
+     */
+	@Override
+	public void removeButtonListener(int index) {
+		if (index >= this.buttonNumber || index < 0) {
+            throw new IllegalArgumentException("Invalid index.");
+        }
+		ActionListener[] aList = getButton(index).getActionListeners();
+		if (aList.length > 0) {
+			for (int x = 0; x < aList.length; x++) {
+				getButton(index).removeActionListener(getButton(index).getActionListeners()[x]);
+			}
+		}
+	}
 }

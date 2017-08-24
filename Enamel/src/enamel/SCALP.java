@@ -8,8 +8,15 @@ import java.io.FilenameFilter;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import com.pi4j.wiringpi.Gpio;
-import com.pi4j.wiringpi.GpioInterruptCallback;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
+import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
+
+
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 /**
@@ -51,6 +58,7 @@ import com.sun.speech.freetts.VoiceManager;
  *
  */
 public class SCALP {
+	//FreeTTS voices
 	VoiceManager vm = VoiceManager.getInstance();
 	Voice voice = vm.getVoice ("kevin16"); 
 	
@@ -66,12 +74,7 @@ public class SCALP {
     String[] USBBufferDirectoryFiles;
     File currentDirectory;
     String[] currentDirectoryFiles;
-
     String currentFile;
-    
-    //Hardware button-specific fields.
-    long debounce = 0;
-    HWButton[] buttonList;
     
     //Used for the various looping of files list, settings list, configurations option list
     int index = 0;
@@ -86,7 +89,7 @@ public class SCALP {
     //The program uses state for control flow, i.e. what state the program is currently in.
     String state = "";
 
-    //
+    //The current configuration parameter selected.
     String config; 
     
     //Needed to remember what the previous state was. 
@@ -98,6 +101,10 @@ public class SCALP {
     //not, due to the fact that not every time a user presses a button does the instructions
     //need to be spoken. 
     boolean speakInstructions = true;
+    
+    //Hardware button list.
+    GpioPinDigitalInput[] buttonList;
+    GpioController gpio;
     
     public static void main(String[] args) {
 
@@ -115,9 +122,15 @@ public class SCALP {
         //Determine if Gpio is available, i.e. the program is being run on a Raspberry Pi. 
         //If not, run the system using KeyListeners as input.
         try {
-	        Gpio.wiringPiSetup();
-	        main.buttonList = new HWButton[]{new HWButton(4), new HWButton(5), new HWButton(6)};
-	        main.hardwareAvailable = true;
+        	main.gpio = GpioFactory.getInstance();
+        	main.buttonList = new GpioPinDigitalInput[3];
+	       //Create 3 buttons. 
+        	for (int i = 0; i < 2; i++) {
+				GpioPinDigitalInput button = main.gpio.provisionDigitalInputPin(RaspiPin.getPinByAddress(i+4), PinPullResistance.PULL_DOWN);
+				button.setDebounce(1000);
+				main.buttonList[i] = button;
+			}
+        	main.hardwareAvailable = true;
         } catch (UnsatisfiedLinkError e) {
         	System.out.println("Hardware buttons not found. Use the keyboard number row keys.");
         	main.frame = new JFrame("SCALP");
@@ -254,36 +267,27 @@ public class SCALP {
      */
     private void hardwareSelector() {
     	speakState();
-        Gpio.wiringPiISR(buttonList[0].getGPIOPinNumber(), Gpio.INT_EDGE_FALLING, new GpioInterruptCallback() {
-            @Override
-            public void callback(int pin) {
-                    if (System.currentTimeMillis() > debounce) {
-                        debounce = System.currentTimeMillis() + 1000L;
-                        buttonOne();
-                    	speakState();
-                    }
-                }   
-        });
-        Gpio.wiringPiISR(buttonList[1].getGPIOPinNumber(), Gpio.INT_EDGE_FALLING, new GpioInterruptCallback() {
-            @Override
-            public void callback(int pin) {
-                    if (System.currentTimeMillis() > debounce) {
-                        debounce = System.currentTimeMillis() + 1000L;
-                        buttonTwo();
-                    	speakState();
-                    }
-                }   
-        });
-        Gpio.wiringPiISR(buttonList[2].getGPIOPinNumber(), Gpio.INT_EDGE_FALLING, new GpioInterruptCallback() {
-            @Override
-            public void callback(int pin) {
-                    if (System.currentTimeMillis() > debounce) {
-                        debounce = System.currentTimeMillis() + 1000L;
-                        buttonThree();
-                    	speakState();
-                    }
-                }   
-        }); 
+    	buttonList[0].addListener(new GpioPinListenerDigital() {
+			@Override
+			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
+				buttonOne();
+            	speakState();
+			}	
+		});
+    	buttonList[1].addListener(new GpioPinListenerDigital() {
+			@Override
+			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
+				buttonTwo();
+            	speakState();
+			}	
+		});
+    	buttonList[2].addListener(new GpioPinListenerDigital() {
+			@Override
+			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
+				buttonThree();
+            	speakState();
+			}	
+		});
     }
     
     /**
@@ -504,13 +508,14 @@ public class SCALP {
     }
     
     /**
-     * This method removes the hardware buttons' "listeners",
-     * or ISRs. Loops through and removes all the ISRs in the
+     * This method removes the hardware buttons' listeners. 
+     * Loops through and removes all the listeners from the buttons in 
      * <code>buttonList</code>.
      */
     private void removeHWButtons() {
         for (int i = 0; i < buttonList.length - 1; i++) {
-            Gpio.wiringPiClearISR(buttonList[i].getGPIOPinNumber());
+        	buttonList[index].removeAllListeners();
+        	gpio.unprovisionPin(buttonList[index]);
         }
     }
     
