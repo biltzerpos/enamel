@@ -60,11 +60,7 @@ public class VisualPlayer extends Player {
 	 * 
 	 * @param brailleCellNumber
 	 *            the number of braille cells the Simulator should have
-<<<<<<< HEAD
 	 * @param buttonNumber
-=======
-	 * @param jbuttonNumber
->>>>>>> 16836ed726246cbd194d3c0c850e5be2048c123d
 	 *            the number of buttons the Simulator should have
 	 * @throws IllegalArgumentException
 	 *             if one or both of the two parameters is negative or 0
