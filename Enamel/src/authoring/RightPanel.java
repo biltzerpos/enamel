@@ -18,6 +18,7 @@ import listeners.ImportListener;
 import listeners.NewButtonListener;
 import listeners.NewQuestionListener;
 import listeners.NewScenarioListener;
+import listeners.TestListener;
 
 /**
  * RightPanel is the class responsible for creating the control buttons as well
@@ -43,6 +44,7 @@ public class RightPanel extends JPanel implements ActionListener {
 	public JButton btnImport = new JButton("Import (Control I)");
 	public JButton btnNewScenario = new JButton("New Scenario (Control Shift N)");
 	public JButton btnNewQuestion = new JButton("New Question (Control M)");
+	public JButton btnTestScenario = new JButton ("Test Scenario (Control T)");
 	private GUI gui;
 
 	private static final String FONT_FACE = "Arial";
@@ -78,6 +80,7 @@ public class RightPanel extends JPanel implements ActionListener {
 		btnDelete.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnNew.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnNewQuestion.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
+		btnTestScenario.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 
 		// Add the buttons
 		add(btnNew);
@@ -91,6 +94,7 @@ public class RightPanel extends JPanel implements ActionListener {
 		add(btnImport);
 		add(btnExport);
 		add(btnNewScenario);
+		add(btnTestScenario);
 
 		// Hook in the button listeners for the buttons
 		btnStart.addActionListener(this);
@@ -104,6 +108,7 @@ public class RightPanel extends JPanel implements ActionListener {
 		btnImport.addActionListener(new ImportListener(gui, mapper));
 		btnNewScenario.addActionListener(new NewScenarioListener(gui));
 		btnNewQuestion.addActionListener(new NewQuestionListener(gui, mapper));
+		btnTestScenario.addActionListener(new TestListener(gui));
 
 		// Do not allow this component to enlarge ever
 		this.setMaximumSize(this.getPreferredSize());

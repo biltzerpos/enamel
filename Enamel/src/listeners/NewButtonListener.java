@@ -128,8 +128,8 @@ public class NewButtonListener implements ActionListener {
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
 				gui.getLeftPanel().addItem(new SetPinsCommand((String)value));
 				break;
-			case "Set Char":
-				value = JOptionPane.showInputDialog(gui, "Cell and character (space separated)", "Edit Item Details",
+			case "Set Character":
+				value = JOptionPane.showInputDialog(gui, "Cell and character (space seperated)", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
 				gui.getLeftPanel().addItem(new CellCharCommand((String)value));
 				break;

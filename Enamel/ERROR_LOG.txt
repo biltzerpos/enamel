@@ -1,5 +1,7 @@
-Aug 25, 2017 2:55:02 PM enamel.ScenarioParser errorLog
-WARNING: Exception error: java.lang.NullPointerException
-Aug 25, 2017 2:55:02 PM enamel.ScenarioParser errorLog
-INFO: Expected format: num1 
- where num1 is the cell affected, and that num1 is a valid integer. Received format was: 0
+Aug 25, 2017 4:01:24 PM enamel.ScenarioParser errorLog
+WARNING: Exception error: java.lang.ArrayIndexOutOfBoundsException: 1
+Aug 25, 2017 4:01:24 PM enamel.ScenarioParser errorLog
+INFO: Expected format: Cell num1 
+ Button num2 
+ as the first two lines of the scenarion file, and where num1 and num2 are positive integers. 
+Did not receive such a format in the scenario file and program had to end due to the incorrectfile format.
