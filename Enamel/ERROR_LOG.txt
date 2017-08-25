@@ -1,6 +1,5 @@
-Jul 18, 2017 1:46:40 PM enamel.ScenarioParser errorLog
-WARNING: Exception error: java.io.FileNotFoundException: SampleScenarios\Other Scenarios (Access is denied)
-Jul 18, 2017 1:46:40 PM enamel.ScenarioParser errorLog
-INFO: Expected the directory path of the scenario file to a file exists in the project folder. 
- Could not find directory to path: SampleScenarios/Other Scenarios 
- Perhaps you forgot to add the file to the directory or  you are looking for a different directory?
+Aug 25, 2017 2:55:02 PM enamel.ScenarioParser errorLog
+WARNING: Exception error: java.lang.NullPointerException
+Aug 25, 2017 2:55:02 PM enamel.ScenarioParser errorLog
+INFO: Expected format: num1 
+ where num1 is the cell affected, and that num1 is a valid integer. Received format was: 0

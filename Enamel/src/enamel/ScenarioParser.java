@@ -3,9 +3,11 @@ import java.io.*;
 import java.util.*;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-//import javax.swing.SwingWorker;
+import java.text.SimpleDateFormat;
 
 import java.util.logging.*;
+import java.util.logging.Formatter;
+
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
 
@@ -21,17 +23,38 @@ public class ScenarioParser
     private ArrayList<String> repeatedText;
     public boolean userInput;
     private String scenarioFilePath;
-    private int score;
+    private int score = 0;
+    Logger logger = Logger.getLogger(ScenarioParser.class.getName());
+    
     public ScenarioParser() 
     {
-        //The first two lines allow the use of the mbrola voices.
+    	//Code for the logger. We decided to maintain the logging format through code instead of changing the System Property
+    	//and using the default ParentHandler, so that we can rely on consistency without changing settings for each system. 
+    	//Currently, it's set to ConsoleHandler instead of FileHandler. It will write the log
+		//to the console. 
+		//Eventually, we'll need to have it save to a file. Simply change ConsoleHandler to FileHandler,
+		//and set the output to the appropriate directory. 
+    	
+    	//To find out what's being logged, search and find any "logger.log" calls.
+    	ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new Formatter() {
+    		private String format = "[%1$s] [%2$s] %3$s %n";
+			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+			@Override
+			public String format(LogRecord record) {
+				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
+			}
+    	});
+    	logger.addHandler(consoleHandler);
+    	logger.setUseParentHandlers(false);
+    	
+        //The next two lines allow the use of the mbrola voices.
         String currDir = System.getProperty("user.dir");
         System.setProperty("mbrola.base", currDir + File.separator + "mbrola");
         vm = VoiceManager.getInstance();
         changeVoice ("1");
         repeatedText = new ArrayList<String> ();
         userInput = false;
-        this.score = 0;
     }
     
     /*
@@ -43,28 +66,12 @@ public class ScenarioParser
     }
     
     /*
-     * This method removes the action listener of the JButton.
-     */
-   /*
-    private void removeListener (JButton button)
-    {
-        ActionListener [] aList = button.getActionListeners();
-        if (aList.length > 0)
-        {
-            for (int x = 0; x < aList.length; x ++)
-            {
-                button.removeActionListener(button.getActionListeners ()[x]);
-            }
-        }
-    }
-    */
-    /*
      * This method corresponds to the /~reset-buttons key phrase in the scenario, and it calls the removeListener
      * method on all the JButtons that were created, to remove their action listeners.
      */
     private void resetButtons ()
     {
-        for (int i = 0; i < sim.ButtonNumber; i ++)
+        for (int i = 0; i < sim.buttonNumber; i ++)
         {
                 sim.removeButtonListener (i);
         }
@@ -198,19 +205,33 @@ public class ScenarioParser
             {
                 dispCellRaise ("0");
             }
+        	//The key phrase to give increment score by one.
             else if (fileLine.length () >= 7 && fileLine.substring(0, 7).equals("/~point"))
             {
                 incrementScore();
             }
+        	//The key phrase to speak the current score. 
             else if (fileLine.length () >= 11 && fileLine.substring(0, 11).equals("/~say-score"))
             {
-                if (this.score == 1) {
-                    speak("You currently have " + this.score + " point");
-                }
-                else {
-                    speak("You currently have " + this.score + " points");
-                }
+                speak(((Integer)this.score).toString());
             }
+        	//The key phrase to log an incorrect answer.
+            else if (fileLine.length() >= 11 && fileLine.substring(0, 11).equals("/~incorrect"))
+            {
+            	logger.log(Level.INFO, "EVENT: User selected an incorrect answer.");
+            }
+        	//The key phrase to log a correct answer.
+            else if (fileLine.length() >= 9 && fileLine.substring(0, 9).equals("/~correct"))
+            {
+            	logger.log(Level.INFO, "EVENT: User selected a correct answer.");
+            }
+        	//The key phrase to log a button press.
+            else if (fileLine.length() >= 6 && fileLine.substring(0, 6).equals("/~next"))
+            {
+            	logger.log(Level.INFO, "EVENT: User pressed the next button.");
+            }
+        	
+        	//The key phrase to speak the final score.
             else if (fileLine.length () >= 17 && fileLine.substring(0, 17).equals("/~say-final-score"))
             {
                 speak("Your final score is " + this.score);
@@ -256,10 +277,10 @@ public class ScenarioParser
         try
         {
             int paramIndex = Integer.parseInt(paramArgs);
-            if (paramIndex < 0 || paramIndex > sim.ButtonNumber - 1)
+            if (paramIndex < 0 || paramIndex > sim.buttonNumber - 1)
             {
                 errorLog ("Exception error: IllegalArgumentException", "Expected button number to be the range of 0 .. "
-                        + (sim.ButtonNumber - 1) + "\n Received input : "+ paramArgs);
+                        + (sim.buttonNumber - 1) + "\n Received input : "+ paramArgs);
             }
            
             sim.addRepeatButtonListener(paramIndex, this);
@@ -283,10 +304,10 @@ public class ScenarioParser
         {
             String [] param = paramArgs.split("\\s");
             int paramIndex = Integer.parseInt(param[0]);
-            if (paramIndex < 0 || paramIndex > sim.ButtonNumber - 1 || param.length > 2)
+            if (paramIndex < 0 || paramIndex > sim.buttonNumber - 1 || param.length > 2)
             {
                 errorLog ("Exception error: IllegalArgumentException", "Expected button number to be the range of 0 .. "
-                        + (sim.ButtonNumber - 1) + "\n Or the parameters to have two values. "
+                        + (sim.buttonNumber - 1) + "\n Or the parameters to have two values. "
                         + "\n Received input: "+ paramArgs);
             }
             
@@ -342,11 +363,15 @@ public class ScenarioParser
             errorLog ("Exception error: " + e.toString(), "Expected format: \n num1 \n where num1 is either 1, 2, 3 or 4."
                     + "\n Received input: " + paramArgs);
         }
-
     }
+    
+    /*
+     * This method corresponds to the /~point increments the user's score by 1.
+     */
     
     private void incrementScore() {
         this.score++;
+        logger.log(Level.INFO, "REPORT: User's current score is {0}", ((Integer)this.score).toString());
     }
     
     /*
@@ -357,6 +382,7 @@ public class ScenarioParser
     {
         try
         {
+        	logger.log(Level.INFO, "EVENT: dispCellPins called with {0} as parameter", paramArgs);
             String [] param = paramArgs.split("\\s");
             int paramIndex = Integer.parseInt(param[0]);
             if (param.length > 2 || paramIndex < 0 || paramIndex > sim.brailleCellNumber - 1 || param[1].length () != 8)
@@ -425,18 +451,15 @@ public class ScenarioParser
         try
         {
             String [] param = paramArgs.split("\\s");
-            int[] pinNums = new int[param.length - 1];
             int paramIndex = Integer.parseInt(param[0]);
-            for (int i = 0; i < param.length - 1; i++) {
-                pinNums[i] = (Integer.parseInt(param[i+1]));
-            }
+            int pinNum = Integer.parseInt(param[1]);
             if (paramIndex > sim.brailleCellNumber - 1 || paramIndex < 0 || param.length > 7) // check if any of the pins are outside of 1-6
             {
                 errorLog ("Exception error: IllegalArgumentException", "Expected cell number to be the range of 0 .. "
                         + (sim.brailleCellNumber - 1) + "\n Or pin number to be the range of 1 .. 8 \n Received input : "
                         + paramArgs);
             }           
-            sim.getCell(paramIndex).raiseMultiplePins(pinNums);
+            sim.getCell(paramIndex).raiseOnePin(pinNum);
             sim.refresh();
         }
         catch (Exception e)
@@ -518,7 +541,7 @@ public class ScenarioParser
     /*
      * This method reads all the lines of the scenario file.
      */
-    private void play ()
+    private void play()
     {
         String fileLine;
         try
@@ -531,7 +554,8 @@ public class ScenarioParser
                     Thread.sleep(400);
                 }
                 fileLine = fileScanner.nextLine();
-                performAction (fileLine);   
+                logger.log(Level.INFO, "Current line in file: {0}", fileLine.toString());
+                performAction (fileLine);
             }
             if (!fileScanner.hasNextLine())
             {
@@ -667,7 +691,7 @@ public class ScenarioParser
     {
         try
         {
-        
+        	
             File f = new File (scenarioFile);
             fileScanner = new Scanner (f);
             String absolutePath = f.getAbsolutePath();
