@@ -1,0 +1,38 @@
+Cell 1
+Button 2
+a a a a a a a a This is a short story.
+Steve went downtown to shop for some clothes. He could go to store A,
+/~disp-string:A
+a a a a a a a a which is shown on the Braille Cell now,
+or he could go to the store D,
+/~disp-string:D
+a a a a a a a a which is shown on the Braille Cell now.
+After some thought, he decides to go to the store D.
+/~pause:1
+a a a a a a a a He knew he made the right decision to go to store D, 
+because not only did he find the best pair of pants he ever wore in his entire life,
+but he also found a penny on the ground.
+
+/~disp-string:A
+a a a a a a a a Is the Braille cell currently showing the store that Steve went to? Press button 1 for yes, button 2 for no.
+
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+
+/~user-input
+
+/~ONEE
+/~sound:wrong.wav
+That's incorrect. The Braille cell currently shown is the letter A, but Steve went to store D.
+/~skip:NEXTT
+
+/~TWOO
+/~sound:correct.wav
+That's correct! Steve went to store D, but the letter currently shown is the letter A.
+/~skip:NEXTT
+
+
+/~skip:NEXTT
+
+/~NEXTT
+This is the end of the story. Lol.

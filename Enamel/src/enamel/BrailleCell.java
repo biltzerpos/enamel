@@ -40,6 +40,10 @@ public class BrailleCell {
 	 * Class constructor. Initializes the <code>alphabet</code> HashMap to populate it
 	 * with the appropriate alphabet, which in this case is the English alphabet,
 	 * and the corresponding String representations of the braille cell.
+<<<<<<< HEAD
+=======
+	 * <p>
+>>>>>>> 16836ed726246cbd194d3c0c850e5be2048c123d
 	 */
 	public BrailleCell() {
 		this.initializeAlphabet();

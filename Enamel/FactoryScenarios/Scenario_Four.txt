@@ -1,0 +1,86 @@
+Cell 1
+Button 4
+Single braille cell questions
+
+/~pause:1
+/~disp-string:P
+/~repeat
+What is the alphabet in braille one?
+The choices are B
+P
+Press button three to repeat
+/~endrepeat
+
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~repeat-button:3
+/~user-input
+
+/~ONEE
+/~sound:wrong.wav
+Incorrect, the correct answer was P
+/~skip:NEXTT
+
+/~TWOO
+/~sound:correct.wav
+Correct, the answer was P
+/~skip:NEXTT
+
+
+/~NEXTT
+
+/~disp-clearAll
+/~disp-cell-pins:0 00100000
+/~set-voice:2
+/~repeat
+Next question
+Does the braille show the alphabet E?
+The choices are yes
+no
+Press button two to repeat
+/~endrepeat
+
+/~reset-buttons
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~repeat-button:2
+/~user-input
+
+/~ONEE
+/~sound:correct.wav
+Correct
+/~skip:NEXTT
+
+/~TWOO
+/~sound:wrong.wav
+Incorrect, the correct answer was yes
+/~skip:NEXTT
+
+
+/~NEXTT
+
+/~disp-clearAll
+/~disp-cell-char:0 G
+What is the alphabet in braille one?
+The choice are H
+G
+
+/~reset-buttons
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~user-input
+
+/~ONEE
+/~sound:wrong.wav
+Incorrect, the alphabet was G
+/~skip:NEXTT
+
+/~TWOO
+/~sound:correct.wav
+Correct
+/~skip:NEXTT
+
+
+/~NEXTT
+That is the end of single braille questions
+

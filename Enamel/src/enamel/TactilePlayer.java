@@ -19,12 +19,20 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
  * and takes as arguments the number of Braille Cells and the number of 
  * buttons the system should use. This class also contains several methods 
  * that allow for the manipulation of the physical braille cell.
+<<<<<<< HEAD
  * Currently, due to the way the GPIO pins are numbered, the buttons must be 
+=======
+ * <b>Currently, due to the way the GPIO pins are numbered, the buttons must be 
+>>>>>>> 16836ed726246cbd194d3c0c850e5be2048c123d
  * specifically placed on the GPIO pins. See the Raspberry Pi GPIO pin diagram, found online, 
  * for more information on how the pins are numbered. Currently, the GPIO pins 4, 5, 6, 7
  * are connected to physical push buttons. New buttons could be added, but either
  * they must be placed in GPIO pins 8, 9... etc. (in sequence) or the way the
  * buttonList is created must be changed. 
+<<<<<<< HEAD
+=======
+ * <p>
+>>>>>>> 16836ed726246cbd194d3c0c850e5be2048c123d
  * The individual Braille Cells can be accessed using the
  * <code> getCell(int)</code> method and the cell's index.
  * Similarly, the buttons can be accessed using the <code> getButton(int)</code> method, 
@@ -58,6 +66,10 @@ public class TactilePlayer extends Player {
      *            the number of braille cells the TactilePlayer should have
      * @param buttonNumber
      *            the number of buttons the TactilePlayer should have
+<<<<<<< HEAD
+=======
+     * @throws InterruptedException 
+>>>>>>> 16836ed726246cbd194d3c0c850e5be2048c123d
      * @throws IllegalArgumentException
      *             if one or both of the two parameters is negative or 0,
      *             or if brailleCellNumber exceeds 1, or if buttonNumber exceeds

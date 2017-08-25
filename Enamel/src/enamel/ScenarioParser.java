@@ -671,7 +671,11 @@ public class ScenarioParser
         {
             cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
             buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
+<<<<<<< HEAD
 			sim = new VisualPlayer (cellNum, buttonNum);				           
+=======
+			sim = new TactilePlayer (cellNum, buttonNum);				           
+>>>>>>> 16836ed726246cbd194d3c0c850e5be2048c123d
         }
         catch (Exception e)
         {

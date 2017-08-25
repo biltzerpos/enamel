@@ -1,0 +1,2 @@
+ACTION=="add", KERNEL=="sd?1", RUN+="/usr/bin/sudo -u pi /home/pi/startSCALP.sh %k"
+ACTION=="remove", KERNEL=="sd?1", RUN+="/usr/bin/sudo -u pi /home/pi/unmountDrive.sh %k"
