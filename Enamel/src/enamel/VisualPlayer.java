@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -52,8 +51,6 @@ public class VisualPlayer extends Player {
 	JPanel centerPanel = new JPanel();
 	JRadioButton[] pins = new JRadioButton[8];
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
-    Logger logger = Logger.getLogger(VisualPlayer.class.getName());
-    int repeat = 0;
 
 	
 	/**
@@ -71,7 +68,6 @@ public class VisualPlayer extends Player {
 	public VisualPlayer(int brailleCellNumber, int buttonNumber) {
 
 		super(brailleCellNumber, buttonNumber);
-        logger.setLevel(Level.FINE);
 
 		SwingUtilities.invokeLater(new Runnable() {
 			//@Override

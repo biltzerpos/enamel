@@ -12,6 +12,7 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
@@ -58,17 +59,17 @@ import com.sun.speech.freetts.VoiceManager;
  *
  */
 public class SCALP {
-	//FreeTTS voices
-	VoiceManager vm = VoiceManager.getInstance();
-	Voice voice = vm.getVoice ("kevin16"); 
-	
-	JFrame frame;   
+    //FreeTTS voices
+    VoiceManager vm = VoiceManager.getInstance();
+    Voice voice = vm.getVoice ("kevin16"); 
     
-	//Attributes for directories. Due to the fact that the program needs both the absolute path, but
-	//also need just the current file name, the String[] holds just the names of the files in a list.
-	//This need comes from the fact that speaking using FreeTTS, speaking the absolute path every time
-	//will be very time-consuming and annoying for the user.
-	File factoryDirectory;
+    JFrame frame;   
+    
+    //Attributes for directories. Due to the fact that the program needs both the absolute path, but
+    //also need just the current file name, the String[] holds just the names of the files in a list.
+    //This need comes from the fact that speaking using FreeTTS, speaking the absolute path every time
+    //will be very time-consuming and annoying for the user.
+    File factoryDirectory;
     String[] factoryDirectoryFiles;
     File USBBufferDirectory;
     String[] USBBufferDirectoryFiles;
@@ -108,35 +109,35 @@ public class SCALP {
     
     public static void main(String[] args) {
 
-    	//Create instance of this class and allocate the voice.
-    	SCALP main = new SCALP();
+        //Create instance of this class and allocate the voice.
+        SCALP main = new SCALP();
         main.voice.setRate(150f);
         main.voice.allocate();
         
         //Ensure the arguments are not empty. 
         if (args.length == 0) {
-        	System.out.println("Arguments are empty: please read the documentation on how to start this program with the proper arguments.");
-        	System.exit(1);
+            System.out.println("Arguments are empty: please read the documentation on how to start this program with the proper arguments.");
+            System.exit(1);
         }
 
         //Determine if Gpio is available, i.e. the program is being run on a Raspberry Pi. 
         //If not, run the system using KeyListeners as input.
         try {
-        	main.gpio = GpioFactory.getInstance();
-        	main.buttonList = new GpioPinDigitalInput[3];
-	       //Create 3 buttons. 
-        	for (int i = 0; i < 2; i++) {
-				GpioPinDigitalInput button = main.gpio.provisionDigitalInputPin(RaspiPin.getPinByAddress(i+4), PinPullResistance.PULL_DOWN);
-				button.setDebounce(1000);
-				main.buttonList[i] = button;
-			}
-        	main.hardwareAvailable = true;
+            main.gpio = GpioFactory.getInstance();
+            main.buttonList = new GpioPinDigitalInput[3];
+           //Create 3 buttons. 
+            for (int i = 0; i < 3; i++) {
+                GpioPinDigitalInput button = main.gpio.provisionDigitalInputPin(RaspiPin.getPinByAddress(i+4), PinPullResistance.PULL_DOWN);
+                button.setDebounce(1000);
+                main.buttonList[i] = button;
+            }
+            main.hardwareAvailable = true;
         } catch (UnsatisfiedLinkError e) {
-        	System.out.println("Hardware buttons not found. Use the keyboard number row keys.");
-        	main.frame = new JFrame("SCALP");
+            System.out.println("Hardware buttons not found. Use the keyboard number row keys.");
+            main.frame = new JFrame("SCALP");
             main.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             main.frame.setVisible(true);
-        	main.hardwareAvailable = false;
+            main.hardwareAvailable = false;
         }
         
         //Filters out any non-scenario files, such as the audio folders, or any other folders
@@ -145,11 +146,11 @@ public class SCALP {
         //update this filter accordingly, or any String[] array of files will not contain
         //any scenarios!
         FilenameFilter scenariosOnly = new FilenameFilter() {
-			@Override
-			public boolean accept(File dir, String name) {
-				String lowercaseName = name.toLowerCase();
-				return lowercaseName.endsWith(".txt");		
-				}		   	
+            @Override
+            public boolean accept(File dir, String name) {
+                String lowercaseName = name.toLowerCase();
+                return lowercaseName.endsWith(".txt");      
+                }           
         };
         
         //Start the selector depending on the mode.
@@ -161,56 +162,56 @@ public class SCALP {
         String mode = args[0];
        
         try {
-        	if (mode.equals("START_USB_WITH_FILE_1")) {
-        		main.state = "confirmStartPlayer";
-        		
-        		main.currentFile = args[1];
-        		
-        		if (main.hardwareAvailable) {
-	            	main.hardwareSelector();
-	            }
-	            else {
-	            	main.keySelector();
-	            }
-        	}
+            if (mode.equals("START_USB_WITH_FILE_1")) {
+                main.state = "confirmStartPlayer";
+                
+                main.currentFile = args[1];
+                
+                if (main.hardwareAvailable) {
+                    main.hardwareSelector();
+                }
+                else {
+                    main.keySelector();
+                }
+            }
         
-        	else if (mode.equals("START_FACTORY")) {
-        		main.state = "fileSelector";
-	        	main.currentDirectory = new File(args[1]);
-	        	
-	            main.currentDirectoryFiles = main.currentDirectory.list(scenariosOnly);
+            else if (mode.equals("START_FACTORY")) {
+                main.state = "fileSelector";
+                main.currentDirectory = new File(args[1]);
+                
+                main.currentDirectoryFiles = main.currentDirectory.list(scenariosOnly);
             
-	            if (main.hardwareAvailable) {
-	            	main.hardwareSelector();
-	            }
-	            else {
-	            	main.keySelector();
-	            }
-        	}
+                if (main.hardwareAvailable) {
+                    main.hardwareSelector();
+                }
+                else {
+                    main.keySelector();
+                }
+            }
         
-        	else if (mode.equals("START_HIGH_LEVEL_SELECTOR")) {
-        		main.state = "highLevelSelector";
-	        	main.factoryDirectory = new File(args[1]);
-	        	main.factoryDirectoryFiles = main.factoryDirectory.list(scenariosOnly);
-	            main.USBBufferDirectory = new File(args[2]);
-	            main.USBBufferDirectoryFiles = main.USBBufferDirectory.list(scenariosOnly);
-	            
-	            if (main.hardwareAvailable) {
-	            	main.hardwareSelector();
-	            }
-	            else {
-	            	main.keySelector();
-	            }
-        	}
-        	
-	        else {
-	            System.out.println("Error occured within SCALP: invalid mode entered.");
-	            System.exit(1);
-	        }
+            else if (mode.equals("START_HIGH_LEVEL_SELECTOR")) {
+                main.state = "highLevelSelector";
+                main.factoryDirectory = new File(args[1]);
+                main.factoryDirectoryFiles = main.factoryDirectory.list(scenariosOnly);
+                main.USBBufferDirectory = new File(args[2]);
+                main.USBBufferDirectoryFiles = main.USBBufferDirectory.list(scenariosOnly);
+                
+                if (main.hardwareAvailable) {
+                    main.hardwareSelector();
+                }
+                else {
+                    main.keySelector();
+                }
+            }
+            
+            else {
+                System.out.println("Error occured within SCALP: invalid mode entered.");
+                System.exit(1);
+            }
         } catch (ArrayIndexOutOfBoundsException e) {
-        	System.out.println("Something went wrong in the program. The arguments were entered incorrectly: "
-        			+ "the first argument (the mode) may or may not be correct, but the arguments following"
-        			+ "the mode are incorrect. Please check the documentation and the arguments and try again");
+            System.out.println("Something went wrong in the program. The arguments were entered incorrectly: "
+                    + "the first argument (the mode) may or may not be correct, but the arguments following"
+                    + "the mode are incorrect. Please check the documentation and the arguments and try again");
         }
     }
     
@@ -226,22 +227,22 @@ public class SCALP {
     private  void keySelector() {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	speakState();
-            	frame.addKeyListener(new KeyListener() {
+                speakState();
+                frame.addKeyListener(new KeyListener() {
                     @Override
                     public void keyPressed(KeyEvent e) {
                         switch (e.getKeyCode()){
                         case KeyEvent.VK_1 :
-                        	buttonOne();
-                        	speakState();
+                            buttonOne();
+                            speakState();
                             break;
                         case KeyEvent.VK_2 :
-                        	buttonTwo();
-                        	speakState();
+                            buttonTwo();
+                            speakState();
                             break;
                         case KeyEvent.VK_3 :
-                        	buttonThree();
-                        	speakState();
+                            buttonThree();
+                            speakState();
                             break;
                         }
                     }
@@ -266,28 +267,34 @@ public class SCALP {
      * that only after a full second will a secondary press be registered.
      */
     private void hardwareSelector() {
-    	speakState();
-    	buttonList[0].addListener(new GpioPinListenerDigital() {
-			@Override
-			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
-				buttonOne();
-            	speakState();
-			}	
-		});
-    	buttonList[1].addListener(new GpioPinListenerDigital() {
-			@Override
-			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
-				buttonTwo();
-            	speakState();
-			}	
-		});
-    	buttonList[2].addListener(new GpioPinListenerDigital() {
-			@Override
-			public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
-				buttonThree();
-            	speakState();
-			}	
-		});
+        speakState();
+        buttonList[0].addListener(new GpioPinListenerDigital() {
+            @Override
+            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
+                if (arg0.getState() == PinState.HIGH) {
+                    buttonOne();
+                    speakState();
+                }
+            }   
+        });
+        buttonList[1].addListener(new GpioPinListenerDigital() {
+            @Override
+            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
+                if (arg0.getState() == PinState.HIGH) {
+                    buttonTwo();
+                    speakState();
+                }
+            }   
+        });
+        buttonList[2].addListener(new GpioPinListenerDigital() {
+            @Override
+            public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent arg0) {
+                if (arg0.getState() == PinState.HIGH) {
+                    buttonThree();
+                    speakState();
+                }
+            }   
+        });
     }
     
     /**
@@ -301,13 +308,13 @@ public class SCALP {
      * be set to true, this allows for the index to be reset at the correct time.
      */
     private void speakState() {
-    	if (speakInstructions) {
-    		index = 0;
-    		if (state.equals("highLevelSelector")) {
-        		speak("You are in high level selector. button 1 for U S B Buffer Directory, button 2 for factory directory, or button 3 for Settings.");
-        	}
-        	
-        	else if (state.equals("fileSelector")) {
+        if (speakInstructions) {
+            index = 0;
+            if (state.equals("highLevelSelector")) {
+                speak("You are in high level selector. button 1 for U S B Buffer Directory, button 2 for factory directory, or button 3 for Settings.");
+            }
+            
+            else if (state.equals("fileSelector")) {
                 String speakDirectory;
                 System.out.println(currentDirectory.getName());
                 if (currentDirectory.getName().equals("USBBuffer")) {
@@ -319,16 +326,16 @@ public class SCALP {
                 speak("You are in " + speakDirectory + " directory.  button 1 for next file, button 2 to select current file, or button 3 for settings.");
                 speak(currentDirectoryFiles[index] + " currently selected");
                 System.out.println(currentDirectoryFiles[index] + " currently selected");
-        	}
-        	
-        	else if (state.equals("settingsSelector")) {
-        		speak("You are in Settings. button 1 to cycle through configs, button 2 to select config, button 3 for previous menu.");
+            }
+            
+            else if (state.equals("settingsSelector")) {
+                speak("You are in Settings. button 1 to cycle through configs, button 2 to select config, button 3 for previous menu.");
                 speak(sConfigParameters[index] + " currently selected.");
                 System.out.println(sConfigParameters[index] + " currently selected.");
 
-        	}
-        	
-        	else if (state.equals("configSelector")) {
+            }
+            
+            else if (state.equals("configSelector")) {
                 if (config.equals("U S B buffer size")) {
                     toggleRange = new String[]{"1", "5", "10", "15", "20"};
                 }
@@ -336,38 +343,38 @@ public class SCALP {
                     toggleRange = new String[]{"true", "false"};
                 }
                 speak("Button 1 to toggle, button 2 to accept and return, button 3 to exit without saving. Any changes will take effect after a restart.");
-        	}
-        	else if (state.equals("confirmStartPlayer")) {
-        		speak("The file " + currentFile + " is loaded. Press button 1 to start, or button 3 for settings.");
-        	}
-    	}
+            }
+            else if (state.equals("confirmStartPlayer")) {
+                speak("The file " + currentFile + " is loaded. Press button 1 to start, or button 3 for settings.");
+            }
+        }
     }
     
     /**
      * This method handles the logic for the third button. 
      * For the states, the behaviour is as follows:
      * highLevelSelector - Selects the USB Buffer directory by setting currentDirectory and currentDirectoryFiles
-     * 						to USBBufferDirectory and USBBufferDirectoryFiles. Changes state to fileSelector. 
+     *                      to USBBufferDirectory and USBBufferDirectoryFiles. Changes state to fileSelector. 
      * fileSelector - Loops through currentDirectoryFiles list. If at the end of the list, start again from the beginning.
-     * 					Speaks the current file as well.
+     *                  Speaks the current file as well.
      * settingsSelector - Loops through settings parameters, with the circular loop, and speaks the current settings parameter.
      * configSelector - Loops through configuration parameters ("true"/"false" or "5", "10", "15", "20" depending on which
-     * 					settings parameter is selected), again looping and speaking out loud the current configuration parameter.
+     *                  settings parameter is selected), again looping and speaking out loud the current configuration parameter.
      * confirmStartPlayer - Starts the current file (only used for the START_USB_WITH_FILE_1 mode). This is needed so that
-     * 					the user still has a chance to enter settings even with the START_USB_WITH_FILE_1 selected; allows
-     * 					the user to confirm before starting the file. 
+     *                  the user still has a chance to enter settings even with the START_USB_WITH_FILE_1 selected; allows
+     *                  the user to confirm before starting the file. 
      */
     private void buttonOne() {
-    	speakInstructions = false;
-    	if (state.equals("highLevelSelector")) {
-    		speakInstructions = true;
-    		System.out.println("USB buffer directory selected");
-	    	currentDirectory = USBBufferDirectory;
-	    	currentDirectoryFiles = USBBufferDirectoryFiles;
-	    	state = "fileSelector";
-    	}
-	    else if (state.equals("fileSelector")) {
-	    	if (index < currentDirectoryFiles.length - 1) {
+        speakInstructions = false;
+        if (state.equals("highLevelSelector")) {
+            speakInstructions = true;
+            System.out.println("USB buffer directory selected");
+            currentDirectory = USBBufferDirectory;
+            currentDirectoryFiles = USBBufferDirectoryFiles;
+            state = "fileSelector";
+        }
+        else if (state.equals("fileSelector")) {
+            if (index < currentDirectoryFiles.length - 1) {
                 index++;
             }
             else {
@@ -375,9 +382,9 @@ public class SCALP {
             }
             speak(currentDirectoryFiles[index]);
             System.out.println(currentDirectoryFiles[index]);
-	    }
-    	else if (state.equals("settingsSelector")) {
-    		if (index < sConfigParameters.length - 1) {
+        }
+        else if (state.equals("settingsSelector")) {
+            if (index < sConfigParameters.length - 1) {
                 index++;
             }
             else {
@@ -385,9 +392,9 @@ public class SCALP {
             }
             speak(sConfigParameters[index]);
             System.out.println(sConfigParameters[index]);
-    	}
-    	else if (state.equals("configSelector")) {
-    		if (index < toggleRange.length - 1) {
+        }
+        else if (state.equals("configSelector")) {
+            if (index < toggleRange.length - 1) {
                 index++;
             }
             else {
@@ -395,91 +402,91 @@ public class SCALP {
             }
             speak(toggleRange[index]);
             System.out.println(toggleRange[index]);
-    	}
-    	else if (state.equals("confirmStartPlayer")) {
-    		speak("starting file");
-    		System.out.println("starting file");
-    		startPlayer(currentFile);
-    	}
+        }
+        else if (state.equals("confirmStartPlayer")) {
+            speak("starting file");
+            System.out.println("starting file");
+            startPlayer(currentFile);
+        }
     }
     
     /**
      * This method handles the logic for the third button. 
      * For the states, the behaviour is as follows:
      * highLevelSelector - Selects the factory directory by setting currentDirectory and currentDirectoryFiles
-     * 						to factoryDirectory and factoryDirectoryFiles. Changes state to fileSelector.
+     *                      to factoryDirectory and factoryDirectoryFiles. Changes state to fileSelector.
      * fileSelector - Starts the currently selected file from currentDirectoryFiles; selection takes place using button 1.
      * settingsSelector - Selects the currently selected settings parameter by setting <code>config</code> 
-     * 						to the current sConfigParameters[index]. Changes state to configSelector.
+     *                      to the current sConfigParameters[index]. Changes state to configSelector.
      * configSelector - Creates a new ProcessBuilder that starts the shell script "changeconfig.sh", which will change
-     * 					"config.txt". Note, currently it is a hard-coded directory, and since it is a shell script, this
-     * 					will not work with Windows systems. Meant to be used only on a properly set up Rasberry Pi. 
-     * 					Speaks the change, and sets the state to settingsSelector.
+     *                  "config.txt". Note, currently it is a hard-coded directory, and since it is a shell script, this
+     *                  will not work with Windows systems. Meant to be used only on a properly set up Rasberry Pi. 
+     *                  Speaks the change, and sets the state to settingsSelector.
      * confirmStartPlayer - Not present; button 2 does not have any effect in the state confirmStartPlayer.
      */
     private void buttonTwo() {
-    	speakInstructions = true;
-    	if (state.equals("highLevelSelector")) {
-    		System.out.println("Factory directory selected");
-    		currentDirectory = factoryDirectory;
-    		currentDirectoryFiles = factoryDirectoryFiles;
-	    	state = "fileSelector";
-    	}
-	    else if (state.equals("fileSelector")) {
-	    	speakInstructions = false;
-	    	speak("starting file " + currentDirectoryFiles[index]);
+        speakInstructions = true;
+        if (state.equals("highLevelSelector")) {
+            System.out.println("Factory directory selected");
+            currentDirectory = factoryDirectory;
+            currentDirectoryFiles = factoryDirectoryFiles;
+            state = "fileSelector";
+        }
+        else if (state.equals("fileSelector")) {
+            speakInstructions = false;
+            speak("starting file " + currentDirectoryFiles[index]);
             System.out.println("starting file " + currentDirectoryFiles[index]);
             startPlayer(currentDirectory.getAbsolutePath() + File.separator + currentDirectoryFiles[index]);
-	    }
-    	else if (state.equals("settingsSelector")) {
-    		speak(sConfigParameters[index] + " selected");
+        }
+        else if (state.equals("settingsSelector")) {
+            speak(sConfigParameters[index] + " selected");
             System.out.println(sConfigParameters[index] + " selected");
             config = sConfigParameters[index];
             state = "configSelector";
-    	}
-    	else if (state.equals("configSelector")) {
-    		try {
+        }
+        else if (state.equals("configSelector")) {
+            try {
                 ProcessBuilder p = new ProcessBuilder("/home/pi/changeconfig.sh", aConfigParameters[index], toggleRange[index]);
                 p.start();
                 speak("Changed " + config + "to " + toggleRange[index]);
                 System.out.println("Changed " + config + " to " + toggleRange[index]);
             } catch (Exception ex) {System.out.println(ex);}
             state = "settingsSelector";
-    	}
+        }
     }
     
     /**
      * This method handles the logic for the third button. 
      * For the states, the behaviour is as follows:
      * highLevelSelector - Sets the state to settingsSelector, while setting previous to highLevelSelector.
-     						This allows the user to return to the previous menu through the <code>previous</code> field.
+                            This allows the user to return to the previous menu through the <code>previous</code> field.
      * fileSelector - Same behaviour as highLevelSelector, but sets previous to fileSelector instead.
      * settingsSelector - Sets the state to previous, to allow the program to reenter the previous state.
      * configSelector - Sets the state ot settingsSelector; effectively, "exiting" the configuration selector state without saving.
      * confirmStartPlayer - Same behaviour as fileSelector and highLevelSelector, but sets previous to confirmStartPlayer.
      */
     private void buttonThree() {
-    	speakInstructions = true;
-    	if (state.equals("highLevelSelector")) {
-    		state = "settingsSelector";
-    		previous = "highLevelSelector";
-    	}
-    	else if (state.equals("fileSelector")) {
-    		state = "settingsSelector";
-    		previous = "fileSelector";
-	    }
-    	else if (state.equals("settingsSelector")) {
+        speakInstructions = true;
+        if (state.equals("highLevelSelector")) {
+            state = "settingsSelector";
+            previous = "highLevelSelector";
+        }
+        else if (state.equals("fileSelector")) {
+            state = "settingsSelector";
+            previous = "fileSelector";
+        }
+        else if (state.equals("settingsSelector")) {
             speak("Previous menu");
             state = previous;
-    	}
-    	else if (state.equals("configSelector")) {
+        }
+        else if (state.equals("configSelector")) {
             speak("exit without saving");
             state = "settingsSelector";
-    	}
-    	else if (state.equals("confirmStartPlayer")) {
-    		state = "settingsSelector";
-    		previous = "confirmStartPlayer";
-    	}
+        }
+        else if (state.equals("confirmStartPlayer")) {
+            state = "settingsSelector";
+            previous = "confirmStartPlayer";
+        }
     }      
     
     /**
@@ -488,14 +495,14 @@ public class SCALP {
      * Starting the player is done in a new thread.
      * 
      * @param path
-     * 			the absolute path of the scenario file to start the ScenarioParser with 
+     *          the absolute path of the scenario file to start the ScenarioParser with 
      */
     void startPlayer(String path) {
         if (hardwareAvailable) {
-        	removeHWButtons();
+            removeHWButtons();
         }
         else {
-        	frame.setVisible(false);
+            frame.setVisible(false);
             frame.dispose();
         }
         new Thread(new Runnable() {
@@ -513,9 +520,10 @@ public class SCALP {
      * <code>buttonList</code>.
      */
     private void removeHWButtons() {
-        for (int i = 0; i < buttonList.length - 1; i++) {
-        	buttonList[index].removeAllListeners();
-        	gpio.unprovisionPin(buttonList[index]);
+        for (int i = 0; i < buttonList.length; i++) {
+            buttonList[index].removeAllListeners();
+            gpio.shutdown();
+            //gpio.unprovisionPin(buttonList[index]);
         }
     }
     
@@ -524,7 +532,7 @@ public class SCALP {
      * using FreeTTS.
      * 
      * @param message
-     * 			the message to be spoken out loud to the user
+     *          the message to be spoken out loud to the user
      */
      void speak(String message) {
        voice.speak(message);

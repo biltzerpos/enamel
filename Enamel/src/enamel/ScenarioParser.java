@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-//import javax.swing.SwingWorker;
+import java.text.SimpleDateFormat;
 
 import java.util.logging.*;
 import java.util.logging.Formatter;
@@ -23,18 +23,30 @@ public class ScenarioParser
     private ArrayList<String> repeatedText;
     public boolean userInput;
     private String scenarioFilePath;
-    private int score;
+    private int score = 0;
     Logger logger = Logger.getLogger(ScenarioParser.class.getName());
     
     public ScenarioParser() 
     {
-    	//
-    	Formatter simpleFormatter = new SimpleFormatter();
-    	ConsoleHandler consoleHandler = new ConsoleHandler();
-    	consoleHandler.setFormatter(simpleFormatter);
+    	//Code for the logger. We decided to maintain the logging format through code instead of changing the System Property
+    	//and using the default ParentHandler, so that we can rely on consistency without changing settings for each system. 
+    	//Currently, it's set to ConsoleHandler instead of FileHandler. It will write the log
+		//to the console. 
+		//Eventually, we'll need to have it save to a file. Simply change ConsoleHandler to FileHandler,
+		//and set the output to the appropriate directory. 
     	
-    //	System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$s %2$s %5$s%6$s%n");
-    	//logger.addHandler(consoleHandler);
+    	//To find out what's being logged, search and find any "logger.log" calls.
+    	ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new Formatter() {
+    		private String format = "[%1$s] [%2$s] %3$s %n";
+			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+			@Override
+			public String format(LogRecord record) {
+				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
+			}
+    	});
+    	logger.addHandler(consoleHandler);
+    	logger.setUseParentHandlers(false);
     	
         //The next two lines allow the use of the mbrola voices.
         String currDir = System.getProperty("user.dir");
@@ -43,7 +55,6 @@ public class ScenarioParser
         changeVoice ("1");
         repeatedText = new ArrayList<String> ();
         userInput = false;
-        this.score = 0;        
     }
     
     /*
@@ -202,12 +213,7 @@ public class ScenarioParser
         	//The key phrase to speak the current score. 
             else if (fileLine.length () >= 11 && fileLine.substring(0, 11).equals("/~say-score"))
             {
-                if (this.score == 1) {
-                    speak("You currently have " + this.score + " point");
-                }
-                else {
-                    speak("You currently have " + this.score + " points");
-                }
+                speak(((Integer)this.score).toString());
             }
         	//The key phrase to log an incorrect answer.
             else if (fileLine.length() >= 11 && fileLine.substring(0, 11).equals("/~incorrect"))
@@ -665,7 +671,7 @@ public class ScenarioParser
         {
             cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
             buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
-			sim = new VisualPlayer (cellNum, buttonNum);				           
+			sim = new TactilePlayer (cellNum, buttonNum);				           
         }
         catch (Exception e)
         {
