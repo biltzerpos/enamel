@@ -76,7 +76,7 @@ public class VisualPlayer extends Player {
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				frame.getContentPane().setLayout(new BorderLayout());
 
 				for (int i = 0; i < brailleCellNumber; i++) {

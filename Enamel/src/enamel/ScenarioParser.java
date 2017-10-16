@@ -62,7 +62,7 @@ public class ScenarioParser
      */
     private void exit ()
     {
-        System.exit(0);
+        Thread.currentThread().interrupt();
     }
     
     /*

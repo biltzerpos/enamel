@@ -34,6 +34,7 @@ public class TestListener implements ActionListener {
 
 	private GUI gui;
 	File file; 
+	String newLine = System.getProperty("line.separator");
 	/**
 	 * Create an export listener with a reference to the parent GUI.
 	 *
@@ -49,9 +50,9 @@ public class TestListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		StringBuilder sb = new StringBuilder();
 		// Build the file header first
-		sb.append("Cell " + gui.getSettingsPanel().getCellField() + "\n");
-		sb.append("Button " + gui.getSettingsPanel().getButtonField() + "\n");
-		sb.append(gui.getSettingsPanel().getTitleField() + "\n\n");
+		sb.append("Cell " + gui.getSettingsPanel().getCellField() + newLine);
+		sb.append("Button " + gui.getSettingsPanel().getButtonField() + newLine);
+		sb.append(gui.getSettingsPanel().getTitleField() + newLine + newLine);
 
 		// Get the list of commands for export
 		List<PlayerCommand> list = gui.getLeftPanel().getList();
@@ -105,7 +106,7 @@ public class TestListener implements ActionListener {
 
 		for (PlayerCommand pc : list) {
 			sb.append(pc.serialize());
-			sb.append("\n");
+			sb.append(newLine);
 		}
 
 		return sb.toString();
