@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import javax.accessibility.Accessible;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -48,7 +49,7 @@ import commands.UserInputCommand;
  * @since 4/3/2017
  *
  */
-public class NewQuestionListener extends JPanel implements ActionListener {
+public class NewQuestionListener extends JPanel implements ActionListener, Accessible {
 	private static final long serialVersionUID = 7443038348707836054L;
 	private GUI gui;
 	private JComboBox<String> buttons;
@@ -71,6 +72,8 @@ public class NewQuestionListener extends JPanel implements ActionListener {
 	public NewQuestionListener(GUI gui, ColourMapper mapper) {
 		this.gui = gui;
 		this.mapper = mapper;
+		
+		this.getAccessibleContext().setAccessibleDescription("");
 
 		setLayout(new GridBagLayout());
 

@@ -61,37 +61,53 @@ public class NewButtonListener implements ActionListener {
 		answer = (String) JOptionPane.showInputDialog(gui, "Select the type of the item.", "Add Item",
 				JOptionPane.PLAIN_MESSAGE, null, possibilities, "");
 		
+		processAnswer(answer);
+
+	}
+
+	public void processAnswer(String answer) {
+		Object value;
 		if (answer != null) {
 			switch (answer) {
 			case "Pause":
 				value = JOptionPane.showInputDialog(gui, "Length of time to wait", "Edit Item Details",
 					JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new PauseCommand((String)value));
+				if (value != null && value != ""){gui.getLeftPanel().addItem(new PauseCommand((String)value));}
 				break;
 			case "Text-to-speech":
 				value = JOptionPane.showInputDialog(gui, "Text to say", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new TTSCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new TTSCommand((String) value));
+				}
 				break;
 			case "Display String":
 				value = JOptionPane.showInputDialog(gui, "String to display", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new SetStringCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new SetStringCommand((String) value));
+				}
 				break;
 			case "Repeat":
 				value = JOptionPane.showInputDialog(gui, "Text to be repeated", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new RepeatCommand((String) value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new RepeatCommand((String) value));
+				}
 				break;
 			case "Button Repeat":
 				value = JOptionPane.showInputDialog(gui, "Button to use for repeating", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new RepeatButtonCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new RepeatButtonCommand((String) value));
+				}
 				break;
 			case "Button Location":
 				value = JOptionPane.showInputDialog(gui, "Button and identifier (space separated)", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new SkipButtonCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new SkipButtonCommand((String) value));
+				}
 				break;
 			case "User Input":
 				value = JOptionPane.showInputDialog(gui, "Ignored", "Edit Item Details",
@@ -101,7 +117,9 @@ public class NewButtonListener implements ActionListener {
 			case "Sound":
 				value = JOptionPane.showInputDialog(gui, "File path: ", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new SoundCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new SoundCommand((String) value));
+				}
 				break;
 			case "Reset Buttons":
 				value = JOptionPane.showInputDialog(gui, "Ignored", "Edit Item Details",
@@ -111,7 +129,9 @@ public class NewButtonListener implements ActionListener {
 			case "Go To Location":
 				value = JOptionPane.showInputDialog(gui, "Enter location to go to", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new SkipCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new SkipCommand((String) value));
+				}
 				break;
 			case "Clear All":
 				value = JOptionPane.showInputDialog(gui, "Ignored", "Edit Item Details",
@@ -121,43 +141,56 @@ public class NewButtonListener implements ActionListener {
 			case "Clear Cell":
 				value = JOptionPane.showInputDialog(gui, "Cell number", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new ClearCellCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new ClearCellCommand((String) value));
+				}
 				break;
 			case "Set Pins":
 				value = JOptionPane.showInputDialog(gui, "Cell and pins (space separated)", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new SetPinsCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new SetPinsCommand((String) value));
+				}
 				break;
 			case "Set Character":
 				value = JOptionPane.showInputDialog(gui, "Cell and character (space seperated)", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new CellCharCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new CellCharCommand((String) value));
+				}
 				break;
 			case "Raise Pin":
 				value = JOptionPane.showInputDialog(gui, "Cell and Pin to raise (space separated)", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new CellRaiseCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new CellRaiseCommand((String) value));
+				}
 				break;
 			case "Lower Pin":
 				value = JOptionPane.showInputDialog(gui, "Cell and Pin to lower (space separated)", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new CellLowerCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new CellLowerCommand((String) value));
+				}
 				break;
 			case "Set Voice":
 				value = JOptionPane.showInputDialog(gui, "Enter a voice number", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new SetVoiceCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new SetVoiceCommand((String) value));
+				}
 				break;
 			case "Location Tag":
 				value = JOptionPane.showInputDialog(gui, "Enter name of location", "Edit Item Details",
 						JOptionPane.PLAIN_MESSAGE, null, null, "");
-				gui.getLeftPanel().addItem(new GoHereCommand((String)value));
+				if (value != null && value != "") {
+					gui.getLeftPanel().addItem(new GoHereCommand((String) value));
+				}
 				break;
 			default:
 				break;
 			}
 		}
-
 	}
 
 }

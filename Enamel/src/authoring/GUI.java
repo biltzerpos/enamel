@@ -4,6 +4,7 @@ package authoring;
 import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -15,6 +16,9 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.KeyEventDispatcher;
 import javax.swing.SwingUtilities;
+
+import commands.PauseCommand;
+import listeners.NewButtonListener;
 
 
 /**
@@ -32,9 +36,11 @@ public class GUI extends JFrame {
 	private LeftPanel leftPanel;
 	private RightPanel rightPanel;
 	private SettingsPanel settingsPanel;
+	private NewButtonListener newItem = new NewButtonListener(this);
 	
 	
 	private HashMap<KeyStroke, Action> actionMap = new HashMap<KeyStroke, Action>();
+	private HashMap<KeyStroke, String> newItemMap = new HashMap<KeyStroke, String>();
 
 
 	/**
@@ -45,6 +51,9 @@ public class GUI extends JFrame {
 		this.setTitle("Authoring App");
 		this.getAccessibleContext().setAccessibleName("Authoring App");
 		this.getAccessibleContext().setAccessibleDescription("Welcome to the Treasure Box Braille Authoring App. To scroll through the options, use the tab key. Press the space bar to select an option.");
+		
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		
 		// Create the colour mapper
 		ColourMapper mapper = new ColourMapper();
 
@@ -181,8 +190,8 @@ public class GUI extends JFrame {
 			private static final long serialVersionUID = 1L;
 			@Override
 		    public void actionPerformed(ActionEvent e) {
-				if (rightPanel.btnExport.isEnabled()) {
-					rightPanel.btnExport.doClick();
+				if (rightPanel.btnSave.isEnabled()) {
+					rightPanel.btnSave.doClick();
 				}
 			}
 		});
@@ -192,11 +201,74 @@ public class GUI extends JFrame {
 			private static final long serialVersionUID = 1L;
 			@Override
 		    public void actionPerformed(ActionEvent e) {
-				if (rightPanel.btnImport.isEnabled()) {
-					rightPanel.btnImport.doClick();
+				if (rightPanel.btnLoad.isEnabled()) {
+					rightPanel.btnLoad.doClick();
 				}
 			}
 		});
+		
+		KeyStroke key13 = KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key13,  "Pause");
+		
+		KeyStroke key14 = KeyStroke.getKeyStroke(KeyEvent.VK_T, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key14,  "Text-to-speech");
+		
+		KeyStroke key15 = KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key15,  "Display String");
+		
+		KeyStroke key16 = KeyStroke.getKeyStroke(KeyEvent.VK_R, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key16, "Repeat");
+		
+		KeyStroke key17 = KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key17, "Button Repeat");
+		
+		KeyStroke key18 = KeyStroke.getKeyStroke(KeyEvent.VK_L, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key18, "Button Location");
+		
+		KeyStroke key19 = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key19,  "User Input");
+		
+		KeyStroke key20 = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key20,  "Sound");
+		
+		KeyStroke key21 = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key21,  "Reset Buttons");
+		
+		KeyStroke key22 = KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key22,  "Go To Location");
+		
+		KeyStroke key23 = KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key23,  "Clear All");
+		
+		KeyStroke key24 = KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key24,  "Clear Cell");
+		
+		KeyStroke key25 = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key25,  "Set Pins");
+		
+		KeyStroke key26 = KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key26,  "Set Character");
+		
+		KeyStroke key27 = KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key27,  "Raise Pin");
+		
+		KeyStroke key28 = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key28,  "Lower Pin");
+		
+		KeyStroke key29 = KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key29,  "Set Voice");
+		
+		KeyStroke key30 = KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.ALT_DOWN_MASK);
+		newItemMap.put(key30,  "Location Tag");
+
+
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		// add more actions..
@@ -217,6 +289,11 @@ public class GUI extends JFrame {
 	          }
 	        } ); 
 	        return true;
+	      } else if (newItemMap.containsKey(keyStroke) && rightPanel.btnNew.isEnabled())
+	      {
+	    	  String value = newItemMap.get(keyStroke);
+	    	  newItem.processAnswer(value);
+	    	  return true;
 	      }
 	      return false;
 	    }

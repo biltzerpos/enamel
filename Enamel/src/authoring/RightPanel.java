@@ -13,8 +13,8 @@ import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import commands.SoundCommand;
-import listeners.ExportListener;
-import listeners.ImportListener;
+import listeners.SaveListener;
+import listeners.LoadListener;
 import listeners.NewButtonListener;
 import listeners.NewQuestionListener;
 import listeners.NewScenarioListener;
@@ -40,8 +40,8 @@ public class RightPanel extends JPanel implements ActionListener {
 	public JButton btnMoveDown = new JButton("Move Item Down (Control S)");
 	public JButton btnDelete = new JButton("Delete Item (Control D)");
 	public JButton btnNew = new JButton("New Item (Control N)");
-	public JButton btnExport = new JButton("Export (Control E)");
-	public JButton btnImport = new JButton("Import (Control I)");
+	public JButton btnSave = new JButton("Save (Control E)");
+	public JButton btnLoad = new JButton("Load (Control I)");
 	public JButton btnNewScenario = new JButton("New Scenario (Control Shift N)");
 	public JButton btnNewQuestion = new JButton("New Question (Control M)");
 	public JButton btnTestScenario = new JButton ("Test Scenario (Control T)");
@@ -70,8 +70,8 @@ public class RightPanel extends JPanel implements ActionListener {
 		this.getAccessibleContext().getAccessibleRole(); 
 		// Set font sizes
 		btnNewScenario.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
-		btnImport.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
-		btnExport.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
+		btnLoad.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
+		btnSave.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnStart.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		btnStop.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
 		readFile.setFont(new Font(FONT_FACE, Font.PLAIN, FONT_SIZE));
@@ -91,8 +91,8 @@ public class RightPanel extends JPanel implements ActionListener {
 		add(btnMoveUp);
 		add(btnMoveDown);
 		add(btnDelete);
-		add(btnImport);
-		add(btnExport);
+		add(btnLoad);
+		add(btnSave);
 		add(btnNewScenario);
 		add(btnTestScenario);
 
@@ -104,8 +104,8 @@ public class RightPanel extends JPanel implements ActionListener {
 		btnNew.addActionListener(new NewButtonListener(gui));
 		btnDelete.addActionListener(this);
 		readFile.addActionListener(this);
-		btnExport.addActionListener(new ExportListener(gui));
-		btnImport.addActionListener(new ImportListener(gui, mapper));
+		btnSave.addActionListener(new SaveListener(gui));
+		btnLoad.addActionListener(new LoadListener(gui, mapper));
 		btnNewScenario.addActionListener(new NewScenarioListener(gui));
 		btnNewQuestion.addActionListener(new NewQuestionListener(gui, mapper));
 		btnTestScenario.addActionListener(new TestListener(gui));
@@ -117,7 +117,7 @@ public class RightPanel extends JPanel implements ActionListener {
 		// first
 		btnStop.setEnabled(false);
 		btnNew.setEnabled(false);
-		btnExport.setEnabled(false);
+		btnSave.setEnabled(false);
 		readFile.setEnabled(false);
 		btnStart.setEnabled(false);
 		btnNewQuestion.setEnabled(false);
@@ -227,7 +227,7 @@ public class RightPanel extends JPanel implements ActionListener {
 	 *            parameter that is either true or false
 	 */
 	public void setExport(boolean status) {
-		btnExport.setEnabled(status);
+		btnSave.setEnabled(status);
 	}
 
 	/**

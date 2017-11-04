@@ -29,7 +29,7 @@ import commands.PlayerCommand;
  * @version 1.0
  * @since 2017-04-02
  */
-public class ExportListener implements ActionListener {
+public class SaveListener implements ActionListener {
 
 	private GUI gui;
 	String newLine = System.getProperty("line.separator");
@@ -41,7 +41,7 @@ public class ExportListener implements ActionListener {
 	 *            A reference to the parent GUI, needed in order to properly
 	 *            access the command list
 	 */
-	public ExportListener(GUI gui) {
+	public SaveListener(GUI gui) {
 		this.gui = gui;
 	}
 

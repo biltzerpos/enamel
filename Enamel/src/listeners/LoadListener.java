@@ -44,7 +44,7 @@ import commands.UserInputCommand;
  * @version 1.0
  * @since 2017-04-02
  */
-public class ImportListener implements ActionListener {
+public class LoadListener implements ActionListener {
 
 	private GUI gui;
 	private ColourMapper mapper;
@@ -58,7 +58,7 @@ public class ImportListener implements ActionListener {
 	 * @param mapper
 	 *            Shared reference to the color mapper
 	 */
-	public ImportListener(GUI gui, ColourMapper mapper) {
+	public LoadListener(GUI gui, ColourMapper mapper) {
 		this.gui = gui;
 		this.mapper = mapper;
 	}
