@@ -65,8 +65,8 @@ public class LeftPanel extends JPanel implements KeyListener {
 		commandList.setModel(listModel);
 		commandList.setCellRenderer(new ColourCellRenderer(mapper));
 		commandList.getAccessibleContext().setAccessibleName("Script Area.");
-		commandList.getAccessibleContext().setAccessibleDescription("This contains the script you are writing. Items you create are added here. Use up and down arrow keys to move and press spacebar to edit the selected item.");
-
+		commandList.getAccessibleContext().setAccessibleDescription(
+				"This contains the script you are writing. Items you create are added here. Use up and down arrow keys to move and press spacebar to edit the selected item.");
 		
 		// Set the scollpane to have commandList as its content
 		scrollPane.setViewportView(commandList);

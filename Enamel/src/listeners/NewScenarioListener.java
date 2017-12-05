@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import authoring.GUI;
 
@@ -68,14 +70,41 @@ public class NewScenarioListener implements ActionListener {
 		myPanel.add(btntxt);
 		myPanel.add(titleLabel);
 		myPanel.add(titletxt);
+		
+		// Sets the default focus on the Cells text field.
+		celltxt.addAncestorListener(new AncestorListener(){
+
+			@Override
+			public void ancestorAdded(AncestorEvent arg0) {
+				// TODO Auto-generated method stub
+				celltxt.requestFocusInWindow();
+			}
+
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			
+			
+		});;
+		
 
 		// Creates a Confirmation Pane with an "OK" and "CANCEL" option
 		int result = JOptionPane.showConfirmDialog(null, myPanel, "Enter the Scenario parameters",
 				JOptionPane.OK_CANCEL_OPTION);
+		
 
 		if (result == JOptionPane.OK_OPTION) {
 			// Checks to see if the fields are empty if user hits "OK"
-			if (celltxt.getText().isEmpty() || btntxt.getText().isEmpty() || titletxt.getText().isEmpty()) {
+			if (celltxt.getText().isEmpty() || !celltxt.getText().matches("\\d") || btntxt.getText().isEmpty() || !btntxt.getText().matches("\\d") || titletxt.getText().isEmpty()) {
 				// Shows an error pane if the user does hit "OK" with empty
 				// fields
 				JOptionPane.showMessageDialog(null, "One or more fields are empty!", "Missing fields!",

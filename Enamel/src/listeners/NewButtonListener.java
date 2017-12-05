@@ -110,8 +110,6 @@ public class NewButtonListener implements ActionListener {
 				}
 				break;
 			case "User Input":
-				value = JOptionPane.showInputDialog(gui, "Ignored", "Edit Item Details",
-						JOptionPane.PLAIN_MESSAGE, null, null, "");
 				gui.getLeftPanel().addItem(new UserInputCommand());
 				break;
 			case "Sound":
@@ -122,8 +120,6 @@ public class NewButtonListener implements ActionListener {
 				}
 				break;
 			case "Reset Buttons":
-				value = JOptionPane.showInputDialog(gui, "Ignored", "Edit Item Details",
-						JOptionPane.PLAIN_MESSAGE, null, null, "");
 				gui.getLeftPanel().addItem(new ResetButtonCommand(""));
 				break;
 			case "Go To Location":
@@ -134,8 +130,6 @@ public class NewButtonListener implements ActionListener {
 				}
 				break;
 			case "Clear All":
-				value = JOptionPane.showInputDialog(gui, "Ignored", "Edit Item Details",
-						JOptionPane.PLAIN_MESSAGE, null, null, "");
 				gui.getLeftPanel().addItem(new ClearAllCommand(""));
 				break;
 			case "Clear Cell":

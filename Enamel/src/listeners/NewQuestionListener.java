@@ -25,6 +25,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import authoring.ColourMapper;
 import authoring.GUI;
@@ -86,19 +88,52 @@ public class NewQuestionListener extends JPanel implements ActionListener, Acces
 		introField = new JTextArea(5, 18);
 		introField.setLineWrap(true);
 		JScrollPane introPane = new JScrollPane(introField);
+		introField.getAccessibleContext().setAccessibleDescription("This is where you ask the question");
 		patch(introField);
+		
+		
+		//Set initial focus to introField
+		introField.addAncestorListener(new AncestorListener(){
+
+			@Override
+			public void ancestorAdded(AncestorEvent event) {
+				// TODO Auto-generated method stub
+				introField.requestFocusInWindow();
+				
+			}
+
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			
+			
+			
+			
+		});
+		
 		
 		//Creates a text area that wraps properly and scrolls vertically only for incorrect text
 		repeatField = new JTextArea(5, 18);
 		repeatField.setLineWrap(true);
 		JScrollPane repeatPane = new JScrollPane(repeatField);
+		repeatField.getAccessibleContext().setAccessibleDescription("This is what is said everytime an incorrect answer is given");
 		patch(repeatField);
 		
 		
 		brailleField = new JTextField();
-		//repeatField = new JTextField();
+		brailleField.getAccessibleContext().setAccessibleDescription("This is what will be displayed on the braille cells");
 		buttonField = new JTextField();
 		this.buttons = new JComboBox<String>();
+		this.buttons.getAccessibleContext().setAccessibleDescription("This is the correct answer button for this question");
 
 		introField.setMinimumSize(new Dimension(200, 15));
 		brailleField.setMinimumSize(new Dimension(200, 15));

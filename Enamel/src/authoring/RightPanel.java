@@ -109,6 +109,8 @@ public class RightPanel extends JPanel implements ActionListener {
 		btnNewScenario.addActionListener(new NewScenarioListener(gui));
 		btnNewQuestion.addActionListener(new NewQuestionListener(gui, mapper));
 		btnTestScenario.addActionListener(new TestListener(gui));
+		
+		
 
 		// Do not allow this component to enlarge ever
 		this.setMaximumSize(this.getPreferredSize());

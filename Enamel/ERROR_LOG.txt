@@ -1,7 +1,4 @@
-Oct 15, 2017 8:05:45 PM enamel.ScenarioParser errorLog
-WARNING: Exception error: java.lang.ArrayIndexOutOfBoundsException: 1
-Oct 15, 2017 8:05:45 PM enamel.ScenarioParser errorLog
-INFO: Expected format: Cell num1 
- Button num2 
- as the first two lines of the scenarion file, and where num1 and num2 are positive integers. 
-Did not receive such a format in the scenario file and program had to end due to the incorrectfile format.
+Nov 27, 2017 11:01:23 AM enamel.ScenarioParser errorLog
+WARNING: Exception error : java.lang.IllegalArgumentException: Non standard character
+Nov 27, 2017 11:01:23 AM enamel.ScenarioParser errorLog
+INFO: Strange error occurred if you are able to read this message. Possibilities could include possible file corruption, or that you have enter characters that could not be read/interpreted.

@@ -50,8 +50,9 @@ public class GUI extends JFrame {
 	public GUI() {
 		this.setTitle("Authoring App");
 		this.getAccessibleContext().setAccessibleName("Authoring App");
-		this.getAccessibleContext().setAccessibleDescription("Welcome to the Treasure Box Braille Authoring App. To scroll through the options, use the tab key. Press the space bar to select an option.");
-		
+		this.getAccessibleContext().setAccessibleDescription(
+				"Welcome to the Treasure Box Braille Authoring App. To scroll through the options, use the tab key. Press the space bar to select an option.");
+
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		
 		// Create the colour mapper
