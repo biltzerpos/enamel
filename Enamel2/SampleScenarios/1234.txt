@@ -1,0 +1,16 @@
+Cell 2
+Button 2
+222
+
+/~reset-buttons
+hi
+/~pause:1
+/~disp-string:a
+/~73-start
+/~skip-button:0 73-good
+/~skip-button:1 73-bad
+/~user-input
+/~73-bad
+try it again 
+/~skip:73-start
+/~73-good

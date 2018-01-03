@@ -1,0 +1,77 @@
+Cell 1
+Button 1
+
+Directional questions
+
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise:0 1 2 3
+These are pins 1, 2 and 3. Press the button to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise:0 4 5 6
+These are pins 4, 5 and 6. 
+/~pause:1
+Press the button to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise:0 1 2
+These are pins 1 and 2. 
+/~pause:1
+Press the button to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise:0 4 5
+These are pins 4 and 5.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise:0 2 4 5
+These are pins 2, 4 and 5.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise:0 1 2 5
+These are pins 1, 2 and 5.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+That's the end of Directional questions!
+/~disp-cell-clear:0
