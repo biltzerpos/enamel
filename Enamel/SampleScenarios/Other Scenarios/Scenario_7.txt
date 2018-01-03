@@ -1,0 +1,69 @@
+Cell 1
+Button 1
+
+Two pins questions
+
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise2:0 1 3
+These are pins 1 and 3.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise2:0 2 5
+These are pins 2 and 5.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise2:0 3 6
+These are pins 3 and 6.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise2:0 1 3
+These are pins 1 and 3.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise2:0 3 6
+These are pins 3 and 6.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~disp-cell-clear:0
+/~pause:1
+/~disp-cell-raise2:0 2 5
+These are pins 2 and 5.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+That's the end of two pins questions. 

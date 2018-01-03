@@ -1,0 +1,82 @@
+Cell 5
+Button 3
+The Adventures of the High Seas
+
+/~pause:1
+/~disp-string:aoo
+/~set-voice:2
+What is the answer to braille one?
+The choices are A, B
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~user-input
+
+/~ONEE
+/~sound:correct.wav
+Correct
+/~skip:NEXTT
+ 
+/~TWOO
+/~sound:wrong.wav
+Incorrect, the correct answer was A
+/~skip:NEXTT
+
+
+
+/~NEXTT
+
+/~disp-clearAll
+/~disp-string:yes
+/~set-voice:3
+/~repeat
+Moving on to the next question. What is the answer to braille two?
+The choices are S, E
+Press button two to repeat the question
+/~endrepeat
+
+/~reset-buttons
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~repeat-button:2
+/~user-input
+
+/~ONEE
+/~sound:wrong.wav
+Incorrect, the correct answer was E
+/~skip:NEXTT
+
+/~TWOO
+/~sound:correct.wav
+Correct
+/~skip:NEXTT
+
+
+/~NEXTT
+/~disp-clearAll
+/~disp-cell-pins:2 10101010
+/~disp-cell-char:0 A
+/~disp-cell-char:1 T
+/~reset-buttons
+
+Time for the last question. Which of the braille cell represents T?
+The choices are braille cell one, braille cell two
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~user-input
+
+/~TWOO
+/~sound:correct.wav
+Correct
+/~skip:NEXTT
+
+/~ONEE
+/~sound:wrong.wav
+Incorrect, the correct answer was braille cell one
+/~skip:NEXTT
+
+
+/~NEXTT
+/~disp-cell-clear:1
+/~disp-cell-raise:1 1
+/~disp-cell-lower:1 8
+You have completed all the questions!

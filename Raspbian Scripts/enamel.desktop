@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Enamel Player Autostart
+Exec=/home/pi/startSCALP.sh

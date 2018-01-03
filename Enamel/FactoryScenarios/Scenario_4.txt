@@ -1,0 +1,99 @@
+Cell 1
+Button 4
+Adventure of the High Seas
+ 
+/~set-voice:1
+Welcome, sailor! Today we set out on the high seas with Captain A, 
+/~disp-cell-char:0 A
+First Mate B,
+/~disp-cell-char:0 B
+and their crew.
+I’m skipper Z 
+/~disp-cell-char:0 Z
+and I’ll be here during the journey to describe everything. I’m just joining the crew today
+as well, so Ill be learning along with you here. Let’s meet the Captain A 
+/~disp-cell-char:0 A
+and the First Mate B!
+/~disp-cell-char:0 B
+ 
+/~set-voice:2
+Ahoy, sailor and skipper Z! I’m Captain A. 
+/~disp-cell-char:0 A
+I’m excited for some new crew members for this journey.
+We hope to find a magnificent treasure at the end of it! Has First Mate B 
+/~disp-cell-char:0 B
+introduced himself?
+ 
+/~set-voice:3
+Not yet, Captain A! 
+/~disp-cell-char:0 A
+Nice to meet you, sailor! I’m First Mate B,
+/~disp-cell-char:0 B
+first in command to Captain A. 
+/~disp-cell-char:0 A
+We’re setting off on our journey now, so do you understand our names?
+ 
+/~set-voice:1
+Press button 1 to set off on your epic journey!
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~set-voice:2
+Alright, then were off!
+ 
+/~set-voice:1
+Wow, the air feels so soft and cool, I can smell the salt! Do you hear those waves?
+Hold on, what’s that sound, down in the water?
+ 
+/~set-voice:4
+Hello, sailors! I am the MerKing E, 
+/~disp-cell-char:0 E
+lord of the seven seas! This is my
+right hand man, Merman K.
+/~disp-cell-char:0 K
+We come to you with a request.
+ 
+My daughter, the Mermaid P,
+/~disp-cell-char:0 P
+has been captured by an evil pirate crew,
+and we need your help to get her back. Whaddya say?
+ 
+/~set-voice:3
+Well, let’s get to it. We will need to fight them using what we know now of the Braille alphabet.
+So, how do you feel about our names up to now? 
+
+There’s A, 
+/~disp-cell-char:0 A
+/~pause:2
+B,
+/~disp-cell-char:0 B
+/~pause:2
+E, 
+/~disp-cell-char:0 E
+/~pause:2
+K, 
+/~disp-cell-char:0 K
+/~pause:2
+and P. 
+/~disp-cell-char:0 P
+/~pause:2
+Got it?
+
+/~set-voice:1
+Press button 1 to continue and resue Mermaid P!
+
+
+/~skip-button:0 ONEE
+/~repeat-button:1
+/~user-input
+
+/~ONEE
+/~skip:NEXTT
+
+/~NEXTT
+/~set-voice:4
+Thank you, kind pirates! Set sail for the evil pirates, and rescue the Mermaid P!

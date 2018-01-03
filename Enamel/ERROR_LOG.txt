@@ -1,0 +1,4 @@
+Nov 27, 2017 11:01:23 AM enamel.ScenarioParser errorLog
+WARNING: Exception error : java.lang.IllegalArgumentException: Non standard character
+Nov 27, 2017 11:01:23 AM enamel.ScenarioParser errorLog
+INFO: Strange error occurred if you are able to read this message. Possibilities could include possible file corruption, or that you have enter characters that could not be read/interpreted.

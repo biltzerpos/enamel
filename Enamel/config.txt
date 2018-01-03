@@ -1,0 +1,10 @@
+onefileplay=true (done)
+multifilecopy=true (done)
+usbbuffersize=10
+smartclobber=true
+
+#todo - usbbuffersize
+	- wc, if it exceeds $usbbuffersize,
+	- ls -(order in date modified) | (head/tail -1 to grab the first/last file)
+	- rm that file(s) - loop.
+	

@@ -1,0 +1,50 @@
+Cell 3
+Button 2
+The Life of a Circle
+
+/~pause:3
+/~disp-string:bac
+/~set-voice:1
+What is the order of the alphabets on the braille?
+Press button one for a, b, c, button two for b, a, c
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~user-input
+
+/~ONEE
+/~sound:wrong.wav
+Incorrect, the correct answer was b, a, c
+/~skip:NEXTT
+
+/~TWOO
+/~sound:correct.wav
+Correct!
+/~skip:NEXTT
+
+
+/~NEXTT
+
+/~disp-clearAll
+/~disp-cell-char:0 C
+/~reset-buttons
+/~set-voice:2
+
+The first braille displays an alphabet. What is the alphabet?
+Press button one for C, button two for X
+/~skip-button:0 ONEE
+/~skip-button:1 TWOO
+/~user-input
+
+/~ONEE
+/~sound:correct.wav
+Correct!
+/~skip:NEXTT
+
+/~TWOO
+/~sound:wrong.wav
+Incorrect, the correct answer was C
+/~skip:NEXTT
+
+
+/~NEXTT
+You have completed life of circle!
