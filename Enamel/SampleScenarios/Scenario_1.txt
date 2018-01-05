@@ -14,7 +14,7 @@ These are pins 1, 2 and 3, the 3 pins on the left side. Press button 1 to contin
 /~disp-cell-clear:0
 /~pause:1
 /~reset-buttons
-/~disp-cell-raise:0 4 5 6
+/~disp-cell-pins:0 00001110
 These are pins 4, 5 and 6, the 3 pins on the right side. 
 Press button 1 to continue.
 /~skip-button:0 ONEE

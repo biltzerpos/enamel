@@ -40,6 +40,10 @@ import javax.swing.SwingUtilities;
  * @author Team 4: Yassin Mohamed, Qassim Allauddin, Derek Li, Artem Solovey.
  * @author ENAMEL team: Sunjik Lee, Li Yin, Vassilios Tzerpos.
  */
+/**
+ * @author Yassin
+ *
+ */
 public class VisualPlayer extends Player {
 
 	
@@ -51,10 +55,11 @@ public class VisualPlayer extends Player {
 	JPanel centerPanel = new JPanel();
 	JRadioButton[] pins = new JRadioButton[8];
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
+	private boolean displayed = false;
 
 	
 	/**
-	 * Creates and displays a window with <code>brailleCellNumber</code> Braille
+	 * Initializes the parameters for a window with <code>brailleCellNumber</code> Braille
 	 * cells and <code>jbuttonNumber</code> buttons. The two parameters must be
 	 * positive integers.
 	 * 
@@ -66,13 +71,35 @@ public class VisualPlayer extends Player {
 	 *             if one or both of the two parameters is negative or 0
 	 */
 	public VisualPlayer(int brailleCellNumber, int buttonNumber) {
+		
+		super (brailleCellNumber, buttonNumber);
+		this.brailleCellNumber = brailleCellNumber;
+		this.buttonNumber = buttonNumber;
+		displayed = false;
+		
 
-		super(brailleCellNumber, buttonNumber);
+			}
+	
+	public VisualPlayer()
+	{
+		this(1,1);
+	}
+	
+	
+	
+	/**
+	 * Creates and displays the window with <code>brailleCellNumber</code> Braille
+	 * cells and <code>jbuttonNumber</code> buttons.
+	 * 
+	 * 
+	 */
+	public void setup()
+	{
+	
 
 		SwingUtilities.invokeLater(new Runnable() {
-			//@Override
 			public void run() {
-				// TODO Auto-generated method stub
+				
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
@@ -116,9 +143,52 @@ public class VisualPlayer extends Player {
 
 				frame.repaint();
 				frame.setVisible(true);
+				displayed = true;
 			}
 		});
+
 	}
+	
+	/**
+	 * This method is meant for the ScenarioParser class to use to update the
+	 * parameters based on the input. To set the number of cells and buttons on
+	 * the player the constructor <code> VisualPlayer(int, int) </code> should
+	 * instead be used
+	 * 
+	 * @param buttonNumber
+	 */
+	public void setButton(int buttonNumber)
+	{
+		
+		if (!displayed) {
+			if (buttonNumber > 0)
+				this.buttonNumber = buttonNumber;
+			else
+				throw new IllegalArgumentException("Non-positive integer entered.");
+		}
+		
+	}
+	
+	/**
+	 * This method is meant for the ScenarioParser class to use to update the
+	 * parameters based on the input. To set the number of cells and buttons on
+	 * the player the constructor <code> VisualPlayer(int, int) </code> should
+	 * instead be used
+	 * 
+	 * @param cellNumber
+	 */
+	public void setCell(int cellNumber)
+	{
+		if (!displayed) {
+			if (cellNumber > 0)
+				this.brailleCellNumber = cellNumber;
+			else
+				throw new IllegalArgumentException("Non-positive integer entered.");
+		}
+		
+	}
+	
+	
 
 	/**
 	 * Returns a reference to the button at the index passed as argument. The

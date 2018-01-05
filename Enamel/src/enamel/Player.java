@@ -75,6 +75,12 @@ public abstract class Player {
 			brailleList.add(cell);
 		}
 	}
+	
+	public Player()
+	{
+		this (1,1);
+		
+	}
 
 	/**
 	 * Returns a reference to the BrailleCell object at the index passed as
