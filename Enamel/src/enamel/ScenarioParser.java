@@ -32,7 +32,7 @@ public class ScenarioParser {
 		repeatedText = new ArrayList<String>();
 		userInput = false;
 
-		sim = new VisualPlayer();
+		sim = player;
 	}
 
 	/*
