@@ -166,4 +166,9 @@ public abstract class Player {
 	 * 			the reference to the current ScenarioParser object
 	 */
 	public abstract void addRepeatButtonListener(int index, ScenarioParser sp);
+
+	public void setup() {
+		// TODO Auto-generated method stub
+		
+	}
 }

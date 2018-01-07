@@ -1,4 +1,6 @@
-Jan 05, 2018 12:39:44 PM enamel.ScenarioParser errorLog
-WARNING: Exception error : java.lang.InterruptedException: sleep interrupted
-Jan 05, 2018 12:39:44 PM enamel.ScenarioParser errorLog
-INFO: Strange error occurred if you are able to read this message. Possibilities could include possible file corruption, or that you have enter characters that could not be read/interpreted.
+Jan 07, 2018 4:59:53 PM enamel.ScenarioParser errorLog
+WARNING: Exception error: java.lang.ClassCastException: enamel.AudioPlayer cannot be cast to enamel.VisualPlayer
+Jan 07, 2018 4:59:53 PM enamel.ScenarioParser errorLog
+INFO: Expected the directory path of the scenario file to a file exists in the project folder. 
+ Could not find directory to path: FactoryScenarios/Scenario_1.txt 
+ Perhaps you forgot to add the file to the directory or  you are looking for a different directory?

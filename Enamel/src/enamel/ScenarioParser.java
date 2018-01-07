@@ -24,16 +24,59 @@ public class ScenarioParser {
 	public boolean userInput;
 	private String scenarioFilePath;
 	private int score = 0;
+	boolean isVisual;
 
-	public ScenarioParser(Player player) {
+	public ScenarioParser(boolean isVisual) {
 
-		vm = VoiceManager.getInstance();
-		voice = vm.getVoice("kevin16");
-		repeatedText = new ArrayList<String>();
-		userInput = false;
+		String currDir = System.getProperty("user.dir");
+        System.setProperty("mbrola.base", currDir + File.separator + "mbrola");
+        vm = VoiceManager.getInstance();
+        changeVoice ("1");
+        repeatedText = new ArrayList<String> ();
+        userInput = false;
 
-		sim = player;
+		
 	}
+	
+	
+	private void changeVoice (String paramArgs)
+    {
+        //Male voice
+        try
+        {
+            int voiceNum = Integer.parseInt (paramArgs);
+            if (voiceNum == 1)
+            {
+                voice = vm.getVoice ("kevin16");
+            }
+            //Female voice
+            else if (voiceNum == 2)
+            {
+                voice = vm.getVoice("mbrola_us1");
+            }
+            //Slightly different male voice
+            else if (voiceNum == 3)
+            {
+                voice = vm.getVoice("mbrola_us2");
+            }
+            //Slightly more different male voice
+            else if (voiceNum == 4)
+            {
+                voice = vm.getVoice("mbrola_us3");
+            }
+            else 
+            {
+                errorLog ("Exception error: IllegalArgumentException", "Expected options are 1, 2, 3 or 4 as those "
+                    + "are the only voice options available. Received input: " + paramArgs);
+            }
+            voice.allocate();
+        }
+        catch (Exception e)
+        {
+            errorLog ("Exception error: " + e.toString(), "Expected format: \n num1 \n where num1 is either 1, 2, 3 or 4."
+                    + "\n Received input: " + paramArgs);
+        }
+    }
 
 	/*
 	 * This method exits the program.
@@ -537,9 +580,10 @@ public class ScenarioParser {
 		try {
 			cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
 			buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
-			((VisualPlayer) sim).setCell(cellNum);
-			((VisualPlayer) sim).setButton(buttonNum);
-
+			//if (isVisual)
+			sim = new VisualPlayer(cellNum, buttonNum);
+			//else
+			// sim =  new AudioPlayer(cellNum, buttonNum);
 		} catch (Exception e) {
 
 			errorLog("Exception error: " + e.toString(),
@@ -562,7 +606,6 @@ public class ScenarioParser {
 			String absolutePath = f.getAbsolutePath();
 			scenarioFilePath = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
 			setCellAndButton();
-			((VisualPlayer) sim).setup();
 			play();
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),

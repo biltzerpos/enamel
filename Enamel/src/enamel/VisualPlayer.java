@@ -72,34 +72,12 @@ public class VisualPlayer extends Player {
 	 */
 	public VisualPlayer(int brailleCellNumber, int buttonNumber) {
 		
-		super (brailleCellNumber, buttonNumber);
-		this.brailleCellNumber = brailleCellNumber;
-		this.buttonNumber = buttonNumber;
-		displayed = false;
-		
-
-			}
-	
-	public VisualPlayer()
-	{
-		this(1,1);
-	}
-	
-	
-	
-	/**
-	 * Creates and displays the window with <code>brailleCellNumber</code> Braille
-	 * cells and <code>jbuttonNumber</code> buttons.
-	 * 
-	 * 
-	 */
-	public void setup()
-	{
-	
+		super(brailleCellNumber, buttonNumber);
 
 		SwingUtilities.invokeLater(new Runnable() {
+			//@Override
 			public void run() {
-				
+				// TODO Auto-generated method stub
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
@@ -143,11 +121,16 @@ public class VisualPlayer extends Player {
 
 				frame.repaint();
 				frame.setVisible(true);
-				displayed = true;
 			}
 		});
+		
 
-	}
+			}
+	
+	
+	
+	
+
 	
 	/**
 	 * This method is meant for the ScenarioParser class to use to update the
