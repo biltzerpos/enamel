@@ -6,7 +6,6 @@ Simple alphabet questions
 /~pause:1
 /~disp-cell-clear:0
 /~disp-string:a
-/~set-voice:1
 Is the braille cell displaying the letter a?
 Press the button 1 for true, the button 2 for false.
 /~skip-button:0 ONEE
@@ -20,14 +19,13 @@ That's correct! The letter displayed on the cell was a.
  
 /~TWOO
 /~sound:wrong.wav
-Sorry! That's incorrect. The correct answer was true; the cell is displaying the character a.
+Sorry! That's incorrect. The cell is displaying the character a.
 /~skip:NEXTT
 
 /~NEXTT
 
 /~disp-cell-clear:0
 /~disp-string:d
-/~set-voice:1
 Is the braille cell displaying the letter z?
 Press the button 1 for true, the button 2 for false.
 /~skip-button:0 ONEE
@@ -36,19 +34,18 @@ Press the button 1 for true, the button 2 for false.
 
 /~ONEE
 /~sound:wrong.wav
-Oh no! That's incorrect. The letter is actually displaying the letter d, not z.
+Oh no! That's incorrect. The cell is actually displaying the letter d, not z.
 /~skip:NEXTT
  
 /~TWOO
 /~sound:correct.wav
-That's right! The letter is actually displaying the letter d, not z.
+That's right! The cell is actually displaying the letter d, not z.
 /~skip:NEXTT
 
 /~NEXTT
 
 /~disp-cell-clear:0
 /~disp-string:h
-/~set-voice:1
 Is the braille cell displaying the letter h, or is it displaying the letter t?
 Press the button 1 for h, the button 2 for t.
 /~skip-button:0 ONEE
@@ -57,14 +54,14 @@ Press the button 1 for h, the button 2 for t.
 
 /~ONEE
 /~sound:correct.wav
-That's right! The letter being displayed is the letter h. The letter t looks like this
+That's right! The letter being displayed is the letter h. The letter t looks like this.
 /~disp-cell-clear:0
 /~disp-string:t
 /~skip:NEXTT
  
 /~TWOO
 /~sound:wrong.wav
-Sorry! That's incorrect. The letter being displayed is the letter h. The letter t looks like this
+Sorry! That's incorrect. The letter being displayed is the letter h. The letter t looks like this.
 /~disp-cell-clear:0
 /~disp-string:t
 /~pause:1

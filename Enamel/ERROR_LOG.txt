@@ -1,6 +1,0 @@
-Jan 07, 2018 4:59:53 PM enamel.ScenarioParser errorLog
-WARNING: Exception error: java.lang.ClassCastException: enamel.AudioPlayer cannot be cast to enamel.VisualPlayer
-Jan 07, 2018 4:59:53 PM enamel.ScenarioParser errorLog
-INFO: Expected the directory path of the scenario file to a file exists in the project folder. 
- Could not find directory to path: FactoryScenarios/Scenario_1.txt 
- Perhaps you forgot to add the file to the directory or  you are looking for a different directory?

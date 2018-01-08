@@ -23,61 +23,20 @@ public class ScenarioParser {
 	private ArrayList<String> repeatedText;
 	public boolean userInput;
 	private String scenarioFilePath;
-	private int score = 0;
-	boolean isVisual;
+	private boolean isVisual;
 
 	public ScenarioParser(boolean isVisual) {
 
-		String currDir = System.getProperty("user.dir");
-        System.setProperty("mbrola.base", currDir + File.separator + "mbrola");
+		//String currDir = System.getProperty("user.dir");
+        //System.setProperty("mbrola.base", currDir + File.separator + "lib/mbrola.jar");
         vm = VoiceManager.getInstance();
-        changeVoice ("1");
+        voice = vm.getVoice ("kevin16");
+        voice.allocate();
         repeatedText = new ArrayList<String> ();
         userInput = false;
-
-		
+        this.isVisual = isVisual;
 	}
 	
-	
-	private void changeVoice (String paramArgs)
-    {
-        //Male voice
-        try
-        {
-            int voiceNum = Integer.parseInt (paramArgs);
-            if (voiceNum == 1)
-            {
-                voice = vm.getVoice ("kevin16");
-            }
-            //Female voice
-            else if (voiceNum == 2)
-            {
-                voice = vm.getVoice("mbrola_us1");
-            }
-            //Slightly different male voice
-            else if (voiceNum == 3)
-            {
-                voice = vm.getVoice("mbrola_us2");
-            }
-            //Slightly more different male voice
-            else if (voiceNum == 4)
-            {
-                voice = vm.getVoice("mbrola_us3");
-            }
-            else 
-            {
-                errorLog ("Exception error: IllegalArgumentException", "Expected options are 1, 2, 3 or 4 as those "
-                    + "are the only voice options available. Received input: " + paramArgs);
-            }
-            voice.allocate();
-        }
-        catch (Exception e)
-        {
-            errorLog ("Exception error: " + e.toString(), "Expected format: \n num1 \n where num1 is either 1, 2, 3 or 4."
-                    + "\n Received input: " + paramArgs);
-        }
-    }
-
 	/*
 	 * This method exits the program.
 	 */
@@ -202,31 +161,6 @@ public class ScenarioParser {
 			} else if (fileLine.length() >= 21 && fileLine.substring(0, 21).equals("/~disp-cell-lowerPins")) {
 				dispCellRaise("0");
 			}
-			// The key phrase to give increment score by one.
-			else if (fileLine.length() >= 7 && fileLine.substring(0, 7).equals("/~point")) {
-				incrementScore();
-			}
-			// The key phrase to speak the current score.
-			else if (fileLine.length() >= 11 && fileLine.substring(0, 11).equals("/~say-score")) {
-				speak(((Integer) this.score).toString());
-			}
-			// The key phrase to log an incorrect answer.
-			else if (fileLine.length() >= 11 && fileLine.substring(0, 11).equals("/~incorrect")) {
-				//
-			}
-			// The key phrase to log a correct answer.
-			else if (fileLine.length() >= 9 && fileLine.substring(0, 9).equals("/~correct")) {
-				//
-			}
-			// The key phrase to log a button press.
-			else if (fileLine.length() >= 6 && fileLine.substring(0, 6).equals("/~next")) {
-				//
-			}
-
-			// The key phrase to speak the final score.
-			else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~say-final-score")) {
-				speak("Your final score is " + this.score);
-			}
 			// The key phrase to wait for the program to receive a user's input.
 			else if (fileLine.length() >= 12 && fileLine.substring(0, 12).equals("/~user-input")) {
 				userInput = true;
@@ -301,15 +235,6 @@ public class ScenarioParser {
 							+ " the button number to receive the action listener and str1 is the identifier for"
 							+ " where to skip to in the scenario file. \n Received input: " + paramArgs);
 		}
-	}
-
-	/*
-	 * This method corresponds to the /~point increments the user's score by 1.
-	 */
-
-	private void incrementScore() {
-		this.score++;
-
 	}
 
 	/*
@@ -555,9 +480,9 @@ public class ScenarioParser {
 			errorLog("Exception error: " + e.toString(),
 					"Expected the name of the file (including extension) but instead got: " + sound
 							+ "\n Perhaps you forgot to include the extension of the sound file with the name? Other "
-							+ "possibilities include: \n Incorrect name of the file, the file not being in the same location"
-							+ "as the project folder, or an attempt to play an unsupported sound file. (.wav file formats"
-							+ "supported, not sure about other)");
+							+ "possibilities include: \n Incorrect name of the file, the file not being in the same location "
+							+ "as the project folder, or an attempt to play an unsupported sound file. (only .wav files"
+							+ "are supported at this time)");
 		}
 	}
 
@@ -580,10 +505,10 @@ public class ScenarioParser {
 		try {
 			cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
 			buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
-			//if (isVisual)
-			sim = new VisualPlayer(cellNum, buttonNum);
-			//else
-			// sim =  new AudioPlayer(cellNum, buttonNum);
+			if (isVisual)
+			    sim = new VisualPlayer(cellNum, buttonNum);
+			else
+			    sim =  new AudioPlayer(cellNum, buttonNum);
 		} catch (Exception e) {
 
 			errorLog("Exception error: " + e.toString(),

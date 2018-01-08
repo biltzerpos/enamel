@@ -69,17 +69,14 @@ public abstract class Player {
 		this.brailleCellNumber = brailleCellNumber;
 		this.buttonNumber = buttonNumber;
 
-		System.out.println(brailleCellNumber + " " + buttonNumber);
 		for (int i = 0; i < brailleCellNumber; i++) {
 			BrailleCell cell = new BrailleCell();
 			brailleList.add(cell);
 		}
 	}
 	
-	public Player()
-	{
-		this (1,1);
-		
+	public Player() {
+	    this(1,1);
 	}
 
 	/**
@@ -127,6 +124,7 @@ public abstract class Player {
 		for (int i = 0; i < this.brailleCellNumber && i < aString.length(); i++) {
 			this.brailleList.get(i).displayCharacter(aString.charAt(i));
 		}
+		refresh();
 	}
 	/**
 	 * An abstract method to refresh the current implementation's "display" of 

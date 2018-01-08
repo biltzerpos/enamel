@@ -77,7 +77,6 @@ public class VisualPlayer extends Player {
 		SwingUtilities.invokeLater(new Runnable() {
 			//@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
@@ -125,7 +124,7 @@ public class VisualPlayer extends Player {
 		});
 		
 
-			}
+}
 	
 	
 	
@@ -236,7 +235,7 @@ public class VisualPlayer extends Player {
 			public void actionPerformed(ActionEvent arg0) {
 				if (sp.userInput) {
 					sp.skip(param);
-					logger.log(Level.INFO, "Button {0} was pressed", index+1);
+					//logger.log(Level.INFO, "Button {0} was pressed", index+1);
 					sp.userInput = false;
 				}
 			}

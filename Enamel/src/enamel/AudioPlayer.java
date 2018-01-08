@@ -1,16 +1,10 @@
 package enamel;
 
-
-/*
- * Placeholder
- * 
- */
 public class AudioPlayer extends Player {
 	
 	
 	public AudioPlayer(int cellNum, int buttonNum)
 	{
-		//Placeholder
 	}
 
 	@Override
