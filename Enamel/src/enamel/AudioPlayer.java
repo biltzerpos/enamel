@@ -2,7 +2,7 @@ package enamel;
 
 /**
  * 
- * @author Team 15: Gianluca Corvinelli, Mark Savin, Aya Allan
+ * @author Team 15: Gianluca Corvinelli, Mark Savin, Aya Allan 
  *
  */
 
