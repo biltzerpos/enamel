@@ -11,6 +11,7 @@ public class AudioPlayer extends Player {
 	public void refresh() {
 		// TODO Auto-generated method stub
 		//test
+		int i = 0;
 	}
 
 	@Override
