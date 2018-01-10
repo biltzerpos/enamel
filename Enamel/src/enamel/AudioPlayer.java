@@ -1,5 +1,11 @@
 package enamel;
 
+/**
+ * 
+ * @author Team 15: Gianluca Corvinelli, Mark Savin, Aya Allan
+ *
+ */
+
 public class AudioPlayer extends Player {
 	
 	
