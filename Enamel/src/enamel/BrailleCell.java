@@ -41,7 +41,7 @@ public class BrailleCell {
 	 * with the appropriate alphabet, which in this case is the English alphabet,
 	 * and the corresponding String representations of the braille cell.
 	 */
-	//Constructor
+	//Constructors
 	public BrailleCell() {
 		this.initializeAlphabet();
 		
