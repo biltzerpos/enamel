@@ -4,10 +4,7 @@ import java.io.*;
 import java.util.*;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import java.text.SimpleDateFormat;
-
 import java.util.logging.*;
-import java.util.logging.Formatter;
 
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
@@ -18,7 +15,7 @@ public class ScenarioParser {
 	private Scanner fileScanner;
 	private int cellNum;
 	private int buttonNum;
-	public Player sim;
+	public Player player;
 	private boolean repeat;
 	private ArrayList<String> repeatedText;
 	public boolean userInput;
@@ -50,8 +47,8 @@ public class ScenarioParser {
 	 * were created, to remove their action listeners.
 	 */
 	private void resetButtons() {
-		for (int i = 0; i < sim.buttonNumber; i++) {
-			sim.removeButtonListener(i);
+		for (int i = 0; i < player.buttonNumber; i++) {
+			player.removeButtonListener(i);
 		}
 	}
 
@@ -132,7 +129,7 @@ public class ScenarioParser {
 			}
 			// The key phrase to clear the display of all of the braille cells.
 			else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~disp-clearAll")) {
-				sim.clearAllCells();
+				player.clearAllCells();
 			}
 			// The key phrase to set a Braille cell to a string.
 			else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-pins:")) {
@@ -140,7 +137,7 @@ public class ScenarioParser {
 			}
 			// The key phrase to represent a string in Braille.
 			else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
-				sim.displayString(fileLine.substring(14));
+				player.displayString(fileLine.substring(14));
 			}
 			// The key phrase to change the cell to represent a character in
 			// Braille.
@@ -197,12 +194,12 @@ public class ScenarioParser {
 	private void repeatButton(String paramArgs) {
 		try {
 			int paramIndex = Integer.parseInt(paramArgs);
-			if (paramIndex < 0 || paramIndex > sim.buttonNumber - 1) {
+			if (paramIndex < 0 || paramIndex > player.buttonNumber - 1) {
 				errorLog("Exception error: IllegalArgumentException", "Expected button number to be the range of 0 .. "
-						+ (sim.buttonNumber - 1) + "\n Received input : " + paramArgs);
+						+ (player.buttonNumber - 1) + "\n Received input : " + paramArgs);
 			}
 
-			sim.addRepeatButtonListener(paramIndex, this);
+			player.addRepeatButtonListener(paramIndex, this);
 
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),
@@ -221,13 +218,13 @@ public class ScenarioParser {
 		try {
 			String[] param = paramArgs.split("\\s");
 			int paramIndex = Integer.parseInt(param[0]);
-			if (paramIndex < 0 || paramIndex > sim.buttonNumber - 1 || param.length > 2) {
+			if (paramIndex < 0 || paramIndex > player.buttonNumber - 1 || param.length > 2) {
 				errorLog("Exception error: IllegalArgumentException",
-						"Expected button number to be the range of 0 .. " + (sim.buttonNumber - 1)
+						"Expected button number to be the range of 0 .. " + (player.buttonNumber - 1)
 								+ "\n Or the parameters to have two values. " + "\n Received input: " + paramArgs);
 			}
 
-			sim.addSkipButtonListener(paramIndex, param[1], this);
+			player.addSkipButtonListener(paramIndex, param[1], this);
 
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),
@@ -246,10 +243,10 @@ public class ScenarioParser {
 			
 			String[] param = paramArgs.split("\\s");
 			int paramIndex = Integer.parseInt(param[0]);
-			if (param.length > 2 || paramIndex < 0 || paramIndex > sim.brailleCellNumber - 1
+			if (param.length > 2 || paramIndex < 0 || paramIndex > player.brailleCellNumber - 1
 					|| param[1].length() != 8) {
 				errorLog("Exception error: IllegalArgumentException",
-						"Expected cell number to be the range of 0 .. " + (sim.brailleCellNumber - 1)
+						"Expected cell number to be the range of 0 .. " + (player.brailleCellNumber - 1)
 								+ "\n Or the string to be an 8 character sequence of "
 								+ "1's and 0's. \n Received input : " + paramArgs);
 			}
@@ -257,13 +254,13 @@ public class ScenarioParser {
 			for (int i = 0; i <= 7; i++) {
 				if (param[1].charAt(i) != '0' && param[1].charAt(i) != '1') {
 					errorLog("Exception error: IllegalArgumentException",
-							"Expected cell number to be the range of 0 .. " + (sim.brailleCellNumber - 1)
+							"Expected cell number to be the range of 0 .. " + (player.brailleCellNumber - 1)
 									+ "\n Or the string to be an 8 character sequence of "
 									+ "1's and 0's. \n Received input : " + paramArgs);
 				}
 			}
-			sim.getCell(paramIndex).setPins(param[1]);
-			sim.refresh();
+			player.getCell(paramIndex).setPins(param[1]);
+			player.refresh();
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),
 					"Expected format: \n num1 string1 \n where num1 is the cell affected, "
@@ -283,14 +280,14 @@ public class ScenarioParser {
 			String[] param = paramArgs.split("\\s");
 			int paramIndex = Integer.parseInt(param[0]);
 			char dispChar = param[1].charAt(0);
-			if (paramIndex > sim.brailleCellNumber - 1 || paramIndex < 0 || param[1].length() > 1) {
+			if (paramIndex > player.brailleCellNumber - 1 || paramIndex < 0 || param[1].length() > 1) {
 				errorLog("Exception error: IllegalArgumentException",
-						"Expected cell number to be the range of 0 .. " + (sim.brailleCellNumber - 1)
+						"Expected cell number to be the range of 0 .. " + (player.brailleCellNumber - 1)
 								+ "\n Or the character to be any letter of the English"
 								+ "alphabet, either lower or upper case. \n Received input : " + paramArgs);
 			}
-			sim.getCell(paramIndex).displayCharacter(dispChar);
-			sim.refresh();
+			player.getCell(paramIndex).displayCharacter(dispChar);
+			player.refresh();
 
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),
@@ -310,13 +307,13 @@ public class ScenarioParser {
 			String[] param = paramArgs.split("\\s");
 			int paramIndex = Integer.parseInt(param[0]);
 			int pinNum = Integer.parseInt(param[1]);
-			if (paramIndex > sim.brailleCellNumber - 1 || paramIndex < 0 || param.length > 7) {
+			if (paramIndex > player.brailleCellNumber - 1 || paramIndex < 0 || param.length > 7) {
 				errorLog("Exception error: IllegalArgumentException",
-						"Expected cell number to be the range of 0 .. " + (sim.brailleCellNumber - 1)
+						"Expected cell number to be the range of 0 .. " + (player.brailleCellNumber - 1)
 								+ "\n Or pin number to be the range of 1 .. 8 \n Received input : " + paramArgs);
 			}
-			sim.getCell(paramIndex).raiseOnePin(pinNum);
-			sim.refresh();
+			player.getCell(paramIndex).raiseOnePin(pinNum);
+			player.refresh();
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),
 					"Expected format: \n num1 num2 \n where num1 is the cell affected, "
@@ -332,12 +329,12 @@ public class ScenarioParser {
 	private void dispCellClear(String paramArgs) {
 		try {
 			int cellIndex = Integer.parseInt(paramArgs);
-			if (cellIndex < 0 || cellIndex > sim.brailleCellNumber - 1) {
+			if (cellIndex < 0 || cellIndex > player.brailleCellNumber - 1) {
 				errorLog("Exception error: IllegalArgumentException", "Expected cell number to be in the range"
-						+ " of 0 .. " + (sim.brailleCellNumber - 1) + "\n Received cell number was: " + cellIndex);
+						+ " of 0 .. " + (player.brailleCellNumber - 1) + "\n Received cell number was: " + cellIndex);
 			}
-			sim.getCell(cellIndex).clear();
-			sim.refresh();
+			player.getCell(cellIndex).clear();
+			player.refresh();
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(), "Expected format: num1 \n where num1 is the cell affected, "
 					+ "and that num1 is a valid integer. Received format was: " + paramArgs);
@@ -353,14 +350,14 @@ public class ScenarioParser {
 			String[] param = paramArgs.split("\\s");
 			int paramIndex = Integer.parseInt(param[0]);
 			int pinNum = Integer.parseInt(param[1]);
-			if (paramIndex > sim.brailleCellNumber - 1 || paramIndex < 0 || pinNum < 1 || pinNum > 8
+			if (paramIndex > player.brailleCellNumber - 1 || paramIndex < 0 || pinNum < 1 || pinNum > 8
 					|| param.length > 2) {
 				errorLog("Exception error: IllegalArgumentException",
-						"Expected cell number to be the range of 0 .. " + (sim.brailleCellNumber - 1)
+						"Expected cell number to be the range of 0 .. " + (player.brailleCellNumber - 1)
 								+ "\n Or pin number to be the range of 1 .. 8 \n Received input : " + paramArgs);
 			}
-			sim.getCell(paramIndex).lowerOnePin(pinNum);
-			sim.refresh();
+			player.getCell(paramIndex).lowerOnePin(pinNum);
+			player.refresh();
 
 		} catch (Exception e) {
 			errorLog("Exception error: " + e.toString(),
@@ -506,9 +503,9 @@ public class ScenarioParser {
 			cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
 			buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
 			if (isVisual)
-			    sim = new VisualPlayer(cellNum, buttonNum);
+			    player = new VisualPlayer(cellNum, buttonNum);
 			else
-			    sim =  new AudioPlayer(cellNum, buttonNum);
+			    player =  new AudioPlayer(cellNum, buttonNum);
 		} catch (Exception e) {
 
 			errorLog("Exception error: " + e.toString(),
