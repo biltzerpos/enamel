@@ -1,7 +1,0 @@
-Cell 1
-Button 5
-test
-
-/~disp-cell-pins:0 10000000
-/~pause:5
-/~disp-cell-pins:0 01110010
