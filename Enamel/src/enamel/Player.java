@@ -9,7 +9,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
- * Group Members: Sanjay Paraboo, Damanveer Bharaj, Pengyuan Guo.
+ * Group Members: Sanjay Paraboo, Damanveer Bharaj, Pengyuan Guo. Our group has 3 members
  * 
 * This class provides abstract and concrete methods for simulating a braille cell.
 * <p>
