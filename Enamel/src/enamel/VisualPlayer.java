@@ -1,5 +1,5 @@
 package enamel;
-//This is a test by Qasim
+//This is a test by Qasimm
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
