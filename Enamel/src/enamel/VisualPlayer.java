@@ -1,5 +1,5 @@
 package enamel;
-//This is a test by Qasim
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -174,7 +174,7 @@ public class VisualPlayer extends Player {
 
 	/**
 	 * Returns a reference to the button at the index passed as argument. The
-	 * main purpose of providing this method is so the client can add
+	 *  purpose of providing this method is so the client can add
 	 * actionListeners to the button. Buttons are numbered from left to right as
 	 * they appear in the frame, from 0 to (bbuttonNumber-1), bbuttonNumber
 	 * being the number of buttons initialized by the constructor.
