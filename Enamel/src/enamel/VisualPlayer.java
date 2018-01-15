@@ -1,5 +1,4 @@
 package enamel;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -56,7 +55,6 @@ public class VisualPlayer extends Player {
 	JRadioButton[] pins = new JRadioButton[8];
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
 	private boolean displayed = false;
-
 	
 	/**
 	 * Initializes the parameters for a window with <code>brailleCellNumber</code> Braille
@@ -108,14 +106,20 @@ public class VisualPlayer extends Player {
 					if (i == (brailleCellNumber - 1))
 						frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 				}
-
+//**********************************************************
+				JButton skip= new JButton("Skip");
+				buttonList.add(skip);
+				southPanel.add(skip);
+//**********************************************************
 				for (int i = 0; i < buttonNumber; i++) {
 					JButton button = new JButton("" + (i + 1));
 
 					buttonList.add(button);
 					southPanel.add(button);
 				}
-
+				
+				
+				
 				frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
 
 				frame.repaint();
