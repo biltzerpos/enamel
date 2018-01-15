@@ -108,12 +108,13 @@ public class VisualPlayer extends Player {
 						frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 				}
 //**********************************************************
-				JButton skip= new JButton("Skip");
-				buttonList.add(skip);
-				southPanel.add(skip);
+				//JButton skip= new JButton("Skip");
+				//buttonList.add(skip);
+				//southPanel.add(skip);
 //**********************************************************
+				String[] buttonStr = {"Refresh", "Skip", "Repeat", "Remove"};
 				for (int i = 0; i < buttonNumber; i++) {
-					JButton button = new JButton("" + (i + 1));
+					JButton button = new JButton(buttonStr[i]);
 
 					buttonList.add(button);
 					southPanel.add(button);
