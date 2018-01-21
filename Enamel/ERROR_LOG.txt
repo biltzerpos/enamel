@@ -1,4 +1,4 @@
-Jan 15, 2018 12:30:21 PM enamel.ScenarioParser errorLog
+Jan 21, 2018 4:29:36 PM enamel.ScenarioParser errorLog
 WARNING: Exception error : java.lang.InterruptedException: sleep interrupted
-Jan 15, 2018 12:30:21 PM enamel.ScenarioParser errorLog
+Jan 21, 2018 4:29:36 PM enamel.ScenarioParser errorLog
 INFO: Strange error occurred if you are able to read this message. Possibilities could include possible file corruption, or that you have enter characters that could not be read/interpreted.

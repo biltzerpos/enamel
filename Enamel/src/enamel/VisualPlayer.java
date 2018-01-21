@@ -112,9 +112,9 @@ public class VisualPlayer extends Player {
 				//buttonList.add(skip);
 				//southPanel.add(skip);
 //**********************************************************
-				String[] buttonStr = {"Refresh", "Skip", "Repeat", "Remove"};
+				//String[] buttonStr = {"Refresh", "Skip", "Repeat", "Remove"};
 				for (int i = 0; i < buttonNumber; i++) {
-					JButton button = new JButton(buttonStr[i]);
+					JButton button = new JButton("" + (i + 1));
 
 					buttonList.add(button);
 					southPanel.add(button);
