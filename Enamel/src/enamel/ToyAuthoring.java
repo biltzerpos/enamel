@@ -7,8 +7,7 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 
 public class ToyAuthoring {
-	// test
-	// hello
+	// I changed this comment
 	public static void main(String[] args) {
 		String file = "";
 
