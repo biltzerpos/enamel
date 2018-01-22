@@ -1,22 +1,26 @@
 package authoringApp;
-
+//edited by QASIM Ahmed
+import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.accessibility.Accessible;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import enamel.ScenarioParser;
 
-public class AuthoringApp extends JFrame implements Accessible{
+public class AuthoringApp extends JFrame implements MenuListener, ActionListener{
 
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenuItem newFile, loadFile, saveFile, saveAsFile, exit;
-	private JFileChooser fc = new JFileChooser();
+	private JFileChooser chooser = new JFileChooser();      
+	
 	
 	public static void main(String[] args) {
 		AuthoringApp gui = new AuthoringApp();
@@ -25,33 +29,32 @@ public class AuthoringApp extends JFrame implements Accessible{
 		gui.setSize(960, 540);
 		gui.setTitle("Authoring App");
 	}
-	
+		
 	public AuthoringApp(){
 		drawMenuBar();
-		addActionListeners();
-		setAccessibleSupport();
-	}
+		loadFile.addActionListener(new ActionListener() {
 
-	private void setAccessibleSupport() {
-		// TODO Auto-generated method stub
-		fileMenu.getAccessibleContext().setAccessibleDescription("file");
-		fileMenu.getAccessibleContext().setAccessibleName("file");
-		fileMenu.repaint();
-	}
-
-	private void addActionListeners() {
-		newFile.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				//TO DO: how tf do we make an onclick for these buttons.
-				newFileActionPerformed(evt);
-		    }
-
-			private void newFileActionPerformed(ActionEvent evt) {
-				// TODO Auto-generated method stub
-				fileMenu.getAccessibleContext().getAccessibleDescription();
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Component parent = null;
+				if (e.getSource().equals(loadFile)) {
+					 int returnVal = chooser.showOpenDialog(parent);
+				        if(returnVal == JFileChooser.APPROVE_OPTION) {
+				               System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+				               
+				            }               
+				}
+				
 			}
+			
+			
 		});
+		
 	}
+
+	
+	
+	
 
 	private void drawMenuBar() {
 		setJMenuBar(menuBar);
@@ -64,4 +67,31 @@ public class AuthoringApp extends JFrame implements Accessible{
 		exit = fileMenu.add("Exit");
 		menuBar.add(fileMenu);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void menuCanceled(MenuEvent me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void menuDeselected(MenuEvent me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void menuSelected(MenuEvent me) {
+		
+		
+	}
+
+	
+	
 }

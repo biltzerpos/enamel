@@ -114,7 +114,7 @@ public class VisualPlayer extends Player {
 //**********************************************************
 				//String[] buttonStr = {"Refresh", "Skip", "Repeat", "Remove"};
 				for (int i = 0; i < buttonNumber; i++) {
-					JButton button = new JButton("" + (i + 1));
+					JButton button = new JButton("" + (i+1));
 
 					buttonList.add(button);
 					southPanel.add(button);
