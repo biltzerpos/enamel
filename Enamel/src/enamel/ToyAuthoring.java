@@ -9,7 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import authoringApp.FileParser;
 
 import java.awt.Component;
-import java.io.*;
+import java.io.*; 
 import java.util.*;
 
 public class ToyAuthoring {

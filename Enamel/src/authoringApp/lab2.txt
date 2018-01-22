@@ -3,4 +3,8 @@ Minh
 a
 qasimahmed
 Minh
+<<<<<<< HEAD
 david chen 
+=======
+minh2
+>>>>>>> refs/remotes/origin/master
