@@ -48,8 +48,14 @@ public class AuthoringApp extends JFrame implements MenuListener, ActionListener
 
 				            	    JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
 
-
 				            	   }
+				               else
+				               {
+				            	   final JPanel panel = new JPanel();
+
+				            	    JOptionPane.showMessageDialog(panel, "File accepted", "File recieved", JOptionPane.INFORMATION_MESSAGE);
+				            	   
+				               }
 				               
 				            }               
 				}
