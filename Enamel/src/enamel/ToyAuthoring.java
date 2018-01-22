@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 
 public class ToyAuthoring {
-	//changing lines for the master to copy
+	//conflicting lines
 	public static void main(String[] args) {
 		String file = "";
 
