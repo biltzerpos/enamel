@@ -1,5 +1,8 @@
 package authoringApp;
 
+import java.awt.event.ActionEvent;
+
+import javax.accessibility.Accessible;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -8,7 +11,7 @@ import javax.swing.JMenuItem;
 
 import enamel.ScenarioParser;
 
-public class AuthoringApp extends JFrame{
+public class AuthoringApp extends JFrame implements Accessible{
 
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
@@ -26,13 +29,27 @@ public class AuthoringApp extends JFrame{
 	public AuthoringApp(){
 		drawMenuBar();
 		addActionListeners();
+		setAccessibleSupport();
+	}
+
+	private void setAccessibleSupport() {
+		// TODO Auto-generated method stub
+		fileMenu.getAccessibleContext().setAccessibleDescription("file");
+		fileMenu.getAccessibleContext().setAccessibleName("file");
+		fileMenu.repaint();
 	}
 
 	private void addActionListeners() {
 		newFile.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				//TO DO: how tf do we make an onclick for these buttons.
+				newFileActionPerformed(evt);
 		    }
+
+			private void newFileActionPerformed(ActionEvent evt) {
+				// TODO Auto-generated method stub
+				fileMenu.getAccessibleContext().getAccessibleDescription();
+			}
 		});
 	}
 
