@@ -7,12 +7,12 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 
 public class ToyAuthoring {
-	// conflicting line
+	// hconflicting lines
 	public static void main(String[] args) {
 		String file = "";
 
 		ScenarioParser s = new ScenarioParser(true);
-		JFileChooser chooser = new JFileChooser(new File("FactoryScenarios\\"));
+		JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
 		chooser.setFileFilter(filter);
 		int returnVal = chooser.showOpenDialog(null);
