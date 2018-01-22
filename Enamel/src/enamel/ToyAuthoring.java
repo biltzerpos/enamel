@@ -23,7 +23,6 @@ public class ToyAuthoring {
 		}
 
 		s.setScenarioFile(file);
-		
-		JButton skipBtn = new JButton("Skip");
+
 	}
 }

@@ -112,9 +112,28 @@ public class VisualPlayer extends Player {
 				}
 
 				for (int i = 0; i < buttonNumber; i++) {
-					JButton button = new JButton("" + (i + 1));
-					buttonList.add(button);
-					southPanel.add(button);
+					if (i == 0) {
+						JButton button = new JButton("Skip");
+						buttonList.add(button);
+						southPanel.add(button);
+					}
+					else if (i == 2) {
+						JButton button = new JButton("Refresh");
+						buttonList.add(button);
+						southPanel.add(button);
+					}
+					else if (i == 3) {
+						JButton button = new JButton("Remove");
+						buttonList.add(button);
+						southPanel.add(button);
+					}
+					else if (i == 1) {
+						JButton button = new JButton("Repeat");
+						buttonList.add(button);
+						southPanel.add(button);
+					}
+
+
 				}
 
 				frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
