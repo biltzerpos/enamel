@@ -8,6 +8,9 @@ import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import javax.swing.JButton;
+
+
 /**
 * This class provides abstract and concrete methods for simulating a braille cell.
 * <p>
@@ -163,6 +166,9 @@ public abstract class Player {
 	 * @param sp
 	 * 			the reference to the current ScenarioParser object
 	 */
+	JButton repeatbutton = new JButton();      //by qasim
+	
+	
 	public abstract void addRepeatButtonListener(int index, ScenarioParser sp);
 
 	public void setup() {
