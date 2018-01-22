@@ -12,7 +12,8 @@ public class ToyAuthoring {
 		String file = "";
 
 		ScenarioParser s = new ScenarioParser(true);
-		JFileChooser chooser = new JFileChooser(new File("FactoryScenarios\\"));
+		System.out.println(System.getProperty("os.name"));
+		JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
 		chooser.setFileFilter(filter);
 		int returnVal = chooser.showOpenDialog(null);
