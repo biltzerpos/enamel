@@ -1,16 +1,15 @@
 package authoringApp;
 //edited by QASIM Ahmed
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.*;
+
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
+import org.apache.commons.io.FilenameUtils;
 
 import enamel.ScenarioParser;
 
@@ -41,6 +40,16 @@ public class AuthoringApp extends JFrame implements MenuListener, ActionListener
 					 int returnVal = chooser.showOpenDialog(parent);
 				        if(returnVal == JFileChooser.APPROVE_OPTION) {
 				               System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+				               String ext= FilenameUtils.getExtension(chooser.getSelectedFile().getName());
+				               //System.out.println(ext);
+				               if (ext!="txt" )
+				            	   {
+				            	   final JPanel panel = new JPanel();
+
+				            	    JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
+
+
+				            	   }
 				               
 				            }               
 				}
