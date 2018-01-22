@@ -1,5 +1,5 @@
+//Jan 15th - 2018
 package enamel;
-//This is a test by Qasimm
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -108,10 +108,11 @@ public class VisualPlayer extends Player {
 						frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 				}
 //**********************************************************
-				JButton skip= new JButton("Skip");
-				buttonList.add(skip);
-				southPanel.add(skip);
+				//JButton skip= new JButton("Skip");
+				//buttonList.add(skip);
+				//southPanel.add(skip);
 //**********************************************************
+				//String[] buttonStr = {"Refresh", "Skip", "Repeat", "Remove"};
 				for (int i = 0; i < buttonNumber; i++) {
 					JButton button = new JButton("" + (i+1));
 
@@ -179,7 +180,7 @@ public class VisualPlayer extends Player {
 
 	/**
 	 * Returns a reference to the button at the index passed as argument. The
-	 * main purpose of providing this method is so the client can add
+	 *  purpose of providing this method is so the client can add
 	 * actionListeners to the button. Buttons are numbered from left to right as
 	 * they appear in the frame, from 0 to (bbuttonNumber-1), bbuttonNumber
 	 * being the number of buttons initialized by the constructor.

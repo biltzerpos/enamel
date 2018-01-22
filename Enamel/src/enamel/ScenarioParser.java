@@ -1,3 +1,4 @@
+//Jan 15th - 2018
 package enamel;
 
 import java.io.*;
@@ -393,6 +394,7 @@ public class ScenarioParser {
 					Thread.sleep(400);
 				}
 				fileLine = fileScanner.nextLine();
+				System.out.println("fileLine: " + fileLine);
 				performAction(fileLine);
 			}
 			if (!fileScanner.hasNextLine()) {
@@ -526,7 +528,9 @@ public class ScenarioParser {
 			File f = new File(scenarioFile);
 			fileScanner = new Scanner(f);
 			String absolutePath = f.getAbsolutePath();
+			System.out.println("Absolute Path: " + absolutePath);
 			scenarioFilePath = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
+			System.out.println("File path: " + scenarioFilePath);
 			setCellAndButton();
 			play();
 		} catch (Exception e) {
