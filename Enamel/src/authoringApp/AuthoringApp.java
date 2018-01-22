@@ -3,6 +3,8 @@ package authoringApp;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -13,12 +15,12 @@ import org.apache.commons.io.FilenameUtils;
 
 import enamel.ScenarioParser;
 
-public class AuthoringApp extends JFrame implements MenuListener, ActionListener{
+public class AuthoringApp extends JFrame {
 
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenuItem newFile, loadFile, saveFile, saveAsFile, exit;
-	private JFileChooser chooser = new JFileChooser();      
+	private JFileChooser fileChooser = new JFileChooser();      
 	
 	
 	public static void main(String[] args) {
@@ -29,18 +31,40 @@ public class AuthoringApp extends JFrame implements MenuListener, ActionListener
 		gui.setTitle("Authoring App");
 	}
 		
-	public AuthoringApp(){
+	public AuthoringApp()
+	{
 		drawMenuBar();
-		loadFile.addActionListener(new ActionListener() {
+		addActionListeners();
+		setAccessible();
+	}
+		// Sets accessibility features of objects.
+	private void setAccessible() {
+		// TODO Auto-generated method stub
+		setAccessible(fileMenu, "File", "File drop down menu");
+		setAccessible(loadFile, "Load", "Load a scenario file");
+	}
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+	// Set name and description of a JMenuItem object.
+	private void setAccessible(JMenuItem o, String s, String s2) {
+		o.getAccessibleContext().setAccessibleName(s);
+		o.getAccessibleContext().setAccessibleDescription(s2);
+	}
+
+	// Set name and description of a JMenu object.
+	private void setAccessible(JMenu o, String s, String s2) {
+		o.getAccessibleContext().setAccessibleName(s);
+		o.getAccessibleContext().setAccessibleDescription(s2);
+	}
+	
+	
+	private void addActionListeners() {
+		loadFile.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
 				Component parent = null;
 				if (e.getSource().equals(loadFile)) {
-					 int returnVal = chooser.showOpenDialog(parent);
-				        if(returnVal == JFileChooser.APPROVE_OPTION) {
-				               System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
-				               String ext= FilenameUtils.getExtension(chooser.getSelectedFile().getName());
+					int returnVal = fileChooser.showOpenDialog(parent);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+							   String ext= FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
 				               //System.out.println(ext);
 				               if (!ext.equals("txt") )
 				            	   {
@@ -56,17 +80,16 @@ public class AuthoringApp extends JFrame implements MenuListener, ActionListener
 				            	    JOptionPane.showMessageDialog(panel, "File accepted", "File recieved", JOptionPane.INFORMATION_MESSAGE);
 				            	   
 				               }
-				               
-				            }               
+					
+						File file = fileChooser.getSelectedFile();
+						System.out.println("Directory: " + file);
+					}
 				}
-				
 			}
-			
-			
 		});
-		
 	}
-
+	
+		
 	
 	
 	
@@ -83,29 +106,8 @@ public class AuthoringApp extends JFrame implements MenuListener, ActionListener
 		menuBar.add(fileMenu);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void menuCanceled(MenuEvent me) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void menuDeselected(MenuEvent me) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void menuSelected(MenuEvent me) {
-		
-		
-	}
+	
+	
 
 	
 	
