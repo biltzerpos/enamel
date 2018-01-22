@@ -42,7 +42,7 @@ public class AuthoringApp extends JFrame implements MenuListener, ActionListener
 				               System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
 				               String ext= FilenameUtils.getExtension(chooser.getSelectedFile().getName());
 				               //System.out.println(ext);
-				               if (ext!="txt" )
+				               if (!ext.equals("txt") )
 				            	   {
 				            	   final JPanel panel = new JPanel();
 
