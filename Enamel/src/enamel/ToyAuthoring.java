@@ -37,8 +37,7 @@ public class ToyAuthoring {
 
 	            	    JOptionPane.showMessageDialog(panel, "File accepted", "File recieved", JOptionPane.INFORMATION_MESSAGE);
 	            	    ScenarioParser s = new ScenarioParser(true);
-	            	    s.setScenarioFile(fileChooser.getSelectedFile().getAbsolutePath());
-	            	  
+	            	    s.setScenarioFile(fileChooser.getSelectedFile().getAbsolutePath());  
 
 	            	   
 	               }
