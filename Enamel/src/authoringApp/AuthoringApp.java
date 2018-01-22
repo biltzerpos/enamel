@@ -41,6 +41,7 @@ public class AuthoringApp extends JFrame implements MenuListener, ActionListener
 					 int returnVal = chooser.showOpenDialog(parent);
 				        if(returnVal == JFileChooser.APPROVE_OPTION) {
 				               System.out.println("You chose to open this file: " + chooser.getSelectedFile().getName());
+				               
 				            }               
 				}
 				
