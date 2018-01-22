@@ -40,8 +40,8 @@ public class AuthoringApp extends JFrame {
 		// Sets accessibility features of objects.
 	private void setAccessible() {
 		// TODO Auto-generated method stub
-		setAccessible(fileMenu, "File", "File drop down menu");
-		setAccessible(loadFile, "Load", "Load a scenario file");
+		setAccessible(fileMenu, "File", "drop down menu");
+		setAccessible(loadFile, "Load", "a scenario file");
 	}
 
 	// Set name and description of a JMenuItem object.
@@ -83,6 +83,8 @@ public class AuthoringApp extends JFrame {
 					
 						File file = fileChooser.getSelectedFile();
 						System.out.println("Directory: " + file);
+						FileParser scenarioArray = new FileParser(file);
+						//scenarioArray[] = scenario.getArray();
 					}
 				}
 			}
