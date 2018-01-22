@@ -1,5 +1,5 @@
 package authoringApp;
-//edited by QASIM  AHMED
+//edited by qasim
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
