@@ -7,8 +7,7 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 
 public class ToyAuthoring {
-	// test
-	// test
+	// hconflicting lines
 	public static void main(String[] args) {
 		String file = "";
 
@@ -23,6 +22,7 @@ public class ToyAuthoring {
 		}
 
 		s.setScenarioFile(file);
-
+		
+		JButton skipBtn = new JButton("Skip");
 	}
 }
