@@ -21,7 +21,7 @@ public class ToyAuthoring {
 
     		fileChooser.setCurrentDirectory(f);
 			int returnVal = fileChooser.showOpenDialog(parent);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (returnVal == JFileChooser.APPROVE_OPTION) { 
 				   String ext= FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
 	               //System.out.println(ext);
 	               if (!ext.equals("txt") )
