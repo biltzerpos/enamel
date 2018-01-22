@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 
 public class ToyAuthoring {
-	//conflicting lines
 	public static void main(String[] args) {
 		String file = "";
 
