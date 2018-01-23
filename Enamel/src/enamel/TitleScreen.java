@@ -44,35 +44,35 @@ public class TitleScreen extends JFrame implements ActionListener {
 		panel.setBackground(Color.YELLOW);
 		
 		frame.add(panel);
-			ScenarioParser s = new ScenarioParser(true);
-		s.setScenarioFile("FactoryScenarios/Scenario_1.txt");
+//			ScenarioParser s = new ScenarioParser(true);
+//		s.setScenarioFile("FactoryScenarios/Scenario_1.txt");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		String hold = e.getActionCommand();
-//		frame.dispose();
-//		String file = "";
-//		JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
-//		FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
-//		chooser.setFileFilter(filter);
-//		int returnVal = chooser.showOpenDialog(null);
-//		if (returnVal == JFileChooser.APPROVE_OPTION) {
-//			file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
-//
-//		}
-//		
-//		if(hold.equals("YES"))
-//		{
-//			ScenarioParser s = new ScenarioParser(true);
-//			s.setScenarioFile(file);
-//		}
-//		
-//		else if (hold.equals("NO"))
-//		{
-//			ScenarioParser s = new ScenarioParser(false);
-//			s.setScenarioFile(file);
-//		}
+		String hold = e.getActionCommand();
+		frame.dispose();
+		String file = "";
+		JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
+
+		}
+		
+		if(hold.equals("YES"))
+		{
+			ScenarioParser s = new ScenarioParser(true);
+			s.setScenarioFile(file);
+		}
+		
+		else if (hold.equals("NO"))
+		{
+			ScenarioParser s = new ScenarioParser(false);
+			s.setScenarioFile(file);
+		}
 	}
 
 
