@@ -15,6 +15,7 @@ public class FileParser {
 	
 	// Constructor
 	public FileParser(File file) throws IOException{
+		
 		// TODO Auto-generated constructor stub
 		parseFileIntoArray(file);
 		
