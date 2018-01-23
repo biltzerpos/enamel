@@ -1,4 +1,5 @@
 package authoringApp;
+
 //edited by QASIM Ahmed
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,15 +15,16 @@ import javax.swing.event.MenuListener;
 import org.apache.commons.io.FilenameUtils;
 
 import enamel.ScenarioParser;
+import enamel.ToyAuthoring;
 
 public class AuthoringApp extends JFrame {
 
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
-	private JMenuItem newFile, loadFile, saveFile, saveAsFile, exit;
-	private JFileChooser fileChooser = new JFileChooser();      
-	
-	
+	private JMenu runMenu = new JMenu("Run");
+	private JMenuItem newFile, loadFile, saveFile, saveAsFile, exit, runFile, runSelectFile;
+	private JFileChooser fileChooser = new JFileChooser();
+
 	public static void main(String[] args) {
 		AuthoringApp gui = new AuthoringApp();
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,14 +32,14 @@ public class AuthoringApp extends JFrame {
 		gui.setSize(960, 540);
 		gui.setTitle("Authoring App");
 	}
-		
-	public AuthoringApp()
-	{
+
+	public AuthoringApp() {
 		drawMenuBar();
 		addActionListeners();
 		setAccessible();
 	}
-		// Sets accessibility features of objects.
+
+	// Sets accessibility features of objects.
 	private void setAccessible() {
 		// TODO Auto-generated method stub
 		setAccessible(fileMenu, "File", "drop down menu");
@@ -55,46 +57,70 @@ public class AuthoringApp extends JFrame {
 		o.getAccessibleContext().setAccessibleName(s);
 		o.getAccessibleContext().setAccessibleDescription(s2);
 	}
-	
-	
+
 	private void addActionListeners() {
-		loadFile.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				Component parent = null;
-				if (e.getSource().equals(loadFile)) {
-					int returnVal = fileChooser.showOpenDialog(parent);
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-							   String ext= FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
-				               //System.out.println(ext);
-				               if (!ext.equals("txt") )
-				            	   {
-				            	   final JPanel panel = new JPanel();
+		loadFile.addActionListener(new ActionListener() {
 
-				            	    JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
-
-				            	   }
-				               else
-				               {
-				            	   final JPanel panel = new JPanel();
-
-				            	    JOptionPane.showMessageDialog(panel, "File accepted", "File recieved", JOptionPane.INFORMATION_MESSAGE);
-				            	   
-				               }
-					
-						File file = fileChooser.getSelectedFile();
-						System.out.println("Directory: " + file);
-						//FileParser scenarioArray = new FileParser(file);
-						//scenarioArray[] = scenario.getArray();
-					}
-				}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadFileClicked();
 			}
 		});
+		runSelectFile.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				runSelectFileClicked();
+			}
+
+		});
 	}
-	
+
+	protected void runSelectFileClicked() {
+
 		
-	
-	
-	
+		Component parent = null;    	
+		File f = new File("FactoryScenarios/");
+
+		fileChooser.setCurrentDirectory(f);
+		int returnVal = fileChooser.showOpenDialog(parent);
+		if (returnVal == JFileChooser.APPROVE_OPTION) { 
+			   String ext= FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
+               if (!ext.equals("txt") )
+            	   {
+            	   final JPanel panel = new JPanel();
+            	   	
+            	    JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
+
+            	   }
+               else
+               {
+            		ToyAuthoring ta = new ToyAuthoring(fileChooser.getSelectedFile().getAbsolutePath());
+            		ta.start();   
+               }
+
+		}
+
+	}
+
+	protected void loadFileClicked() {
+		Component parent = null;
+		int returnVal = fileChooser.showOpenDialog(parent);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String ext = FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
+			if (!ext.equals("txt")) {
+				final JPanel panel = new JPanel();
+
+				JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error",
+						JOptionPane.ERROR_MESSAGE);
+
+			} else {
+				File file = fileChooser.getSelectedFile();
+				System.out.println("Directory: " + file);
+			}
+
+		}
+	}
 
 	private void drawMenuBar() {
 		setJMenuBar(menuBar);
@@ -105,12 +131,11 @@ public class AuthoringApp extends JFrame {
 		saveAsFile = fileMenu.add("Save as..");
 		fileMenu.addSeparator();
 		exit = fileMenu.add("Exit");
+		runFile = runMenu.add("Run");
+		runSelectFile = runMenu.add("Run..");
+
 		menuBar.add(fileMenu);
+		menuBar.add(runMenu);
 	}
 
-	
-	
-
-	
-	
 }

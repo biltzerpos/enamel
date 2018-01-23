@@ -12,39 +12,47 @@ import java.awt.Component;
 import java.io.*; 
 import java.util.*;
 
-public class ToyAuthoring {
+public class ToyAuthoring extends Thread {
+	
 	private static JFileChooser fileChooser = new JFileChooser();
-    public static void main(String[] args) {
-    		
-    		Component parent = null;    	
-			File f = new File("FactoryScenarios/");
+	
+	public static void main(String[] args){
+		Component parent = null;    	
+		File f = new File("FactoryScenarios/");
 
-    		fileChooser.setCurrentDirectory(f);
-			int returnVal = fileChooser.showOpenDialog(parent);
-			if (returnVal == JFileChooser.APPROVE_OPTION) { 
-				   String ext= FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
-	               //System.out.println(ext);
-	               if (!ext.equals("txt") )
-	            	   {
-	            	   final JPanel panel = new JPanel();
-	            	   	
-	            	    JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
+		fileChooser.setCurrentDirectory(f);
+		int returnVal = fileChooser.showOpenDialog(parent);
+		if (returnVal == JFileChooser.APPROVE_OPTION) { 
+			   String ext= FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
+               if (!ext.equals("txt") )
+            	   {
+            	   final JPanel panel = new JPanel();
+            	   	
+            	    JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
 
-	            	   }
-	               else
-	               {
-	            	   final JPanel panel = new JPanel();
+            	   }
+               else
+               {
 
-	            	    JOptionPane.showMessageDialog(panel, "File accepted", "File recieved", JOptionPane.INFORMATION_MESSAGE);
-	            	    ScenarioParser s = new ScenarioParser(true);
-	            	    s.setScenarioFile(fileChooser.getSelectedFile().getAbsolutePath());  
+            		ToyAuthoring ta = new ToyAuthoring(fileChooser.getSelectedFile().getAbsolutePath());
+            		ta.start();
 
-	            	   
-	               }
-		
-			File file = fileChooser.getSelectedFile();
-			System.out.println("Directory: " + file);
-			//FileParser scenarioArray = new FileParser(file);
-			}
-    }
+            	   
+               }
+
+		}
+	}
+	
+	public String directory;
+	
+	public ToyAuthoring(String string) {
+		this.directory = string;
+	}
+
+	@Override
+	public void run(){
+			ScenarioParser s = new ScenarioParser(true);
+			s.setScenarioFile(this.directory);
+	    }
+	
 }
