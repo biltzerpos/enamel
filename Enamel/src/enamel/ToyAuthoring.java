@@ -7,20 +7,10 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 
 public class ToyAuthoring {
-	public static void main(String[] args) {
-		String file = "";
-
-		ScenarioParser s = new ScenarioParser(true);
-		JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
-		chooser.setFileFilter(filter);
-		int returnVal = chooser.showOpenDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
-
-		}
-
-		s.setScenarioFile(file);
+	public static void main(String[] args) throws IOException {
+		TitleScreen idk = new TitleScreen();
+	//	ScenarioParser s = new ScenarioParser(true);
+		//s.setScenarioFile("FactoryScenarios/Scenario_1.txt");
 		
 		JButton skipBtn = new JButton("Skip");
 	}
