@@ -26,7 +26,6 @@ public class FileParser {
 		
 		Scanner scanner = new Scanner(file);
 		
-
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String string= "";
         ArrayList<String> lines = new ArrayList<String>();
