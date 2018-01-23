@@ -529,6 +529,7 @@ public class ScenarioParser {
 			fileScanner = new Scanner(f);
 			String absolutePath = f.getAbsolutePath();
 			System.out.println("Absolute Path: " + absolutePath);
+			
 			scenarioFilePath = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
 			System.out.println("File path: " + scenarioFilePath);
 			setCellAndButton();

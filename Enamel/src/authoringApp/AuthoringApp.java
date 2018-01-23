@@ -83,7 +83,7 @@ public class AuthoringApp extends JFrame {
 					
 						File file = fileChooser.getSelectedFile();
 						System.out.println("Directory: " + file);
-						FileParser scenarioArray = new FileParser(file);
+						//FileParser scenarioArray = new FileParser(file);
 						//scenarioArray[] = scenario.getArray();
 					}
 				}
