@@ -13,6 +13,7 @@ public class FileParser {
 	
 	private String[] parsedText;
 	
+	
 	// Constructor
 	public FileParser(File file) throws IOException{
 		
