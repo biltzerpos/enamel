@@ -52,7 +52,7 @@ public class TitleScreen extends JFrame implements ActionListener {
 		loop = new Thread(
 				  new Runnable() {
 
-					private boolean isVisual;
+					
 					@Override
 				    public void run() {
 				    	String file = ""; 
@@ -64,8 +64,9 @@ public class TitleScreen extends JFrame implements ActionListener {
 							file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
 
 						}
-						ScenarioParser s = new ScenarioParser(true);
+						ScenarioParser s = new ScenarioParser(TitleScreen.this.isVisual);
 						s.setScenarioFile(file);
+						
 				    }
 				  }
 				);
@@ -85,6 +86,8 @@ public class TitleScreen extends JFrame implements ActionListener {
 		}
 		loop.start();
 	}
+	
+	
 
 
 
