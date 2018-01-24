@@ -7,9 +7,20 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
+
 public class TitleScreen extends JFrame implements ActionListener {
 	
 	JFrame frame;
+	JPanel panel;
+	JPanel bottom;
+	JLabel label;
+	JButton yes;
+	JButton no;
+	Voice voice;
+	VoiceManager vm;
+	
 	ScenarioParser visual;
 	ScenarioParser audial;
 	Thread loop;
@@ -17,22 +28,28 @@ public class TitleScreen extends JFrame implements ActionListener {
 	
 	public TitleScreen() throws IOException
 	{
+		
+		vm = VoiceManager.getInstance();
+        voice = vm.getVoice ("kevin16");
+        voice.allocate();
+		
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setSize(640, 480);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 			
-		JPanel panel = new JPanel(new BorderLayout());
-		JPanel bottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JLabel label = new JLabel("Welcome to our program!");
-		JButton yes = new JButton("YES");
-		JButton no = new JButton("NO");
+		panel = new JPanel(new BorderLayout());
+		bottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		label = new JLabel("Welcome to our program!");
+		yes = new JButton("YES");
+		no = new JButton("NO");
 		
 		yes.setPreferredSize(new Dimension(100, 100));
 		yes.addActionListener(this);
-		no.addActionListener(this);
+		
 		no.setPreferredSize(new Dimension(100, 100));
+		no.addActionListener(this);
 		
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVerticalAlignment(JLabel.CENTER);
@@ -48,10 +65,10 @@ public class TitleScreen extends JFrame implements ActionListener {
 		panel.setBackground(Color.YELLOW);
 		
 		frame.add(panel);
+		voice.speak("Hello! Welcome to our program! If you are not visually impared, please press Yes. If you are visually impared, please press No.");
 		
 		loop = new Thread(
 				  new Runnable() {
-
 					
 					@Override
 				    public void run() {
@@ -87,7 +104,7 @@ public class TitleScreen extends JFrame implements ActionListener {
 		loop.start();
 	}
 	
-	
+
 
 
 
