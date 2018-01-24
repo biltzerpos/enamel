@@ -24,6 +24,7 @@ public class AuthoringApp extends JFrame {
 	private JMenu runMenu = new JMenu("Run");
 	private JMenuItem newFile, loadFile, saveFile, saveAsFile, exit, runFile, runSelectFile;
 	private JFileChooser fileChooser = new JFileChooser();
+	File currentFile;
 
 	public static void main(String[] args) {
 		AuthoringApp gui = new AuthoringApp();
@@ -76,50 +77,46 @@ public class AuthoringApp extends JFrame {
 		});
 	}
 
-	protected void runSelectFileClicked() {
-
-		
-		Component parent = null;    	
+	protected void runSelectFileClicked() { 	
 		File f = new File("FactoryScenarios/");
-
-		fileChooser.setCurrentDirectory(f);
-		int returnVal = fileChooser.showOpenDialog(parent);
-		if (returnVal == JFileChooser.APPROVE_OPTION) { 
-			   String ext= FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
-               if (!ext.equals("txt") )
-            	   {
-            	   final JPanel panel = new JPanel();
-            	   	
-            	    JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
-
-            	   }
-               else
-               {
-            		ToyAuthoring ta = new ToyAuthoring(fileChooser.getSelectedFile().getAbsolutePath());
-            		ta.start();   
-               }
-
+		f = openFileChooser(f, "txt");
+		if (f != null) {
+			currentFile = f;
+			ToyAuthoring ta = new ToyAuthoring(f.getAbsolutePath());
+			ta.start();
 		}
-
 	}
 
 	protected void loadFileClicked() {
-		Component parent = null;
-		int returnVal = fileChooser.showOpenDialog(parent);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			String ext = FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
-			if (!ext.equals("txt")) {
-				final JPanel panel = new JPanel();
-
-				JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error",
-						JOptionPane.ERROR_MESSAGE);
-
-			} else {
-				File file = fileChooser.getSelectedFile();
-				System.out.println("Directory: " + file);
-			}
-
+		File f = new File("FactoryScenarios/");
+		f = openFileChooser(f, "txt");
+		if (f != null) {
+			currentFile = f;
+			this.setTitle("Authoring App - " + currentFile.getName());
 		}
+	}
+	
+	//Opens a file chooser @ the specified directory and expects the file selected
+	//to be of the extension 'ext'. Returns the selected file. If extension is of
+	//wrong type, return null.
+	public File openFileChooser(File currentDir, String ext) {
+		Component parent = null;    	
+
+		fileChooser.setCurrentDirectory(currentDir);
+		int returnVal = fileChooser.showOpenDialog(parent);
+		if (returnVal == JFileChooser.APPROVE_OPTION) { 
+			   String selectedExt = FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
+               if (!ext.equals(selectedExt)) {
+            	   final JPanel panel = new JPanel();
+            	   JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
+            	   return null;
+            }
+               else
+               {
+            	   return fileChooser.getSelectedFile();
+               }
+		}
+		return null;
 	}
 
 	private void drawMenuBar() {
