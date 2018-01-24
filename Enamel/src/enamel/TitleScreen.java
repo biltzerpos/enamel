@@ -28,7 +28,26 @@ public class TitleScreen extends JFrame implements ActionListener {
 	
 	public TitleScreen() throws IOException
 	{
-		
+		loop = new Thread(
+				  new Runnable() {
+					
+					@Override
+				    public void run() {
+				    	String file = ""; 
+						JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+						chooser.setFileFilter(filter);
+						int returnVal = chooser.showOpenDialog(null);
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
+
+						}
+						ScenarioParser s = new ScenarioParser(TitleScreen.this.isVisual);
+						s.setScenarioFile(file);
+						
+				    }
+				  }
+				);
 		vm = VoiceManager.getInstance();
         voice = vm.getVoice ("kevin16");
         voice.allocate();
@@ -67,26 +86,7 @@ public class TitleScreen extends JFrame implements ActionListener {
 		frame.add(panel);
 		voice.speak("Hello! Welcome to our program! If you are not visually impared, please press Yes. If you are visually impared, please press No.");
 		
-		loop = new Thread(
-				  new Runnable() {
-					
-					@Override
-				    public void run() {
-				    	String file = ""; 
-						JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
-						FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
-						chooser.setFileFilter(filter);
-						int returnVal = chooser.showOpenDialog(null);
-						if (returnVal == JFileChooser.APPROVE_OPTION) {
-							file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
 
-						}
-						ScenarioParser s = new ScenarioParser(TitleScreen.this.isVisual);
-						s.setScenarioFile(file);
-						
-				    }
-				  }
-				);
 	}
 
 	@Override
