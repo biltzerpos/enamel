@@ -10,6 +10,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class TitleScreen extends JFrame implements ActionListener {
 	
 	JFrame frame;
+	ScenarioParser visual;
+	ScenarioParser audial;
+	Thread loop;
+	boolean isVisual;
 	
 	public TitleScreen() throws IOException
 	{
@@ -44,35 +48,42 @@ public class TitleScreen extends JFrame implements ActionListener {
 		panel.setBackground(Color.YELLOW);
 		
 		frame.add(panel);
-//			ScenarioParser s = new ScenarioParser(true);
-//		s.setScenarioFile("FactoryScenarios/Scenario_1.txt");
+		
+		loop = new Thread(
+				  new Runnable() {
+
+					private boolean isVisual;
+					@Override
+				    public void run() {
+				    	String file = ""; 
+						JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+						chooser.setFileFilter(filter);
+						int returnVal = chooser.showOpenDialog(null);
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
+
+						}
+						ScenarioParser s = new ScenarioParser(true);
+						s.setScenarioFile(file);
+				    }
+				  }
+				);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public  synchronized void actionPerformed(ActionEvent e) {
 		String hold = e.getActionCommand();
 		frame.dispose();
-		String file = "";
-		JFileChooser chooser = new JFileChooser(new File("FactoryScenarios/"));
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
-		chooser.setFileFilter(filter);
-		int returnVal = chooser.showOpenDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			file = "FactoryScenarios/" + chooser.getSelectedFile().getName();
-
+		
+		if(hold.equals("YES")) {
+			isVisual = true;
 		}
 		
-		if(hold.equals("YES"))
-		{
-			ScenarioParser s = new ScenarioParser(true);
-			s.setScenarioFile(file);
+		else if (hold.equals("NO")) {
+			isVisual = false;
 		}
-		
-		else if (hold.equals("NO"))
-		{
-			ScenarioParser s = new ScenarioParser(false);
-			s.setScenarioFile(file);
-		}
+		loop.start();
 	}
 
 

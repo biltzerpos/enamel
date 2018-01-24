@@ -14,4 +14,5 @@ public class ToyAuthoring {
 		
 		JButton skipBtn = new JButton("Skip");
 	}
+ 
 }
