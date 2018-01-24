@@ -1,3 +1,6 @@
+//Additional undocumented change notes:
+//this class is now an extension of "Thread". It will now run in a seperate thread when called about by a different proccess.
+
 package enamel;
 
 import javax.swing.JFileChooser;
