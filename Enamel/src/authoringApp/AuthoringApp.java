@@ -24,7 +24,8 @@ public class AuthoringApp extends JFrame {
 	private JMenu runMenu = new JMenu("Run");
 	private JMenuItem newFile, loadFile, saveFile, saveAsFile, exit, runFile, runSelectFile;
 	private JFileChooser fileChooser = new JFileChooser();
-	File currentFile;
+	private File currentFile;
+	private String[] fileStr;
 
 	public static void main(String[] args) {
 		AuthoringApp gui = new AuthoringApp();
