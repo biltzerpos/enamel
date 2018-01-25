@@ -17,8 +17,9 @@ import org.apache.commons.io.FilenameUtils;
 import enamel.ScenarioParser;
 import enamel.ToyAuthoring;
 
-public class AuthoringApp extends JFrame {
+public class AuthoringApp {
 
+	private JButton testButton = new JButton("test");
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu runMenu = new JMenu("Run");
@@ -26,18 +27,17 @@ public class AuthoringApp extends JFrame {
 	private JFileChooser fileChooser = new JFileChooser();
 	private File currentFile, f;
 	private String[] fileStr;
-	private JPanel panel;
+	private JPanel panel, scenarioPanel = new JPanel(new BorderLayout());
+	private JTextPane scenarioText = new JTextPane();
+	private JFrame frame = new JFrame();
+	private JScrollPane scrollBar = new JScrollPane();
 
 	public static void main(String[] args) {
-		AuthoringApp gui = new AuthoringApp();
-		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gui.setVisible(true);
-		gui.setSize(960, 540);
-		gui.setTitle("Authoring App");
+		new AuthoringApp();
 	}
 
 	public AuthoringApp() {
-		drawMenuBar();
+		drawComponents();
 		addActionListeners();
 		setAccessible();
 	}
@@ -66,7 +66,12 @@ public class AuthoringApp extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loadFileClicked();
+				try {
+					loadFileClicked();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		runSelectFile.addActionListener(new ActionListener() {
@@ -100,8 +105,9 @@ public class AuthoringApp extends JFrame {
 		f = openFileChooser(new File("FactoryScenarios/"), "txt");
 		if (f != null) {
 			currentFile = f;
-			this.setTitle("Authoring App - " + currentFile.getName());
+			frame.setTitle("Authoring App - " + currentFile.getName());
 			SaveAsFile save = new SaveAsFile("txt", currentFile.getAbsolutePath());
+			save.stringArrayToFile(fileStr);
 		}
 	}
 
@@ -119,22 +125,33 @@ public class AuthoringApp extends JFrame {
 		}
 	}
 
-	protected void loadFileClicked() {
+	private void updateJTextPane() {
+		String str = "";
+		//System.out.println(fileStr.length);
+		for (int i = 0; i < fileStr.length; i++){
+			//System.out.println(fileStr[i])
+			str += i + ": " + fileStr[i] + "\n";
+			scenarioText.setText(str);
+		}
+	}
+
+	protected void loadFileClicked() throws IOException {
 		f = openFileChooser(new File("FactoryScenarios/"), "txt");
 		if (f != null) {
 			currentFile = f;
-			this.setTitle("Authoring App - " + currentFile.getName());
+			frame.setTitle("Authoring App - " + currentFile.getName());
+			FileParser fp = new FileParser(f);
+			fileStr = fp.getArray();
 		}
+		updateJTextPane();
 	}
 	
 	//Opens a file chooser @ the specified directory and expects the file selected
 	//to be of the extension 'ext'. Returns the selected file. If extension is of
 	//wrong type, return null.
 	public File openFileChooser(File currentDir, String ext) {
-		Component parent = null;    	
-
 		fileChooser.setCurrentDirectory(currentDir);
-		int returnVal = fileChooser.showOpenDialog(parent);
+		int returnVal = fileChooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) { 
 			   String selectedExt = FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
                if (!ext.equals(selectedExt)) {
@@ -150,8 +167,9 @@ public class AuthoringApp extends JFrame {
 		return null;
 	}
 
-	private void drawMenuBar() {
-		setJMenuBar(menuBar);
+	private void drawComponents() {
+		
+		//JMenuItem
 		newFile = fileMenu.add("New");
 		loadFile = fileMenu.add("Open");
 		fileMenu.addSeparator();
@@ -161,9 +179,40 @@ public class AuthoringApp extends JFrame {
 		exit = fileMenu.add("Exit");
 		runFile = runMenu.add("Run");
 		runSelectFile = runMenu.add("Run..");
-
+		
+		//JMenu
 		menuBar.add(fileMenu);
+		
+		//JMenuBar
 		menuBar.add(runMenu);
+		
+		//JTextPane
+		//scenarioText.setSize(30, 30);
+		//scenarioText.setBounds(5, 5, 30, 30);
+		scenarioText.setEditable(false);
+		scrollBar.add(scenarioText);
+		//scenarioText.setText("test \n test");
+		
+		//JPanel
+		//scenarioPanel.setBackground(Color.yellow);
+		//scenarioPanel.setBounds(100, 100, 200, 200);
+		//scenarioPanel.add(scenarioText);
+		
+		//JFrame
+		frame.pack();
+		frame.getContentPane().add(scrollBar);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(960, 540);
+		frame.setTitle("Authoring App");
+		frame.setVisible(true);
+		frame.setJMenuBar(menuBar);
+		frame.add(scenarioText);
+		//frame.pack();
+	
+		//scenarioPanel.add(testButton);
+		
+		//JButton
+		
 	}
 
 }

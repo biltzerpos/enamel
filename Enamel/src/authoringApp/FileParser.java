@@ -33,7 +33,6 @@ public class FileParser {
             lines.add(string);
         }
        parsedText = lines.toArray(new String[lines.size()]);
-       System.out.println(parsedText[2]);
 		
 	}
 	
