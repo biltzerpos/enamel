@@ -95,7 +95,7 @@ public class ScenarioParser {
 		} else {
 			// The key phrase to indicate to play a sound file.
 			if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
-				playSound(fileLine.substring(8));
+				playSound(fileLine.substring(8).trim());
 			}
 			// The key phrase to indicate to skip to another part of the
 			// scenario.
