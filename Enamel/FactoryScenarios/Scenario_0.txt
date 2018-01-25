@@ -1,0 +1,60 @@
+Cell 1
+Button 4
+Directional orientation
+
+/~disp-cell-pins:0 11100000
+These are pins 1, 2 and 3, the 3 pins on the left side. 
+Press button 1 to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~disp-cell-clear:0
+/~pause:1
+/~reset-buttons
+/~disp-cell-pins:0 00011100
+These are pins 4, 5 and 6, the 3 pins on the right side. 
+Press button 1 to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~disp-cell-clear:0
+/~pause:1
+/~reset-buttons
+/~disp-cell-pins:0 11000000
+These are pins 1 and 2, the top two pins on the left side. 
+Press button 1 to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~disp-cell-clear:0
+/~pause:1
+/~reset-buttons
+/~disp-cell-pins:0 00011000
+These are pins 4 and 5, the top two pins on the right side. Press button 1 to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~disp-cell-clear:0
+/~pause:1
+/~reset-buttons
+/~disp-cell-pins:0 10010000
+These are pins 1 and 4, the two pins on the top. Press button 1 to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+/~disp-cell-clear:0
+/~pause:1
+/~reset-buttons
+/~disp-cell-pins:0 00100100
+These are pins 3 and 6, the two pins on the bottom. Press button 1 to continue.
+/~skip-button:0 ONEE
+/~user-input
+
+/~ONEE
+That's the end of directional orientation!
+/~disp-cell-clear:0
