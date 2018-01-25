@@ -24,8 +24,9 @@ public class AuthoringApp extends JFrame {
 	private JMenu runMenu = new JMenu("Run");
 	private JMenuItem newFile, loadFile, saveFile, saveAsFile, exit, runFile, runSelectFile;
 	private JFileChooser fileChooser = new JFileChooser();
-	private File currentFile;
+	private File currentFile, f;
 	private String[] fileStr;
+	private JPanel panel;
 
 	public static void main(String[] args) {
 		AuthoringApp gui = new AuthoringApp();
@@ -76,11 +77,41 @@ public class AuthoringApp extends JFrame {
 			}
 
 		});
+		saveFile.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//JPanel panel
+				saveFileClicked();
+			}
+		});
+		
+		saveAsFile.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveAsFileClicked();
+			}
+			
+		});
+	}
+
+	protected void saveAsFileClicked() {
+		f = openFileChooser(new File("FactoryScenarios/"), "txt");
+		if (f != null) {
+			currentFile = f;
+			this.setTitle("Authoring App - " + currentFile.getName());
+			SaveAsFile save = new SaveAsFile("txt", currentFile.getAbsolutePath());
+		}
+	}
+
+	protected void saveFileClicked() {
+		SaveAsFile save = new SaveAsFile("txt", currentFile.getAbsolutePath());
+		save.stringArrayToFile(fileStr);
 	}
 
 	protected void runSelectFileClicked() { 	
-		File f = new File("FactoryScenarios/");
-		f = openFileChooser(f, "txt");
+		f = openFileChooser(new File("FactoryScenarios/"), "txt");
 		if (f != null) {
 			currentFile = f;
 			ToyAuthoring ta = new ToyAuthoring(f.getAbsolutePath());
@@ -89,8 +120,7 @@ public class AuthoringApp extends JFrame {
 	}
 
 	protected void loadFileClicked() {
-		File f = new File("FactoryScenarios/");
-		f = openFileChooser(f, "txt");
+		f = openFileChooser(new File("FactoryScenarios/"), "txt");
 		if (f != null) {
 			currentFile = f;
 			this.setTitle("Authoring App - " + currentFile.getName());
@@ -108,7 +138,7 @@ public class AuthoringApp extends JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) { 
 			   String selectedExt = FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
                if (!ext.equals(selectedExt)) {
-            	   final JPanel panel = new JPanel();
+            	   /*final JPanel */panel = new JPanel();
             	   JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
             	   return null;
             }

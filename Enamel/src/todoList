@@ -14,3 +14,9 @@ similarily to any IDE. i.e.
 3. establish controls for syntax and text inputs. e.g. ~/skip should be added to a file with a
 button while "a sentence in the scenario" should be added via a text input box. the app
 should check if inputs are valid and syntax is correct/will compile. 
+
+4. Need if statement on openFileChooser to add .txt extension to the file if not already
+specified by the user.
+
+5. please read SaveAsFile.java notes. Made functional changes to accommodate for how
+writing to files work.
