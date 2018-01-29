@@ -48,6 +48,7 @@ public class AuthoringApp {
         });
 	}
 
+	
 
 	protected static void addActionListener(Component component) {
 		if (component.getName() == "newMenuItem"){
@@ -56,11 +57,16 @@ public class AuthoringApp {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (!isSaved){
+						
 						//TODO: give unsaved warning then save file;
 					}
+					NewFileGUI newFile= new NewFileGUI();
+					newFile.setVisible(true);
+					
 					//open new file
 					isSaved = false;
 				}
+				
 				
 			});
 			
