@@ -2,6 +2,7 @@ package authoringApp;
 
 //edited by QASIM Ahmed
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -17,123 +18,280 @@ import org.apache.commons.io.FilenameUtils;
 import enamel.ScenarioParser;
 import enamel.ToyAuthoring;
 
-public class AuthoringApp extends JFrame {
+public class AuthoringApp {
 
-	private JMenuBar menuBar = new JMenuBar();
-	private JMenu fileMenu = new JMenu("File");
-	private JMenu runMenu = new JMenu("Run");
-	private JMenuItem newFile, loadFile, saveFile, saveAsFile, exit, runFile, runSelectFile;
-	private JFileChooser fileChooser = new JFileChooser();
-	private File currentFile;
-	private String[] fileStr;
+	private static JFrame gui;
+	private static ArrayList<Component> guiComponents;
+	private static JFileChooser fc = new JFileChooser();
+	private static File f, currentFile;
+	private static String[] fileStr;
+	private static String scenarioStr;
+	private static int currentLine;
+	private static JPanel errorPanel;
+	private static boolean isSaved = true;
+	private static JTextPane sTextPane;
 
 	public static void main(String[] args) {
-		AuthoringApp gui = new AuthoringApp();
-		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gui.setVisible(true);
-		gui.setSize(960, 540);
-		gui.setTitle("Authoring App");
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                gui = new AuthoringAppGUI();
+                gui.setVisible(true);
+                guiComponents = getCompList(gui);
+                for (int i = 0; i < guiComponents.size(); i++){
+                	if (guiComponents.get(i).getName() != null){
+                		System.out.println(i + " " + guiComponents.get(i).getName());
+                    	addActionListener(guiComponents.get(i));
+                	}
+                }
+               
+            }
+        });
 	}
 
-	public AuthoringApp() {
-		drawMenuBar();
-		addActionListeners();
-		setAccessible();
-	}
 
-	// Sets accessibility features of objects.
-	private void setAccessible() {
-		// TODO Auto-generated method stub
-		setAccessible(fileMenu, "File", "drop down menu");
-		setAccessible(loadFile, "Load", "a scenario file");
-	}
+	protected static void addActionListener(Component component) {
+		if (component.getName() == "newMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
 
-	// Set name and description of a JMenuItem object.
-	private void setAccessible(JMenuItem o, String s, String s2) {
-		o.getAccessibleContext().setAccessibleName(s);
-		o.getAccessibleContext().setAccessibleDescription(s2);
-	}
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (!isSaved){
+						//TODO: give unsaved warning then save file;
+					}
+					//open new file
+					isSaved = false;
+				}
+				
+			});
+			
+		}
+		else if (component.getName() == "loadScenarioMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
 
-	// Set name and description of a JMenu object.
-	private void setAccessible(JMenu o, String s, String s2) {
-		o.getAccessibleContext().setAccessibleName(s);
-		o.getAccessibleContext().setAccessibleDescription(s2);
-	}
+					if (!isSaved){
+						//save current file
+					}
+					try {
+						f = openFileChooser(new File("FactoryScenarios/"), "txt");
+						if (f != null) {
+							currentFile = f;
+							gui.setTitle("Authoring App - " + currentFile.getName());
+							FileParser fp = new FileParser(f);
+							fileStr = fp.getArray();
+						}
+						updateScenarioPane(true);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+		}
+		else if (component.getName() == "saveMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
 
-	private void addActionListeners() {
-		loadFile.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					SaveAsFile save = new SaveAsFile("txt", fileStr,currentFile);
+					try {
+						save.stringArrayToFile(fileStr);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+			});
+		}
+		else if (component.getName() == "saveAsMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loadFileClicked();
-			}
-		});
-		runSelectFile.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					f = openFileChooser(new File("FactoryScenarios/"), "txt");
+					if (f != null) {
+						currentFile = f;
+						gui.setTitle("Authoring App - " + currentFile.getName());
+						SaveAsFile save = new SaveAsFile("txt", fileStr,currentFile);
+						try {
+							save.stringArrayToFile(fileStr);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+				
+			});
+		}
+		else if (component.getName() == "undoMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				runSelectFileClicked();
-			}
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		}
+		else if (component.getName() == "redoMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
 
-		});
-	}
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		}
+		else if (component.getName() == "cutMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
 
-	protected void runSelectFileClicked() { 	
-		File f = new File("FactoryScenarios/");
-		f = openFileChooser(f, "txt");
-		if (f != null) {
-			currentFile = f;
-			ToyAuthoring ta = new ToyAuthoring(f.getAbsolutePath());
-			ta.start();
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		}
+		else if (component.getName() == "copyMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		}
+		else if (component.getName() == "pasteMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		}
+		else if (component.getName() == "runMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		}
+		else if (component.getName() == "loadAndRunMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					f = openFileChooser(new File("FactoryScenarios/"), "txt");
+					if (f != null) {
+						currentFile = f;
+						ToyAuthoring ta = new ToyAuthoring(f.getAbsolutePath());
+						ta.start();
+					}
+				}
+				
+			});
+		}
+		else if (component.getName() == "ttsMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		}
+		else if (component.getName() == "helpContentsMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		}
+		else if (component.getName() == "aboutMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
 		}
 	}
 
-	protected void loadFileClicked() {
-		File f = new File("FactoryScenarios/");
-		f = openFileChooser(f, "txt");
-		if (f != null) {
-			currentFile = f;
-			this.setTitle("Authoring App - " + currentFile.getName());
+	protected static ArrayList<Component> getCompList(final Container c) {
+		Component[] compArray = c.getComponents();
+		ArrayList<Component> compList = new ArrayList<Component>();
+		for (Component comp: compArray) {
+			compList.add(comp);
+			if (comp instanceof JMenu){
+				for (int i = 0; i < ((JMenu) comp).getMenuComponentCount(); i++){
+					compList.add(((JMenu) comp).getMenuComponent(i));
+				}
+			}
+			else if (comp instanceof Container){
+				compList.addAll(getCompList((Container) comp));
+			}
 		}
+		return compList;
 	}
-	
+
+	private static void updateScenarioPane(boolean isNew) {
+		if (isNew){
+			scenarioStr = "";
+			for (int i = 0; i < fileStr.length; i++){
+				scenarioStr += i + ": " + fileStr[i] + "\n";
+			}
+			currentLine = fileStr.length + 1;
+		}
+		else{
+			scenarioStr += currentLine + ": " + fileStr[currentLine] + "\n";
+		}
+		((JTextPane) guiComponents.get(8)).setText(scenarioStr);
+	}
+
 	//Opens a file chooser @ the specified directory and expects the file selected
 	//to be of the extension 'ext'. Returns the selected file. If extension is of
 	//wrong type, return null.
-	public File openFileChooser(File currentDir, String ext) {
-		Component parent = null;    	
-
-		fileChooser.setCurrentDirectory(currentDir);
-		int returnVal = fileChooser.showOpenDialog(parent);
+	public static File openFileChooser(File currentDir, String ext) {
+		fc.setCurrentDirectory(currentDir);
+		int returnVal = fc.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) { 
-			   String selectedExt = FilenameUtils.getExtension(fileChooser.getSelectedFile().getName());
+			   String selectedExt = FilenameUtils.getExtension(fc.getSelectedFile().getName());
                if (!ext.equals(selectedExt)) {
-            	   final JPanel panel = new JPanel();
-            	   JOptionPane.showMessageDialog(panel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
+            	   /*final JPanel */errorPanel = new JPanel();
+            	   JOptionPane.showMessageDialog(errorPanel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
             	   return null;
             }
                else
                {
-            	   return fileChooser.getSelectedFile();
+            	   return fc.getSelectedFile();
                }
 		}
 		return null;
 	}
-
-	private void drawMenuBar() {
-		setJMenuBar(menuBar);
-		newFile = fileMenu.add("New");
-		loadFile = fileMenu.add("Open");
-		fileMenu.addSeparator();
-		saveFile = fileMenu.add("Save");
-		saveAsFile = fileMenu.add("Save as..");
-		fileMenu.addSeparator();
-		exit = fileMenu.add("Exit");
-		runFile = runMenu.add("Run");
-		runSelectFile = runMenu.add("Run..");
-
-		menuBar.add(fileMenu);
-		menuBar.add(runMenu);
-	}
-
 }
