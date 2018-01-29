@@ -19,7 +19,6 @@ public class FileParser {
 		
 		// TODO Auto-generated constructor stub
 		parseFileIntoArray(file);
-		
 	}
 
 	// Parse the file and save it into the array parsedText
@@ -34,7 +33,6 @@ public class FileParser {
             lines.add(string);
         }
        parsedText = lines.toArray(new String[lines.size()]);
-       System.out.println(parsedText[2]);
 		
 	}
 	
