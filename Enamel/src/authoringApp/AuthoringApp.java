@@ -29,225 +29,91 @@ public class AuthoringApp {
 	private static int currentLine;
 	private static JPanel errorPanel;
 	private static boolean isSaved = true;
-	private static JTextPane sTextPane;
+	private static HashMap<String, Component> compMap;
 
 	public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 gui = new AuthoringAppGUI();
                 gui.setVisible(true);
-                guiComponents = getCompList(gui);
-                for (int i = 0; i < guiComponents.size(); i++){
-                	if (guiComponents.get(i).getName() != null){
-                		System.out.println(i + " " + guiComponents.get(i).getName());
-                    	addActionListener(guiComponents.get(i));
-                	}
-                }
-               
+                compMap = ((AuthoringAppGUI) gui).getCompMap();
+                addActionListeners();
             }
         });
 	}
 
 
-	protected static void addActionListener(Component component) {
-		if (component.getName() == "newMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
+	protected static void addActionListeners() {
+		((JMenuItem) compMap.get("newMenuItem")).addActionListener(new ActionListener(){
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (!isSaved){
-						//TODO: give unsaved warning then save file;
-					}
-					//open new file
-					isSaved = false;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!isSaved){
+					//TODO: give unsaved warning then save file;
 				}
-				
-			});
+				//open new file
+				isSaved = false;
+			}
+		});
+		((JMenuItem) compMap.get("loadScenarioMenuItem")).addActionListener(new ActionListener() {
 			
-		}
-		else if (component.getName() == "loadScenarioMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
-					if (!isSaved){
-						//save current file
-					}
-					try {
-						f = openFileChooser(new File("FactoryScenarios/"), "txt");
-						if (f != null) {
-							currentFile = f;
-							gui.setTitle("Authoring App - " + currentFile.getName());
-							FileParser fp = new FileParser(f);
-							fileStr = fp.getArray();
-						}
-						updateScenarioPane(true);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				if (!isSaved){
+					//save current file
 				}
-			});
-		}
-		else if (component.getName() == "saveMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					SaveAsFile save = new SaveAsFile("txt", currentFile.getAbsolutePath());
-					save.stringArrayToFile(fileStr);
-				}
-				
-			});
-		}
-		else if (component.getName() == "saveAsMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
+				try {
 					f = openFileChooser(new File("FactoryScenarios/"), "txt");
 					if (f != null) {
 						currentFile = f;
 						gui.setTitle("Authoring App - " + currentFile.getName());
-						SaveAsFile save = new SaveAsFile("txt", currentFile.getAbsolutePath());
-						save.stringArrayToFile(fileStr);
+						FileParser fp = new FileParser(f);
+						fileStr = fp.getArray();
 					}
-				}
-				
-			});
-		}
-		else if (component.getName() == "undoMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-		else if (component.getName() == "redoMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-		else if (component.getName() == "cutMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-		else if (component.getName() == "copyMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-		else if (component.getName() == "pasteMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-		else if (component.getName() == "runMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-		else if (component.getName() == "loadAndRunMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					f = openFileChooser(new File("FactoryScenarios/"), "txt");
-					if (f != null) {
-						currentFile = f;
-						ToyAuthoring ta = new ToyAuthoring(f.getAbsolutePath());
-						ta.start();
-					}
-				}
-				
-			});
-		}
-		else if (component.getName() == "ttsMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-		else if (component.getName() == "helpContentsMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-		else if (component.getName() == "aboutMenuItem"){
-			((JMenuItem) component).addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-			});
-		}
-	}
-
-	protected static ArrayList<Component> getCompList(final Container c) {
-		Component[] compArray = c.getComponents();
-		ArrayList<Component> compList = new ArrayList<Component>();
-		for (Component comp: compArray) {
-			compList.add(comp);
-			if (comp instanceof JMenu){
-				for (int i = 0; i < ((JMenu) comp).getMenuComponentCount(); i++){
-					compList.add(((JMenu) comp).getMenuComponent(i));
+					updateScenarioPane(true);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
-			else if (comp instanceof Container){
-				compList.addAll(getCompList((Container) comp));
+		});
+		((JMenuItem) compMap.get("saveMenuItem")).addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SaveAsFile save = new SaveAsFile("txt", currentFile.getAbsolutePath());
+				save.stringArrayToFile(fileStr);
 			}
-		}
-		return compList;
+			
+		});
+		((JMenuItem) compMap.get("saveAsMenuItem")).addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				f = openFileChooser(new File("FactoryScenarios/"), "txt");
+				if (f != null) {
+					currentFile = f;
+					gui.setTitle("Authoring App - " + currentFile.getName());
+					SaveAsFile save = new SaveAsFile("txt", currentFile.getAbsolutePath());
+					save.stringArrayToFile(fileStr);
+				}
+			}
+			
+		});
+		((JMenuItem) compMap.get("loadAndRunMenuItem")).addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				f = openFileChooser(new File("FactoryScenarios/"), "txt");
+				if (f != null) {
+					currentFile = f;
+					ToyAuthoring ta = new ToyAuthoring(f.getAbsolutePath());
+					ta.start();
+				}
+			}
+			
+		});
 	}
 
 	private static void updateScenarioPane(boolean isNew) {
@@ -261,7 +127,7 @@ public class AuthoringApp {
 		else{
 			scenarioStr += currentLine + ": " + fileStr[currentLine] + "\n";
 		}
-		((JTextPane) guiComponents.get(8)).setText(scenarioStr);
+		((JTextPane) compMap.get("scenarioPane")).setText(scenarioStr);
 	}
 
 	//Opens a file chooser @ the specified directory and expects the file selected
