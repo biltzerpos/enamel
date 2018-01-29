@@ -28,6 +28,8 @@ public class AuthoringApp {
 	private static String scenarioStr;
 	private static int currentLine;
 	private static JPanel errorPanel;
+	private static boolean isSaved = true;
+	private static JTextPane sTextPane;
 
 	public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -36,14 +38,16 @@ public class AuthoringApp {
                 gui.setVisible(true);
                 guiComponents = getCompList(gui);
                 for (int i = 0; i < guiComponents.size(); i++){
-                	System.out.println(i + " " + guiComponents.get(i).getName());
+                	if (guiComponents.get(i).getName() != null){
+                		System.out.println(i + " " + guiComponents.get(i).getName());
+                    	addActionListener(guiComponents.get(i));
+                	}
                 }
-                for (int i = 0; i < guiComponents.size(); i++){
-                	addActionListener(guiComponents.get(i));
-                }
+               
             }
         });
 	}
+
 
 	protected static void addActionListener(Component component) {
 		if (component.getName() == "newMenuItem"){
@@ -51,8 +55,11 @@ public class AuthoringApp {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					
+					if (!isSaved){
+						//TODO: give unsaved warning then save file;
+					}
+					//open new file
+					isSaved = false;
 				}
 				
 			});
@@ -60,9 +67,13 @@ public class AuthoringApp {
 		}
 		else if (component.getName() == "loadScenarioMenuItem"){
 			((JMenuItem) component).addActionListener(new ActionListener() {
-
+				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+
+					if (!isSaved){
+						//save current file
+					}
 					try {
 						f = openFileChooser(new File("FactoryScenarios/"), "txt");
 						if (f != null) {
@@ -250,7 +261,7 @@ public class AuthoringApp {
 		else{
 			scenarioStr += currentLine + ": " + fileStr[currentLine] + "\n";
 		}
-		((JTextPane) guiComponents.get(7)).setText(scenarioStr);
+		((JTextPane) guiComponents.get(8)).setText(scenarioStr);
 	}
 
 	//Opens a file chooser @ the specified directory and expects the file selected

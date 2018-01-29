@@ -16,6 +16,7 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
      */
     public AuthoringAppGUI() {
         initComponents();
+        
     }
 
     /**
@@ -31,7 +32,6 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         scenarioPane = new javax.swing.JTextPane();
         inputTextField = new javax.swing.JTextField();
         insertPause = new javax.swing.JButton();
-        insertDisplayString = new javax.swing.JButton();
         insertText = new javax.swing.JButton();
         insertRepeat = new javax.swing.JButton();
         insertSkipButton = new javax.swing.JButton();
@@ -48,6 +48,9 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         removeSeperator = new javax.swing.JSeparator();
         insertPause1 = new javax.swing.JButton();
         consoleLabel = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        insertRepeat1 = new javax.swing.JButton();
         authoringAppMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newMenuItem = new javax.swing.JMenuItem();
@@ -64,6 +67,8 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         cutMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
         pasteMenuItem = new javax.swing.JMenuItem();
+        editMenuSeperator2 = new javax.swing.JPopupMenu.Separator();
+        textPaneEditingMenuItem = new javax.swing.JRadioButtonMenuItem();
         runMenu = new javax.swing.JMenu();
         runMenuItem = new javax.swing.JMenuItem();
         loadAndRunMenuItem = new javax.swing.JMenuItem();
@@ -91,49 +96,42 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         inputTextField.setText("(Insert text/argument)");
         inputTextField.setName("inputTextField"); // NOI18N
 
-        insertPause.setText("Line");
+        insertPause.setText("Remove Line");
+        insertPause.setToolTipText("");
         insertPause.setEnabled(false);
-        insertPause.setName("insertLine"); // NOI18N
-
-        insertDisplayString.setText("Display String");
-        insertDisplayString.setEnabled(false);
+        insertPause.setName("editRemoveLine"); // NOI18N
 
         insertText.setText("Text");
         insertText.setEnabled(false);
         insertText.setName("insertText"); // NOI18N
-        insertText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insertTextActionPerformed(evt);
-            }
-        });
 
-        insertRepeat.setText("Repeat");
+        insertRepeat.setText("Skip Button");
         insertRepeat.setEnabled(false);
-        insertRepeat.setName("insertRepeat"); // NOI18N
+        insertRepeat.setName("insertSkipButton"); // NOI18N
 
-        insertSkipButton.setText("Skip Button");
+        insertSkipButton.setText("Repeat Button");
         insertSkipButton.setEnabled(false);
-        insertSkipButton.setName("insertSkipButton"); // NOI18N
+        insertSkipButton.setName("insertRepeatButton"); // NOI18N
 
-        insertUserInput.setText("User Input");
+        insertUserInput.setText("Repeat");
         insertUserInput.setEnabled(false);
-        insertUserInput.setName("insertUserInput"); // NOI18N
+        insertUserInput.setName("insertRepeat"); // NOI18N
 
-        insertRepeatButton.setText("Repeat Button");
+        insertRepeatButton.setText("User Input");
         insertRepeatButton.setEnabled(false);
-        insertRepeatButton.setName("insertRepeatButton"); // NOI18N
+        insertRepeatButton.setName("insertUserInput"); // NOI18N
 
         insertResetButtons.setText("Reset Buttons");
         insertResetButtons.setEnabled(false);
         insertResetButtons.setName("insertResetButtons"); // NOI18N
 
-        insertSound.setText("Sound");
+        insertSound.setText("End Repeat");
         insertSound.setEnabled(false);
-        insertSound.setName("insertSound"); // NOI18N
+        insertSound.setName("insertEndRepeat"); // NOI18N
 
-        insertSkip.setText("Skip");
+        insertSkip.setText("Sound");
         insertSkip.setEnabled(false);
-        insertSkip.setName("insertSkip"); // NOI18N
+        insertSkip.setName("insertSound"); // NOI18N
 
         insertLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         insertLabel.setText("Insert:");
@@ -148,10 +146,10 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         insertKeyPhraseLabel.setName("insertKeyPhraseLabel"); // NOI18N
 
         removeLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        removeLabel.setText("Remove:");
-        removeLabel.setName("removeLabel"); // NOI18N
+        removeLabel.setText("Edit:");
+        removeLabel.setName("editLabel"); // NOI18N
 
-        removeSeperator.setName("removeSeperator"); // NOI18N
+        removeSeperator.setName("editSeperator"); // NOI18N
 
         insertPause1.setText("Pause");
         insertPause1.setEnabled(false);
@@ -161,6 +159,19 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         consoleLabel.setText("   Console:");
         consoleLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         consoleLabel.setName("consoleLabel"); // NOI18N
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Display String", "Display Clear All", "Display Clear Cell", "Display Cell Pins", "Display Cell Char", "Display Cell Raise", "Display Cell Lower" }));
+        jComboBox1.setToolTipText("");
+        jComboBox1.setEnabled(false);
+        jComboBox1.setLightWeightPopupEnabled(false);
+        jComboBox1.setName("displayComboBox"); // NOI18N
+
+        jButton1.setText("+");
+        jButton1.setEnabled(false);
+
+        insertRepeat1.setText("Skip");
+        insertRepeat1.setEnabled(false);
+        insertRepeat1.setName("insertSkip"); // NOI18N
 
         authoringAppMenuBar.setName("authoringAppMenuBar"); // NOI18N
 
@@ -238,6 +249,15 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         pasteMenuItem.setName("pasteMenuItem"); // NOI18N
         editMenu.add(pasteMenuItem);
 
+        editMenuSeperator2.setName("editMenuSeperator2"); // NOI18N
+        editMenu.add(editMenuSeperator2);
+
+        textPaneEditingMenuItem.setText("Text pane editing");
+        textPaneEditingMenuItem.setToolTipText("");
+        textPaneEditingMenuItem.setName("textPaneEditingMenuItem"); // NOI18N
+        editMenu.add(textPaneEditingMenuItem);
+        textPaneEditingMenuItem.getAccessibleContext().setAccessibleName("");
+
         authoringAppMenuBar.add(editMenu);
 
         runMenu.setText("Run");
@@ -264,11 +284,6 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         ttsMenuItem.setText("Text-to-speech");
         ttsMenuItem.setActionCommand("Text-to-speech ");
         ttsMenuItem.setName("ttsMenuItem"); // NOI18N
-        ttsMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ttsMenuItemActionPerformed(evt);
-            }
-        });
         helpMenu.add(ttsMenuItem);
 
         helpContentsMenuItem.setText("Help contents");
@@ -280,11 +295,6 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
 
         aboutMenuItem.setText("About");
         aboutMenuItem.setName("aboutMenuItem"); // NOI18N
-        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aboutMenuItemActionPerformed(evt);
-            }
-        });
         helpMenu.add(aboutMenuItem);
 
         authoringAppMenuBar.add(helpMenu);
@@ -297,36 +307,40 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inputTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
-                    .addComponent(scenarioScrollPane)
-                    .addComponent(consoleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(inputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 802, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(consoleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scenarioScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
                     .addComponent(insertPause, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(insertRepeat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(insertDisplayString, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(insertSkipButton, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                    .addComponent(insertUserInput, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                    .addComponent(insertRepeatButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                    .addComponent(insertResetButtons, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                    .addComponent(insertSound, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
-                    .addComponent(insertSkip, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                    .addComponent(insertSkipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertUserInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertRepeatButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertResetButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertSound, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertSkip, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(insertLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(insertKeyPhraseLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertKeyPhraseLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
                     .addComponent(insertText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(insertSeperator)
                     .addComponent(insertKeyPhraseSeperator)
-                    .addComponent(removeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(removeSeperator)
-                    .addComponent(insertPause1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(insertPause1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(insertRepeat1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(removeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(insertLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -339,8 +353,10 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
                         .addComponent(insertKeyPhraseSeperator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)
                         .addComponent(insertPause1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(insertRepeat, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(insertRepeat1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(insertRepeatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -354,36 +370,30 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(insertSkip, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(insertDisplayString, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(scenarioScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(scenarioScrollPane))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(removeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(removeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeSeperator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(consoleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(inputTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(insertPause, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(removeSeperator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(consoleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(insertPause, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(inputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>                        
-
-    private void ttsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void insertTextActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-
-    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        // TODO add your handling code here:
-    }                                             
 
     /**
      * @param args the command line arguments
@@ -428,6 +438,7 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JPopupMenu.Separator editMenuSeperator1;
+    private javax.swing.JPopupMenu.Separator editMenuSeperator2;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPopupMenu.Separator fileMenuSeperator1;
@@ -436,13 +447,13 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JPopupMenu.Separator helpMenuSeperator1;
     private javax.swing.JTextField inputTextField;
-    private javax.swing.JButton insertDisplayString;
     private javax.swing.JLabel insertKeyPhraseLabel;
     private javax.swing.JSeparator insertKeyPhraseSeperator;
     private javax.swing.JLabel insertLabel;
     private javax.swing.JButton insertPause;
     private javax.swing.JButton insertPause1;
     private javax.swing.JButton insertRepeat;
+    private javax.swing.JButton insertRepeat1;
     private javax.swing.JButton insertRepeatButton;
     private javax.swing.JButton insertResetButtons;
     private javax.swing.JSeparator insertSeperator;
@@ -451,6 +462,8 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
     private javax.swing.JButton insertSound;
     private javax.swing.JButton insertText;
     private javax.swing.JButton insertUserInput;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JMenuItem loadAndRunMenuItem;
     private javax.swing.JMenuItem loadScenarioMenuItem;
     private javax.swing.JMenuItem newMenuItem;
@@ -464,6 +477,7 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JTextPane scenarioPane;
     private javax.swing.JScrollPane scenarioScrollPane;
+    private javax.swing.JRadioButtonMenuItem textPaneEditingMenuItem;
     private javax.swing.JRadioButtonMenuItem ttsMenuItem;
     private javax.swing.JMenuItem undoMenuItem;
     // End of variables declaration                   
