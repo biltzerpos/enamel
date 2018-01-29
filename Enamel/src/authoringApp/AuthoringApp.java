@@ -21,14 +21,13 @@ import enamel.ToyAuthoring;
 public class AuthoringApp {
 
 	private static JFrame gui;
-	private static ArrayList<Component> guiComponents;
 	private static JFileChooser fc = new JFileChooser();
 	private static File f, currentFile;
 	private static String[] fileStr;
 	private static String scenarioStr;
 	private static int currentLine;
 	private static JPanel errorPanel;
-	private static boolean isSaved = true;
+	private static boolean isSaved = true, isOpened = false;
 	private static HashMap<String, Component> compMap;
 
 	public static void main(String[] args) {
@@ -72,6 +71,7 @@ public class AuthoringApp {
 						fileStr = fp.getArray();
 					}
 					updateScenarioPane(true);
+					isOpened = true;
 					stateChanged();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -128,8 +128,23 @@ public class AuthoringApp {
 	}
 
 	protected static void stateChanged() {
-		// TODO Auto-generated method stub
-		((JMenuItem) compMap.get("saveAsMenuItem")).setEnabled(true);
+		if (isOpened){
+			System.out.println(true);
+			compMap.get("saveAsMenuItem").setEnabled(true);
+			compMap.get("insertText").setEnabled(true);
+			compMap.get("insertPause").setEnabled(true);
+			compMap.get("insertSkipButton").setEnabled(true);
+			compMap.get("insertSkip").setEnabled(true);
+			compMap.get("insertUserInput").setEnabled(true);
+			compMap.get("insertRepeatButton").setEnabled(true);
+			compMap.get("insertRepeat").setEnabled(true);
+			compMap.get("insertEndRepeat").setEnabled(true);
+			compMap.get("insertResetButtons").setEnabled(true);
+			compMap.get("insertSound").setEnabled(true);
+			compMap.get("displayComboBox").setEnabled(true);
+			compMap.get("displayAddButton").setEnabled(true);
+			compMap.get("editRemoveLine").setEnabled(true);
+		}
 	}
 
 
