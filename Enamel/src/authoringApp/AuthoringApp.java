@@ -63,13 +63,49 @@ public class AuthoringApp {
 				if (!isSaved){
 					//save current file
 				}
+<<<<<<< HEAD
 				try {
+=======
+			});
+		}
+		else if (component.getName() == "saveMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					SaveAsFile save = new SaveAsFile("txt", fileStr,currentFile);
+					try {
+						save.stringArrayToFile(fileStr);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+			});
+		}
+		else if (component.getName() == "saveAsMenuItem"){
+			((JMenuItem) component).addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+>>>>>>> branch 'master' of https://github.com/davidc25tlumby/EECS2311-Group-11
 					f = openFileChooser(new File("FactoryScenarios/"), "txt");
 					if (f != null) {
 						currentFile = f;
 						gui.setTitle("Authoring App - " + currentFile.getName());
+<<<<<<< HEAD
 						FileParser fp = new FileParser(f);
 						fileStr = fp.getArray();
+=======
+						SaveAsFile save = new SaveAsFile("txt", fileStr,currentFile);
+						try {
+							save.stringArrayToFile(fileStr);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+>>>>>>> branch 'master' of https://github.com/davidc25tlumby/EECS2311-Group-11
 					}
 					updateScenarioPane(true);
 				} catch (IOException e1) {
