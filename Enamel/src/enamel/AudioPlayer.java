@@ -26,9 +26,10 @@ public class AudioPlayer extends Player {
 		//Need Skip Button to implement index
 		String scenario = sp.toString();
 		if (scenario.contains(param)) {
-			scenario.startsWith(param);
+			sp.skip(param);;
 		}
 		else {
+			
 		}
 		
 		try 
@@ -56,6 +57,25 @@ public class AudioPlayer extends Player {
 	@Override
 	public void addRepeatButtonListener(int index, ScenarioParser sp) {
 		// TODO Auto-generated method stub
+		//Look at how to determine when the clip stops reading
+		//Initialize the button
+		//initialize click event handler
+		
+		String scenariorepeat = sp.toString();
+		
+		
+		try 
+		   {
+		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(scenariorepeat).getAbsoluteFile( ));
+		    Clip clip = AudioSystem.getClip( );
+		    clip.open(audioInputStream);
+		    clip.start( );
+		   }
+		   catch(Exception ex)
+		   {
+		     System.out.println("Cannot Repeat Sentences");
+		     ex.printStackTrace( );
+		   }
+		 }
 	}
 
-}
