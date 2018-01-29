@@ -6,16 +6,13 @@ import java.io.IOException;
 
 
 public class SaveAsFile {
-	private String[] str;
-	private File file;
 	private String ext;
-	//public String[] savefile;
+	private File file;
+
 	//Initializes the class with the save file to be extension "ext".
-	SaveAsFile (String ext, String[] str, File f){
+	SaveAsFile (String ext, File f){
 		this.ext = ext;
-		this.str = str;
 		this.file = f;
-		
 	}
 	
 	//Save a string array with extension appropriate extension.
@@ -24,8 +21,8 @@ public class SaveAsFile {
 		
 		if (this.ext == "txt") {
 
-		    for (int i = 0; i < str.length; i++) {
-		      fw.write(str[i] + "\n");
+		    for (int i = 0; i < s.length; i++) {
+		      fw.write(s[i] + "\n");
 		    }
 		    fw.close();
 		  }
