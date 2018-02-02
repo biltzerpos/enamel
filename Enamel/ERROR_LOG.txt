@@ -1,0 +1,7 @@
+Feb 02, 2018 2:53:30 PM enamel.ScenarioParser errorLog
+WARNING: Exception error: java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
+Feb 02, 2018 2:53:30 PM enamel.ScenarioParser errorLog
+INFO: Expected format: 
+ num1 string1 
+ where num1 is the button number to receive the action listener and str1 is the identifier for where to skip to in the scenario file. 
+ Received input: 0 ONEE

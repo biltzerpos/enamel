@@ -1,6 +1,7 @@
 package enamel;
 
 import java.awt.EventQueue;
+
 import java.awt.Window;
 
 import javax.swing.JFrame;
@@ -16,8 +17,10 @@ import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
 
@@ -68,22 +71,30 @@ public class StartScreen {
 		JButton btnDanielsButton = new JButton("Daniel's Button");
 		btnDanielsButton.setVisible(false);
 		
+		JButton btnSaveNewFile = new JButton("Save New File");
+		btnSaveNewFile.setVisible(false); 
+		
 		txtNewtextfile = new JTextField();
 		txtNewtextfile.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					cust_file = txtNewtextfile.getText();
+			
 					txtNewtextfile.setVisible(false);
 					vm = VoiceManager.getInstance();
 			        voice = vm.getVoice ("kevin16");
 			        voice.allocate();
 			        voice.speak(cust_file);
 			        btnDanielsButton.setVisible(true);
+			        btnSaveNewFile.setVisible(true);
+			       
 				}
 			}
 		});
 		txtNewtextfile.setVisible(false);
+		
+		
 		
 		JButton btnChooseExistingFile = new JButton("Choose Existing File");
 		btnChooseExistingFile.addActionListener(new ActionListener() {
@@ -139,5 +150,25 @@ public class StartScreen {
 
 		btnDanielsButton.setBounds(10, 210, 188, 40);
 		panel.add(btnDanielsButton);
+		
+
+		btnSaveNewFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+		        try {
+		        	PrintWriter out = new PrintWriter(new FileWriter("TestFile.txt"));
+					txtNewtextfile.write(out);
+			        out.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				
+			}
+		});
+		btnSaveNewFile.setBounds(237, 210, 177, 40);
+		panel.add(btnSaveNewFile);
 	}
 }
