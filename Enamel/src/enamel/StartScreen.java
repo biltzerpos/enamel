@@ -154,17 +154,18 @@ public class StartScreen {
 
 		btnSaveNewFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				
-		        try {
-		        	PrintWriter out = new PrintWriter(new FileWriter("TestFile.txt"));
-					txtNewtextfile.write(out);
-			        out.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				try {
+		            PrintWriter out = new PrintWriter(new FileWriter("TestFile.txt"));
+		            txtNewtextfile.getText();
+		            txtNewtextfile.write(out);
+		            out.println(txtNewtextfile);
+		            out.flush();
+		            out.close();
 
+		        } catch (IOException e1) {
+		            System.err.println("Error occurred");
+		            e1.printStackTrace();
+		        }
 				
 			}
 		});
