@@ -59,6 +59,11 @@ public class AuthoringApp {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				if(e.getSource().equals("loadScenarioMenuItem")) {
+					isOpened = true;
+					stateChanged();
+				}
+				
 				if (!isSaved){
 					//save current file
 				}
@@ -121,10 +126,39 @@ public class AuthoringApp {
 					currentFile = f;
 					ToyAuthoring ta = new ToyAuthoring(f.getAbsolutePath());
 					ta.start();
+					
 				}
 			}
 			
+			
 		});
+		
+		((JButton) compMap.get("insertText")).addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(((JTextField) compMap.get("inputTextField")).getText());
+						
+			}
+			
+		});
+			
+		((JButton) compMap.get("insertPause")).addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+					throw new IllegalArgumentException();
+				}
+
+						
+			}
+			
+		});
+		
+		
+			
+		
 	}
 
 	protected static void stateChanged() {
