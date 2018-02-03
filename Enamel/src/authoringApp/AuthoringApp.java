@@ -24,7 +24,7 @@ public class AuthoringApp {
 	private static JFrame gui;
 	private static JFileChooser fc = new JFileChooser();
 	private static File f, currentFile;
-	private static ArrayList <String> fileStr;
+	private static ArrayList<String> fileStr;
 	private static String scenarioStr;
 	private static int currentLine;
 	private static JPanel errorPanel;
@@ -73,11 +73,11 @@ public class AuthoringApp {
 						col = Integer.parseInt(numCol.getText());
 						System.out.println(cell);
 						System.out.println(col);
-						isOpened=true;
+						isOpened = true;
 						stateChanged();
-						fileStr = new ArrayList <String>();
-						fileStr.add("Cell "+cell);
-						fileStr.add("Button "+col);
+						fileStr = new ArrayList<String>();
+						fileStr.add("Cell " + cell);
+						fileStr.add("Button " + col);
 						updateScenarioPane(true);
 						((JTextField) compMap.get("inputTextField")).setText("");
 
@@ -92,7 +92,7 @@ public class AuthoringApp {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						cell = 0;
 						col = 0;
-						isOpened=false;
+						isOpened = false;
 						temp.dispose();
 					}
 				});
@@ -105,7 +105,7 @@ public class AuthoringApp {
 				// e1.printStackTrace();
 				// }
 			}
-			
+
 		});
 		((JMenuItem) compMap.get("loadScenarioMenuItem")).addActionListener(new ActionListener() {
 
@@ -190,8 +190,8 @@ public class AuthoringApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				String temp=((JTextField) compMap.get("inputTextField")).getText();
+
+				String temp = ((JTextField) compMap.get("inputTextField")).getText();
 				System.out.println(temp);
 				((JTextField) compMap.get("inputTextField")).setText("");
 				fileStr.add(temp);
@@ -204,23 +204,41 @@ public class AuthoringApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//((JTextField) compMap.get("inputTextField")).setText("");
-				
+				// ((JTextField) compMap.get("inputTextField")).setText("");
+
 				if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
-					throw new IllegalArgumentException();	
+					JOptionPane.showMessageDialog(gui, "pause need to have a number");
+					throw new IllegalArgumentException();
 				}
-				try
-				{
-				int temp= Integer.parseInt(  (((JTextField) compMap.get("inputTextField")).getText())) ;
-				fileStr.add("/~pause:"+temp);
-				updateScenarioPane(true);
-				
-				}
-				catch (Exception ex)
-				{
+				try {
+					int temp = Integer.parseInt((((JTextField) compMap.get("inputTextField")).getText()));
+					fileStr.add("/~pause:" + temp);
+					updateScenarioPane(true);
+
+				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(gui, "pause need to have a number");
 				}
-				
+
+			}
+
+		});
+
+		// i dont know if this is right
+		((JButton) compMap.get("insertRepeat")).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileStr.add("/~repeat");
+				updateScenarioPane(true);
+
+			}
+
+		});
+
+		((JButton) compMap.get("insertEndRepeat")).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileStr.add("/~endrepeat");
+				updateScenarioPane(true);
 
 			}
 
