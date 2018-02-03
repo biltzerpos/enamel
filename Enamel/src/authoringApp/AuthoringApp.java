@@ -138,7 +138,7 @@ public class AuthoringApp {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(((JTextField) compMap.get("inputTextField")).getText());
-						
+				((JTextField) compMap.get("inputTextField")).setText("");		
 			}
 			
 		});
@@ -147,6 +147,7 @@ public class AuthoringApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				((JTextField) compMap.get("inputTextField")).setText("");
 				if(!((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
 					throw new IllegalArgumentException();
 				}
