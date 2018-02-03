@@ -186,6 +186,7 @@ public class AuthoringApp {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(((JTextField) compMap.get("inputTextField")).getText());
 				((JTextField) compMap.get("inputTextField")).setText("");
+				updateScenarioPane(true);
 			}
 
 		});
