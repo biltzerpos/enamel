@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+//import java.awt.Window;
 import java.io.*;
 import java.util.*;
 
@@ -30,42 +31,82 @@ public class AuthoringApp {
 	private static boolean isSaved = true, isOpened = false;
 	private static HashMap<String, Component> compMap;
 
+	private static int cell = 0; // number of cell
+	private static int col = 0; // number of collumn
+
 	public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                gui = new AuthoringAppGUI();
-                gui.setVisible(true);
-                compMap = ((AuthoringAppGUI) gui).getCompMap();
-                addActionListeners();
-            }
-        });
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				gui = new AuthoringAppGUI();
+				gui.setVisible(true);
+				compMap = ((AuthoringAppGUI) gui).getCompMap();
+				addActionListeners();
+			}
+		});
 	}
 
-
 	protected static void addActionListeners() {
-		((JMenuItem) compMap.get("newMenuItem")).addActionListener(new ActionListener(){
+		((JMenuItem) compMap.get("newMenuItem")).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!isSaved){
-					//TODO: give unsaved warning then save file;
+				if (!isSaved) {
+					// TODO: give unsaved warning then save file;
 				}
-				//open new file
+				// open new file
+
 				isSaved = false;
+				NewFileGUI temp = new NewFileGUI();
+				temp.setVisible(true);
+				HashMap<String, Component> tempMap = ((NewFileGUI) temp).getCompMap();
+				// System.out.println(tempMap);
+				JTextField numCell = (JTextField) tempMap.get("numCell");
+				JTextField numCol = (JTextField) tempMap.get("numCol");
+				// System.out.println(tempMap);
+				// ********************************************************************************************************
+				((JButton) tempMap.get("createButton")).addActionListener(new ActionListener() {
+
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						// synchronized(this) {
+						cell = Integer.parseInt(numCell.getText());
+						col = Integer.parseInt(numCol.getText());
+						System.out.println(cell);
+						System.out.println(col);
+						temp.dispose();
+						// this.notify();
+						// notify();
+					}
+				});
+
+				((JButton) tempMap.get("cancelButton")).addActionListener(new ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						cell = 0;
+						col = 0;
+						temp.dispose();
+					}
+				});
+
+				// *********************************************************************************************************
+				// try {
+				// this.wait();
+				// } catch (InterruptedException e1) {
+				// // TODO Auto-generated catch block
+				// e1.printStackTrace();
+				// }
 			}
 		});
 		((JMenuItem) compMap.get("loadScenarioMenuItem")).addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if(e.getSource().equals("loadScenarioMenuItem")) {
+				if (e.getSource().equals("loadScenarioMenuItem")) {
 					isOpened = true;
 					stateChanged();
 				}
-				
-				if (!isSaved){
-					//save current file
+
+				if (!isSaved) {
+					// save current file
 				}
 				try {
 					f = openFileChooser(new File("FactoryScenarios/"), "txt");
@@ -84,7 +125,7 @@ public class AuthoringApp {
 				}
 			}
 		});
-		((JMenuItem) compMap.get("saveMenuItem")).addActionListener(new ActionListener(){
+		((JMenuItem) compMap.get("saveMenuItem")).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -96,9 +137,9 @@ public class AuthoringApp {
 					e1.printStackTrace();
 				}
 			}
-			
+
 		});
-		((JMenuItem) compMap.get("saveAsMenuItem")).addActionListener(new ActionListener(){
+		((JMenuItem) compMap.get("saveAsMenuItem")).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -115,9 +156,9 @@ public class AuthoringApp {
 					}
 				}
 			}
-			
+
 		});
-		((JMenuItem) compMap.get("loadAndRunMenuItem")).addActionListener(new ActionListener(){
+		((JMenuItem) compMap.get("loadAndRunMenuItem")).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -126,44 +167,39 @@ public class AuthoringApp {
 					currentFile = f;
 					ToyAuthoring ta = new ToyAuthoring(f.getAbsolutePath());
 					ta.start();
-					
+
 				}
 			}
-			
-			
+
 		});
-		
-		((JButton) compMap.get("insertText")).addActionListener(new ActionListener(){
+
+		((JButton) compMap.get("insertText")).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(((JTextField) compMap.get("inputTextField")).getText());
-				((JTextField) compMap.get("inputTextField")).setText("");		
+				((JTextField) compMap.get("inputTextField")).setText("");
 			}
-			
+
 		});
-			
-		((JButton) compMap.get("insertPause")).addActionListener(new ActionListener(){
+
+		((JButton) compMap.get("insertPause")).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((JTextField) compMap.get("inputTextField")).setText("");
-				if(!((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+				if (!((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
 					throw new IllegalArgumentException();
 				}
 
-						
 			}
-			
+
 		});
-		
-		
-			
-		
+
 	}
 
 	protected static void stateChanged() {
-		if (isOpened){
+		if (isOpened) {
 			System.out.println(true);
 			compMap.get("saveAsMenuItem").setEnabled(true);
 			compMap.get("insertText").setEnabled(true);
@@ -182,38 +218,35 @@ public class AuthoringApp {
 		}
 	}
 
-
 	private static void updateScenarioPane(boolean isNew) {
-		if (isNew){
+		if (isNew) {
 			scenarioStr = "";
-			for (int i = 0; i < fileStr.length; i++){
+			for (int i = 0; i < fileStr.length; i++) {
 				scenarioStr += i + ": " + fileStr[i] + "\n";
 			}
 			currentLine = fileStr.length + 1;
-		}
-		else{
+		} else {
 			scenarioStr += currentLine + ": " + fileStr[currentLine] + "\n";
 		}
 		((JTextPane) compMap.get("scenarioPane")).setText(scenarioStr);
 	}
 
-	//Opens a file chooser @ the specified directory and expects the file selected
-	//to be of the extension 'ext'. Returns the selected file. If extension is of
-	//wrong type, return null.
+	// Opens a file chooser @ the specified directory and expects the file selected
+	// to be of the extension 'ext'. Returns the selected file. If extension is of
+	// wrong type, return null.
 	public static File openFileChooser(File currentDir, String ext) {
 		fc.setCurrentDirectory(currentDir);
 		int returnVal = fc.showOpenDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION) { 
-			   String selectedExt = FilenameUtils.getExtension(fc.getSelectedFile().getName());
-               if (!ext.equals(selectedExt)) {
-            	   /*final JPanel */errorPanel = new JPanel();
-            	   JOptionPane.showMessageDialog(errorPanel, "Could not open file, Wrong file type", "Error", JOptionPane.ERROR_MESSAGE);
-            	   return null;
-            }
-               else
-               {
-            	   return fc.getSelectedFile();
-               }
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String selectedExt = FilenameUtils.getExtension(fc.getSelectedFile().getName());
+			if (!ext.equals(selectedExt)) {
+				/* final JPanel */errorPanel = new JPanel();
+				JOptionPane.showMessageDialog(errorPanel, "Could not open file, Wrong file type", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return null;
+			} else {
+				return fc.getSelectedFile();
+			}
 		}
 		return null;
 	}
