@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class FileParser {
 	
-	private String[] parsedText;
+	private ArrayList<String> parsedText;
 	
 	
 	// Constructor
@@ -32,12 +32,12 @@ public class FileParser {
         while((string = reader.readLine()) != null){
             lines.add(string);
         }
-       parsedText = lines.toArray(new String[lines.size()]);
+       parsedText=lines;
 		
 	}
 	
 	// Returns the parsed file;
-	public String[] getArray() {
+	public ArrayList<String> getArray() {
 		return parsedText;
 	}
 }

@@ -3,6 +3,7 @@ package authoringApp;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class SaveAsFile {
@@ -16,13 +17,13 @@ public class SaveAsFile {
 	}
 	
 	//Save a string array with extension appropriate extension.
-	public void stringArrayToFile(String[] s) throws IOException{
+	public void stringArrayToFile(ArrayList<String> s) throws IOException{
 		FileWriter fw = new FileWriter(this.file);
 		
 		if (this.ext == "txt") {
 
-		    for (int i = 0; i < s.length; i++) {
-		      fw.write(s[i] + "\n");
+		    for (int i = 0; i < s.size(); i++) {
+		      fw.write(s.get(i) + "\n");
 		    }
 		    fw.close();
 		  }

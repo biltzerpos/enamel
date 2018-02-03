@@ -24,7 +24,7 @@ public class AuthoringApp {
 	private static JFrame gui;
 	private static JFileChooser fc = new JFileChooser();
 	private static File f, currentFile;
-	private static String[] fileStr;
+	private static ArrayList <String> fileStr;
 	private static String scenarioStr;
 	private static int currentLine;
 	private static JPanel errorPanel;
@@ -75,7 +75,7 @@ public class AuthoringApp {
 						System.out.println(col);
 						isOpened=true;
 						stateChanged();
-						
+						fileStr = new ArrayList <String>();
 						temp.dispose();
 
 						// this.notify();
@@ -184,8 +184,11 @@ public class AuthoringApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(((JTextField) compMap.get("inputTextField")).getText());
+				
+				String temp=((JTextField) compMap.get("inputTextField")).getText();
+				System.out.println(temp);
 				((JTextField) compMap.get("inputTextField")).setText("");
+				fileStr.add(temp);
 				updateScenarioPane(true);
 			}
 
@@ -229,12 +232,12 @@ public class AuthoringApp {
 	private static void updateScenarioPane(boolean isNew) {
 		if (isNew) {
 			scenarioStr = "";
-			for (int i = 0; i < fileStr.length; i++) {
-				scenarioStr += i + ": " + fileStr[i] + "\n";
+			for (int i = 0; i < fileStr.size(); i++) {
+				scenarioStr += i + ": " + fileStr.get(i) + "\n";
 			}
-			currentLine = fileStr.length + 1;
+			currentLine = fileStr.size() + 1;
 		} else {
-			scenarioStr += currentLine + ": " + fileStr[currentLine] + "\n";
+			scenarioStr += currentLine + ": " + fileStr.get(currentLine) + "\n";
 		}
 		((JTextPane) compMap.get("scenarioPane")).setText(scenarioStr);
 	}
