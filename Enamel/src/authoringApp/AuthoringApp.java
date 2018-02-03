@@ -58,6 +58,7 @@ public class AuthoringApp {
 				isSaved = false;
 				NewFileGUI temp = new NewFileGUI();
 				temp.setVisible(true);
+				
 				HashMap<String, Component> tempMap = ((NewFileGUI) temp).getCompMap();
 				// System.out.println(tempMap);
 				JTextField numCell = (JTextField) tempMap.get("numCell");
@@ -72,7 +73,11 @@ public class AuthoringApp {
 						col = Integer.parseInt(numCol.getText());
 						System.out.println(cell);
 						System.out.println(col);
+						isOpened=true;
+						stateChanged();
+						
 						temp.dispose();
+
 						// this.notify();
 						// notify();
 					}
@@ -82,6 +87,7 @@ public class AuthoringApp {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						cell = 0;
 						col = 0;
+						isOpened=false;
 						temp.dispose();
 					}
 				});
@@ -94,6 +100,7 @@ public class AuthoringApp {
 				// e1.printStackTrace();
 				// }
 			}
+			
 		});
 		((JMenuItem) compMap.get("loadScenarioMenuItem")).addActionListener(new ActionListener() {
 
