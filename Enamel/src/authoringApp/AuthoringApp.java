@@ -51,6 +51,7 @@ public class AuthoringApp {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!isSaved) {
+					JOptionPane.showMessageDialog(gui, "please save first");
 					// TODO: give unsaved warning then save file;
 				}
 				// open new file
@@ -58,7 +59,6 @@ public class AuthoringApp {
 				isSaved = false;
 				NewFileGUI temp = new NewFileGUI();
 				temp.setVisible(true);
-				
 				HashMap<String, Component> tempMap = ((NewFileGUI) temp).getCompMap();
 				// System.out.println(tempMap);
 				JTextField numCell = (JTextField) tempMap.get("numCell");
@@ -79,6 +79,8 @@ public class AuthoringApp {
 						fileStr.add("Cell "+cell);
 						fileStr.add("Button "+col);
 						updateScenarioPane(true);
+						((JTextField) compMap.get("inputTextField")).setText("");
+
 						temp.dispose();
 
 						// this.notify();
@@ -109,7 +111,6 @@ public class AuthoringApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				if (e.getSource().equals("loadScenarioMenuItem")) {
 					isOpened = true;
 					stateChanged();
@@ -128,6 +129,8 @@ public class AuthoringApp {
 					}
 					updateScenarioPane(true);
 					isOpened = true;
+					((JTextField) compMap.get("inputTextField")).setText("");
+
 					stateChanged();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -201,10 +204,23 @@ public class AuthoringApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				((JTextField) compMap.get("inputTextField")).setText("");
-				if (!((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
-					throw new IllegalArgumentException();
+				//((JTextField) compMap.get("inputTextField")).setText("");
+				
+				if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+					throw new IllegalArgumentException();	
 				}
+				try
+				{
+				int temp= Integer.parseInt(  (((JTextField) compMap.get("inputTextField")).getText())) ;
+				fileStr.add("/~pause:"+temp);
+				updateScenarioPane(true);
+				
+				}
+				catch (Exception ex)
+				{
+					JOptionPane.showMessageDialog(gui, "pause need to have a number");
+				}
+				
 
 			}
 
