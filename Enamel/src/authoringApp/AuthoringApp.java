@@ -76,6 +76,9 @@ public class AuthoringApp {
 						isOpened=true;
 						stateChanged();
 						fileStr = new ArrayList <String>();
+						fileStr.add("Cell "+cell);
+						fileStr.add("Button "+col);
+						updateScenarioPane(true);
 						temp.dispose();
 
 						// this.notify();

@@ -82,7 +82,7 @@ public class NewFileGUI extends javax.swing.JFrame {
         
         jLabel1.setText("Enter number of cell");
 
-        jLabel2.setText("Enter number of collum");
+        jLabel2.setText("Enter number of button");
         numCell.setName("numCell");
         numCol.setName("numCol");
         createButton.setText("Create");
