@@ -24,7 +24,7 @@ public class AuthoringApp {
 	private static JFrame gui;
 	private static JFileChooser fc = new JFileChooser();
 	private static File f, currentFile;
-	private static ArrayList<String> fileStr;
+	private static LinkedList<String> fileStr;
 	private static String scenarioStr;
 	private static int currentLine;
 	private static JPanel errorPanel;
@@ -75,7 +75,7 @@ public class AuthoringApp {
 						System.out.println(col);
 						isOpened = true;
 						stateChanged();
-						fileStr = new ArrayList<String>();
+						fileStr = new LinkedList<String>();
 						fileStr.add("Cell " + cell);
 						fileStr.add("Button " + col);
 						updateScenarioPane(true);
