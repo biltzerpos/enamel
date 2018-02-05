@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class FileParser {
@@ -39,5 +40,11 @@ public class FileParser {
 	// Returns the parsed file;
 	public ArrayList<String> getArray() {
 		return parsedText;
+	}
+
+	public LinkedList<String> getLinkedList() {
+		
+		
+		return null;
 	}
 }

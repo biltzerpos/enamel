@@ -199,6 +199,15 @@ public class AuthoringApp {
 			}
 
 		});
+		
+		((JMenuItem) compMap.get("exitMenuItem")).addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+			
+		});
 
 		((JButton) compMap.get("insertPause")).addActionListener(new ActionListener() {
 
