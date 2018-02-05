@@ -30,7 +30,6 @@ public class AuthoringApp {
 	private static JPanel errorPanel;
 	private static boolean isSaved = true, isOpened = false;
 	private static HashMap<String, Component> compMap;
-
 	private static int cell = 0; // number of cell
 	private static int col = 0; // number of collumn
 
