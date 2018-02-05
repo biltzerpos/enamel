@@ -126,6 +126,18 @@ public class AuthoringApp {
 			
 		});
 		
+		
+		((JMenuItem) compMap.get("exitMenuItem")).addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+			
+		});
+		
+		
+		
 		((JButton) compMap.get("insertPause")).addActionListener(new ActionListener(){
 
 			@Override
@@ -143,13 +155,22 @@ public class AuthoringApp {
 					System.exit(0);
 					
 					
-				}
+				}                    
 
 						
 			}
 			
 		});
+		
 	}
+
+		
+		
+	
+	
+	
+	
+	
 
 	protected static void stateChanged() {
 		if (isOpened){

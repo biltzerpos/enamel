@@ -43,7 +43,8 @@ public class FileParser {
 	}
 
 	public LinkedList<String> getLinkedList() {
-		// TODO Auto-generated method stub
+		
+		
 		return null;
 	}
 }
