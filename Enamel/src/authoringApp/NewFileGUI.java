@@ -1,12 +1,17 @@
 package authoringApp;
-
-import java.awt.event.WindowEvent;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+import java.awt.Component;
+import java.awt.Container;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.swing.JMenu;
+
 /**
  *
  * @author cuminh98
@@ -16,9 +21,45 @@ public class NewFileGUI extends javax.swing.JFrame {
     /**
      * Creates new form NewFileGUI
      */
+	private HashMap<String, Component> compMap = new HashMap<String, Component>();
+
+    private void createCompMap() {
+		ArrayList<Component> compList = getCompList(this);
+		//System.out.println(compList);
+		for (int i = 0; i < compList.size(); i++){
+			if (compList.get(i).getName() != null){
+				System.out.println(compList.get(i).getName());
+				this.compMap.put(compList.get(i).getName(), compList.get(i));
+			}
+		}
+	}
+
+	public ArrayList<Component> getCompList(final Container c) {
+		Component[] compArray = c.getComponents();
+		ArrayList<Component> compList = new ArrayList<Component>();
+		for (Component comp: compArray) {
+			compList.add(comp);
+			if (comp instanceof JMenu){
+				for (int i = 0; i < ((JMenu) comp).getMenuComponentCount(); i++){
+					compList.add(((JMenu) comp).getMenuComponent(i));
+				}
+			}
+			else if (comp instanceof Container){
+				compList.addAll(getCompList((Container) comp));
+			}
+		}
+		return compList;
+	}
+	
+	public HashMap<String, Component> getCompMap(){
+		return this.compMap;
+	}
+	
     public NewFileGUI() {
         initComponents();
+        createCompMap();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,44 +77,39 @@ public class NewFileGUI extends javax.swing.JFrame {
         createButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        numCell.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                numCellActionPerformed(evt);
-            }
-        });
-
-        numCol.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                numColActionPerformed(evt);
-            }
-        });
-
+        
         jLabel1.setText("Enter number of cell");
 
-        jLabel2.setText("Enter number of collum");
-
+        jLabel2.setText("Enter number of button");
+        numCell.setName("numCell");
+        numCol.setName("numCol");
         createButton.setText("Create");
-        
-        createButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createButtonActionPerformed(evt);
-                System.out.println(numCell.getText());
-                System.out.println(numCol.getText());
-                dispose();
-                
-            }
-        });
+        createButton.setName("createButton");
+//        createButton.addActionListener(new java.awt.event.ActionListener() {
+//            public   void actionPerformed(java.awt.event.ActionEvent evt) {
+////                synchronized(this) {
+//              //  createButtonActionPerformed(evt);
+//                cell=Integer.parseInt(numCell.getText());
+//                col=Integer.parseInt(numCol.getText());
+////                this.notify();
+////                notify();
+//                System.out.println(cell+" " +col);
+//                dispose(); 
+//                }
+////            }
+//        });
 
         cancelButton.setText("Cancel");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelButtonActionPerformed(evt);
-                dispose();
-
-            }
-        });
+        cancelButton.setName("cancelButton");
+//        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                cancelButtonActionPerformed(evt);
+//                
+//                dispose();
+//            }
+//        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,7 +163,7 @@ public class NewFileGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                            
 
-    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
     }                                            
 
@@ -162,9 +198,6 @@ public class NewFileGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new NewFileGUI().setVisible(true);
-                //newFile.dispose();
-                //newFile=(NewFileGUI)this;
-                
             }
         });
     }
@@ -176,6 +209,6 @@ public class NewFileGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField numCell;
     private javax.swing.JTextField numCol;
-  //  private static NewFileGUI newFile;
+    
     // End of variables declaration                   
 }

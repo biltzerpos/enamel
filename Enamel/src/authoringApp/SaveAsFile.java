@@ -1,31 +1,41 @@
 package authoringApp;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 
 public class SaveAsFile {
-	
-	private File absDirectory;
 	private String ext;
-	
+	private File file;
+
 	//Initializes the class with the save file to be extension "ext".
-	SaveAsFile (String ext, String directory){
+	SaveAsFile (String ext, File f){
 		this.ext = ext;
-		this.absDirectory = new File(directory);
+		this.file = f;
 	}
 	
 	//Save a string array with extension appropriate extension.
-	//IMPORTANT: made changes to this class because I read up on how saving works.
-	//This method should now write the array to the File this.absDirectory.
-	//Remember that the file name is a substring of absDirectory.
-	public void stringArrayToFile(String[] s){
+	public void stringArrayToFile(LinkedList<String> s) throws IOException{
+		FileWriter fw = new FileWriter(this.file);
+		
 		if (this.ext == "txt") {
-			//TODO: save String array s as a file of extension .txt
+
+		    for (int i = 0; i < s.size(); i++) {
+		      fw.write(s.get(i) + "\n");
+		    }
+		    fw.close();
+		  }
+			
 		}
-	}
+		
+
 	
 	//Returns the file.
 	public File getFile() {
-		return this.absDirectory;
+		return this.file;
 	}
 	
 }
