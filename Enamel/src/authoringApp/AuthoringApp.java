@@ -207,7 +207,7 @@ public class AuthoringApp {
 				System.exit(0);
 			}
 			
-		});
+		}); 
 
 		((JButton) compMap.get("insertPause")).addActionListener(new ActionListener() {
 
