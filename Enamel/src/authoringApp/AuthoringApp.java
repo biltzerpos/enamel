@@ -125,6 +125,30 @@ public class AuthoringApp {
 			}
 			
 		});
+		
+		((JButton) compMap.get("insertPause")).addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = ((JTextField) compMap.get("inputTextField")).getText();
+				boolean isValid;
+				
+				int k = Integer.parseInt(s);
+					if(k > 1 || k ==1) {
+						isValid = true;
+						System.out.println("/~pause:" + s);
+					}
+				if(k <1) {
+					JOptionPane.showMessageDialog(errorPanel, "Not a valid entry");
+					System.exit(0);
+					
+					
+				}
+
+						
+			}
+			
+		});
 	}
 
 	protected static void stateChanged() {
