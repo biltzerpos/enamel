@@ -207,6 +207,19 @@ public class AuthoringApp {
 			}
 			
 		}); 
+		
+		
+		((JButton) compMap.get("insertResetButtons")).addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent e) {
+             
+			
+				
+
+				
+			}
+			
+		}); 
 
 		((JButton) compMap.get("insertPause")).addActionListener(new ActionListener() {
 
@@ -274,6 +287,9 @@ public class AuthoringApp {
 		}
 	}
 
+	
+		
+	}
 	private static void updateScenarioPane(boolean isNew) {
 		if (isNew) {
 			scenarioStr = "";
