@@ -34,6 +34,8 @@ public class EditingScreen implements ActionListener{
 	JRadioButton radioButton_3;
 	JRadioButton radioButton_4;
 	JRadioButton radioButton_5;
+	JLabel lblSelectToClear;
+	JLabel lblCurrentButton;
 	int buttonCount = 5;
 	int boxCount = 4;
 	int currentButton = 0;
@@ -159,7 +161,7 @@ public class EditingScreen implements ActionListener{
 		gbc_clearRadioButton.gridx = 0;
 		gbc_clearRadioButton.gridy = 1;
 		clearCard.add(clearRadioButton, gbc_clearRadioButton);
-		JLabel lblSelectToClear = new JLabel("Select to clear cell");
+		lblSelectToClear = new JLabel("Select to clear cell");
 		GridBagConstraints gbc_lblSelectToClear = new GridBagConstraints();
 		gbc_lblSelectToClear.gridx = 0;
 		gbc_lblSelectToClear.gridy = 2;
@@ -283,10 +285,43 @@ public class EditingScreen implements ActionListener{
 		JButton btnApply = new JButton("Apply");
 		btnApply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String option = ""+cellBox.getSelectedItem();
+				if (option.equals("Clear"))
+				{
+					int cell = Integer.parseInt(""+clearChoose.getSelectedItem());
+				}
+				else if (option.equals("Pins"))
+				{
+					int cell = Integer.parseInt(""+blockChooser.getSelectedItem());
+					System.out.println(cell);
+				}
+				else if (option.equals("Character"))
+				{
+					int cell = Integer.parseInt(""+charChoose.getSelectedItem());
+					if(txtEnterCharHere.getText().length() != 1)
+					{
+						//Display Some Error Here
+					}
+						
+				}
+				else if (option.equals("Word"))
+				{
+					if (txtEnterWordHere.getText().length() != boxCount)
+					{
+						//Display Some Error Here
+					}
+				}
+				
 			}
 		});
 		btnApply.setBounds(791, 490, 97, 25);
 		panel.add(btnApply);
+		
+		lblCurrentButton = new JLabel("Current Button: 0");
+		lblCurrentButton.setForeground(Color.WHITE);
+		lblCurrentButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCurrentButton.setBounds(50, 571, 183, 16);
+		panel.add(lblCurrentButton);
 		
 		
 		
@@ -308,10 +343,6 @@ public class EditingScreen implements ActionListener{
 		}	
 	}
 
-	public void initializeRadioButtons()
-	{
-		
-	}
 	
 
 
@@ -325,6 +356,8 @@ public class EditingScreen implements ActionListener{
 				currentButton = i;
 			}
 		}
+		lblCurrentButton.setText("Current Button: "+currentButton);
+		
 		
 	}
 }
