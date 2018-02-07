@@ -289,7 +289,7 @@ public class AuthoringApp {
 
 	
 		
-	}
+	
 	private static void updateScenarioPane(boolean isNew) {
 		if (isNew) {
 			scenarioStr = "";
