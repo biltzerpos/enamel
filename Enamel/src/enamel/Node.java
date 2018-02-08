@@ -3,73 +3,12 @@ package enamel;
 import java.util.*;
 
 public class Node {
-	
-	public class NodeButton {
-		private int buttonNumber;
-		private String response;
-		private int nextNode;
-
-		public NodeButton(int buttonNumber) {
-			this.buttonNumber = buttonNumber;
-			this.response = "";
-			this.nextNode = -1;
-		}
-
-		public NodeButton(int buttonNumber, String response) {
-			this.buttonNumber = buttonNumber;
-			this.response = response;
-			this.nextNode = -1;
-		}
-		
-		public NodeButton(int buttonNumber, String response, int next_node) {			 
-			this.buttonNumber = buttonNumber;
-			this.response = response;
-			this.nextNode = next_node;
-		}
-		
-		public NodeButton(int buttonNumber, int next_node) {			 
-			this.buttonNumber = buttonNumber;
-			this.response = "";
-			this.nextNode = next_node;
-		}
-		
-		public NodeButton(NodeButton other) {
-			this.buttonNumber = other.buttonNumber;
-			this.response = other.response;
-			this.nextNode = other.nextNode;
-		}
-		
-		public int getNumber() {
-			return this.buttonNumber;
-		}
-		
-		public void setNumber(int number) {
-			this.buttonNumber = number;
-		}
-		
-		public String getResponse() {
-			return this.response;
-		}
-				
-		public void setResponse(String response) {
-			this.response = response;
-		}
-		
-		public void setNextNode(int next) {
-			this.nextNode = next;
-		}
-		
-		public int getNextNode() {
-			return this.nextNode;
-		}
-	}
-	
 	private int id;
 	private String name;
 	private String response;
 	private String repeatText;
 	Map<Integer, NodeButton> buttonList;
-	private int[] listOfPins = new int[8];
+	private Map<Integer, int[]> pins;
 	
 	public Node(int id) {
 		this(id, String.valueOf(id), null, null);
@@ -83,40 +22,40 @@ public class Node {
 		this(id, name, null, response);
 	}
 	
-	public Node(int id, String name, int[] listOfPins) {
-		this(id, name, listOfPins, null);
+	public Node(int id, String name, Map<Integer, int[]> pins) {
+		this(id, name, pins, null);
 	
 	}
 	
-	public Node(int id, String name, int[] listOfPins, String response) {
+	public Node(int id, String name, Map<Integer, int[]> pins, String response) {
 		this.id = id;
 		this.name = name;
 		this.response = response;
-		this.listOfPins = listOfPins;
+		this.pins = pins;
 		this.buttonList = new HashMap<>();
 	}
 	
-	public Node(int id, int[] listOfPins) {
-		this(id, String.valueOf(id), listOfPins, null);
+	public Node(int id, Map<Integer, int[]> pins) {
+		this(id, String.valueOf(id), pins, null);
 	}
 	
-	public Node(int id, String name, int[] listOfPins, String response, Map<Integer, NodeButton> buttonList) {
+	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, Map<Integer, NodeButton> buttonList) {
 		this(id, name, listOfPins, response, null, buttonList);
 	}
 	
-	public Node(int id, String name, int[] listOfPins, String response, String repeatText) {
+	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, String repeatText) {
 		this.id = id;
 		this.name = name;
-		this.listOfPins = listOfPins;
+		this.pins = listOfPins;
 		this.response = response;
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
 	}
 	
-	public Node(int id, String name, int[] listOfPins, String response, String repeatText, Map<Integer, NodeButton> buttonList) {
+	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, String repeatText, Map<Integer, NodeButton> buttonList) {
 		this.id = id;
 		this.name = name;
-		this.listOfPins = listOfPins;
+		this.pins = listOfPins;
 		this.response = response;
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
@@ -125,7 +64,7 @@ public class Node {
 	public Node(Node other) {
 		this.id = other.id;
 		this.name = other.name;
-		this.listOfPins = other.listOfPins;
+		this.pins = other.pins;
 		this.response = other.response;
 		this.repeatText = other.repeatText;
 		this.buttonList = other.buttonList;
@@ -159,39 +98,35 @@ public class Node {
 		return this.repeatText;
 	}
 	
-	public int[] getPins() {
-		return this.listOfPins;
+	public int[] getPins(int cellNumber) {
+		return this.pins.get(cellNumber);
 	}
 	
-	public void setPins(int[] pins) {
-		this.listOfPins = pins;
+	public void setPins(int[] pins, int cellNumber) {
+		this.pins.put(cellNumber, pins);
 	}
 	
-	public void setPin(int pin, int value) {
-		this.listOfPins[pin] = value;
+	public void setPin(int cellNumber, int pin, int value) {
+		this.pins.get(cellNumber)[pin] = value;
 	}
 	
 	public void addButton(int number) {
 		this.buttonList.put(number, new NodeButton(number));
 	}
 	
-	public void addButton(int number, String response) {
-		this.buttonList.put(number, new NodeButton(number, response));
+	public void addButton(int number, String response, Node nextNode) {
+		this.buttonList.put(number, new NodeButton(number, response, nextNode));
 	}
 	
-	public void addButton(int number, String response, int nextNodeId) {
-		this.buttonList.put(number, new NodeButton(number, response, nextNodeId));
-	}
-	
-	public void addButton(int number, int nextNodeId) {
-		this.buttonList.put(number, new NodeButton(number,  nextNodeId));
+	public void addButton(int number, Node nextNode) {
+		this.buttonList.put(number, new NodeButton(number, nextNode));
 	}
 	
 	public NodeButton getButton(int buttonNumber) {
 		return this.buttonList.get(buttonNumber);
 	}
 	
-	public int getNext(int buttonNumber) { 
+	public Node getNext(int buttonNumber) { 
 		return this.buttonList.get(buttonNumber).getNextNode();
 	}
 
@@ -203,7 +138,7 @@ public class Node {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((buttonList == null) ? 0 : buttonList.hashCode());
-		result = prime * result + Arrays.hashCode(listOfPins);
+		result = prime * result + pins.hashCode();
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((repeatText == null) ? 0 : repeatText.hashCode());
 		result = prime * result + ((response == null) ? 0 : response.hashCode());
@@ -232,7 +167,7 @@ public class Node {
 		} else if (!buttonList.equals(other.buttonList)) {
 			return false;
 		}
-		if (!Arrays.equals(listOfPins, other.listOfPins)) {
+		if (!pins.equals(other.pins)) {
 			return false;
 		}
 		if (name == null) {
