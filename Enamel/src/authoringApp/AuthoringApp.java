@@ -68,6 +68,16 @@ public class AuthoringApp {
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						// synchronized(this) {
+						((JButton) compMap.get("insertText")).setToolTipText("Insert Text");
+						((JButton) compMap.get("insertPause")).setToolTipText("Pause the program");
+						((JButton) compMap.get("insertSkip")).setToolTipText("Insert Text");
+						((JButton) compMap.get("insertUserInput")).setToolTipText("Insert Text");
+						((JButton) compMap.get("insertRepeatButton")).setToolTipText("Insert Text");
+						((JButton) compMap.get("insertRepeat")).setToolTipText("Insert Text");
+						((JButton) compMap.get("insertEndRepeat")).setToolTipText("Insert Text");
+						((JButton) compMap.get("insertResetButtons")).setToolTipText("Insert Text");
+						((JButton) compMap.get("insertSound")).setToolTipText("Insert Text");
+						((JButton) compMap.get("editRemoveLine")).setToolTipText("Insert Text");
 						cell = Integer.parseInt(numCell.getText());
 						col = Integer.parseInt(numCol.getText());
 						System.out.println(cell);
@@ -222,12 +232,9 @@ public class AuthoringApp {
 		((JButton) compMap.get("insertResetButtons")).addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
+             				
+				}
              
-			
-				
-
-				
-			}
 			
 		}); 
 
