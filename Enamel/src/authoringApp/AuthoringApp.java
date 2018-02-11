@@ -32,6 +32,7 @@ public class AuthoringApp {
 	private static HashMap<String, Component> compMap;
 	private static int cell = 0; // number of cell
 	private static int col = 0; // number of collumn
+	private static JTextPaneController controller;
 
 	public static void main(String[] args) {
 		java.awt.EventQueue.invokeLater(new Runnable() {
@@ -80,18 +81,19 @@ public class AuthoringApp {
 						((JButton) compMap.get("editRemoveLine")).setToolTipText("Insert Text");
 						cell = Integer.parseInt(numCell.getText());
 						col = Integer.parseInt(numCol.getText());
-						System.out.println(cell);
-						System.out.println(col);
+						//System.out.println(cell);
+						//System.out.println(col);
 						isOpened = true;
 						stateChanged();
 						fileStr = new LinkedList<String>();
 						fileStr.add("Cell " + cell);
 						fileStr.add("Button " + col);
-						updateScenarioPane(true);
+						//updateScenarioPane(true);
 						((JTextField) compMap.get("inputTextField")).setText("");
 
 						temp.dispose();
-
+						controller = new JTextPaneController((JTextPane) compMap.get("scenarioPane"), (JScrollPane) compMap.get("scenarioScrollPane"));
+						controller.newDocCreated(fileStr);
 						// this.notify();
 						// notify();
 					}
@@ -212,9 +214,7 @@ public class AuthoringApp {
 
 				String temp = ((JTextField) compMap.get("inputTextField")).getText();
 				System.out.println(temp);
-				((JTextField) compMap.get("inputTextField")).setText("");
-				fileStr.add(temp);
-				updateScenarioPane(true);
+				controller.addElement(temp, 0);
 			}
 
 		});
