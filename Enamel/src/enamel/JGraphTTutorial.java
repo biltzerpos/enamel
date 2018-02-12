@@ -24,7 +24,8 @@ public class JGraphTTutorial {
 		int[] arr1 = {1,1,1,0,0,0,0,0};
 		String name = "ONEE";
 		String response = "These are pins 1, 2 and 3, the 3 pins on the left side.\nPress button 1 to continue.";
-		Node node1 = new Node(counter, name, arr1 ,response);
+		Node node1 = new Node(counter, name, response);
+		node1.setPins(arr1, 0);
 		node1.addButton(0);
 		head = node1;
 		graph.addVertex(node1);
@@ -32,7 +33,8 @@ public class JGraphTTutorial {
 		
 		int[] arr2 = {0,0,0,1,1,1,0,0};
 		response = "These are pins 4, 5 and 6, the 3 pins on the right side.\nPress button 1 to continue.";
-		Node node2 = new Node(counter, name, arr2 ,response);
+		Node node2 = new Node(counter, name, response);
+		node2.setPins(arr2, 0);
 		node2.addButton(0);
 		graph.addVertex(node2);
 		counter++;
@@ -42,7 +44,8 @@ public class JGraphTTutorial {
 		
 		arr1[2] = 0;
 		response = "These are pins 1 and 2, the top two pins on the left side.\nPress button 1 to continue.";
-		node1 = new Node(counter, name, arr1 ,response);
+		node1 = new Node(counter, name, response);
+		node1.setPins(arr1, 0);
 		node1.addButton(0);
 		graph.addVertex(node1);
 		counter++;
@@ -51,7 +54,8 @@ public class JGraphTTutorial {
 		
 		arr2[5] = 0;
 		response = "These are pins 4 and 5, the top two pins on the right side. Press button 1 to continue.";
-		node2 = new Node(counter, name, arr2 ,response);
+		node2 = new Node(counter, name, response);
+		node2.setPins(arr2, 0);
 		node2.addButton(0);
 		graph.addVertex(node2);
 		counter++;
@@ -61,7 +65,8 @@ public class JGraphTTutorial {
 		arr1[1] = 0;
 		arr1[3] = 1;
 		response = "These are pins 1 and 4, the two pins on the top. Press button 1 to continue.";
-		node1 = new Node(counter, name, arr1 ,response);
+		node1 = new Node(counter, name, response);
+		node1.setPins(arr1, 0);
 		node1.addButton(0);
 		graph.addVertex(node1);
 		counter++;
@@ -73,7 +78,8 @@ public class JGraphTTutorial {
 		arr2[4] = 0;
 		arr2[5] = 1;
 		response = "These are pins 3 and 6, the two pins on the bottom. Press button 1 to continue.";
-		node2 = new Node(counter, name, arr2 ,response);
+		node2 = new Node(counter, name, response);
+		node2.setPins(arr2, 0);
 		node2.addButton(0);
 		graph.addVertex(node2);
 		counter++;

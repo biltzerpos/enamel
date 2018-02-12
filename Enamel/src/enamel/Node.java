@@ -19,7 +19,7 @@ public class Node {
 	}
 	
 	public Node(int id, String name, String response) {
-		this(id, name, null, response);
+		this(id, name, new HashMap<Integer, int[]>(), response);
 	}
 	
 	public Node(int id, String name, Map<Integer, int[]> pins) {
@@ -88,6 +88,10 @@ public class Node {
 	
 	public String getResponse() {
 		return this.response;
+	}
+	
+	public void addToResonse(String addition) {
+		this.response += addition;
 	}
 	
 	public void setRepeatedText(String repeatText) {

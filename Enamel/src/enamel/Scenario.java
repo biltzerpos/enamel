@@ -33,6 +33,19 @@ public class Scenario {
 		}
 	}
 	
+	public Node createNode() {
+		idCounter++;
+		return new Node(idCounter-1);
+		
+	}
+	
+	public Node createNode(String name) {
+		idCounter++;
+		return new Node(idCounter-1, name);
+	}
+	
+	
+	
 	public Node getHead() {
 		return this.head;
 	}
@@ -61,6 +74,16 @@ public class Scenario {
 		}
 		return nodeArr;
 		
+	}
+	
+	public Node getNextNode(Node currNode, String name) {
+		Node[] nodes = this.getNextNodes(currNode);
+		for (Node node : nodes) {
+			if (node.getName().equals(name)){
+				return node;
+			}
+		}
+		return null;
 	}
 	
 	public Node[] getNextNodes(Node currNode) {
