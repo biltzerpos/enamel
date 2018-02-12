@@ -1,8 +1,6 @@
 package enamel;
 
 import java.io.*;
-import java.io.FileFilter;
-
 import javax.swing.*;
 import javax.swing.filechooser.*;
 

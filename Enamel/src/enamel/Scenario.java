@@ -3,7 +3,6 @@ package enamel;
 import java.util.*;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.*;
-import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 public class Scenario {
