@@ -88,7 +88,7 @@ public class EditingScreen implements ActionListener {
 		frame.setBounds(100, 100, 975, 739);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
+//
 		// Initialize Main JPanel
 		panel = new JPanel();
 		panel.setBounds(0, 0, 957, 692);
