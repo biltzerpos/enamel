@@ -1,7 +1,5 @@
 package enamel;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
  
@@ -18,16 +16,22 @@ import javax.sound.sampled.TargetDataLine;
  * @author www.codejava.net
  *
  */
-public class Recorder {
-    private static final int BUFFER_SIZE = 4096;
-    private ByteArrayOutputStream recordBytes;
-    private TargetDataLine audioLine;
-    private AudioFormat format;
+public class Recorder { // record duration, in milliseconds
+    static final long RECORD_TIME = 60000;  // 1 minute
+    
+    //Change recording time to allow user to choose when they want to stop
  
-    private boolean isRunning;
+    // path of the wav file
+    File wavFile = new File("FactoryScenarios\\AudioFiles\\RecorderJava.wav");
+ 
+    // format of audio file
+    AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
+ 
+    // the line from which audio data is captured
+    TargetDataLine line;
  
     /**
-     * Defines a default audio format used to record
+     * Defines an audio format
      */
     AudioFormat getAudioFormat() {
         float sampleRate = 16000;
@@ -35,69 +39,75 @@ public class Recorder {
         int channels = 2;
         boolean signed = true;
         boolean bigEndian = true;
-        return new AudioFormat(sampleRate, sampleSizeInBits, channels, signed,
-                bigEndian);
+        AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits,
+                                             channels, signed, bigEndian);
+        return format;
     }
  
     /**
-     * Start recording sound.
-     * @throws LineUnavailableException if the system does not support the specified
-     * audio format nor open the audio data line.
+     * Captures the sound and record into a WAV file
      */
-    public void start() throws LineUnavailableException {
-        format = getAudioFormat();
-        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+    void start() {
+        try {
+            AudioFormat format = getAudioFormat();
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
  
-        // checks if system supports the data line
-        if (!AudioSystem.isLineSupported(info)) {
-            throw new LineUnavailableException(
-                    "The system does not support the specified format.");
-        }
+            // checks if system supports the data line
+            if (!AudioSystem.isLineSupported(info)) {
+                System.out.println("Line not supported");
+                System.exit(0);
+            }
+            line = (TargetDataLine) AudioSystem.getLine(info);
+            line.open(format);
+            line.start();   // start capturing
  
-        audioLine = AudioSystem.getTargetDataLine(format);
+            System.out.println("Start capturing...");
  
-        audioLine.open(format);
-        audioLine.start();
+            AudioInputStream ais = new AudioInputStream(line);
  
-        byte[] buffer = new byte[BUFFER_SIZE];
-        int bytesRead = 0;
+            System.out.println("Start recording...");
  
-        recordBytes = new ByteArrayOutputStream();
-        isRunning = true;
+            // start recording
+            AudioSystem.write(ais, fileType, wavFile);
  
-        while (isRunning) {
-            bytesRead = audioLine.read(buffer, 0, buffer.length);
-            recordBytes.write(buffer, 0, bytesRead);
-        }
-    }
- 
-    /**
-     * Stop recording sound.
-     * @throws IOException if any I/O error occurs.
-     */
-    public void stop() throws IOException {
-        isRunning = false;
-         
-        if (audioLine != null) {
-            audioLine.drain();
-            audioLine.close();
+        } catch (LineUnavailableException ex) {
+            ex.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
  
     /**
-     * Save recorded sound data into a .wav file format.
-     * @param wavFile The file to be saved.
-     * @throws IOException if any I/O error occurs.
+     * Closes the target data line to finish capturing and recording
      */
-    public void save(File wavFile) throws IOException {
-        byte[] audioData = recordBytes.toByteArray();
-        ByteArrayInputStream bais = new ByteArrayInputStream(audioData);
-        AudioInputStream audioInputStream = new AudioInputStream(bais, format,
-                audioData.length / format.getFrameSize());
+    void finish() {
+        line.stop();
+        line.close();
+        System.out.println("Finished");
+    }
  
-        AudioSystem.write(audioInputStream, AudioFileFormat.Type.WAVE, wavFile);
+    /**
+     * Entry to run the program
+     */
+    public static void main(String[] args) {
+        final Recorder recorder = new Recorder();
  
-        audioInputStream.close();
-        recordBytes.close();
+        // creates a new thread that waits for a specified
+        // of time before stopping
+        Thread stopper = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(RECORD_TIME);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                recorder.finish();
+            }
+        });
+ 
+        stopper.start();
+ 
+        // start recording
+        recorder.start();
     }
 }
