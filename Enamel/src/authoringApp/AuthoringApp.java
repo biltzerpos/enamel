@@ -69,34 +69,21 @@ public class AuthoringApp {
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						// synchronized(this) {
-						((JButton) compMap.get("insertText")).setToolTipText("Insert Text");
-						((JButton) compMap.get("insertPause")).setToolTipText("Pause the program");
-						((JButton) compMap.get("insertSkip")).setToolTipText("Insert Text");
-						((JButton) compMap.get("insertUserInput")).setToolTipText("Insert Text");
-						((JButton) compMap.get("insertRepeatButton")).setToolTipText("Insert Text");
-						((JButton) compMap.get("insertRepeat")).setToolTipText("Insert Text");
-						((JButton) compMap.get("insertEndRepeat")).setToolTipText("Insert Text");
-						((JButton) compMap.get("insertResetButtons")).setToolTipText("Insert Text");
-						((JButton) compMap.get("insertSound")).setToolTipText("Insert Text");
-						((JButton) compMap.get("editRemoveLine")).setToolTipText("Insert Text");
+
 						cell = Integer.parseInt(numCell.getText());
 						col = Integer.parseInt(numCol.getText());
 						//System.out.println(cell);
 						//System.out.println(col);
 						isOpened = true;
 						stateChanged();
-						fileStr = new LinkedList<String>();
-						fileStr.add("Cell " + cell);
-						fileStr.add("Button " + col);
-						//updateScenarioPane(true);
-						((JTextField) compMap.get("inputTextField")).setText("");
-
+						
 						temp.dispose();
-						controller = new JTextPaneController((JTextPane) compMap.get("scenarioPane"), (JScrollPane) compMap.get("scenarioScrollPane"));
-						controller.newDocCreated(fileStr);
+				
 						// this.notify();
 						// notify();
 					}
+					
+					
 				});
 
 				((JButton) tempMap.get("cancelButton")).addActionListener(new ActionListener() {
@@ -107,7 +94,27 @@ public class AuthoringApp {
 						temp.dispose();
 					}
 				});
-
+				
+				((JButton) compMap.get("insertText")).setToolTipText("Insert Text");
+				((JButton) compMap.get("insertPause")).setToolTipText("Pause the program");
+				((JButton) compMap.get("insertSkip")).setToolTipText("Insert Text");
+				((JButton) compMap.get("insertUserInput")).setToolTipText("Insert Text");
+				((JButton) compMap.get("insertRepeatButton")).setToolTipText("Insert Text");
+				((JButton) compMap.get("insertRepeat")).setToolTipText("Insert Text");
+				((JButton) compMap.get("insertEndRepeat")).setToolTipText("Insert Text");
+				((JButton) compMap.get("insertResetButtons")).setToolTipText("Insert Text");
+				((JButton) compMap.get("insertSound")).setToolTipText("Insert Text");
+				((JButton) compMap.get("editRemoveLine")).setToolTipText("Insert Text");
+				fileStr = new LinkedList<String>();
+				fileStr.add("Cell " + cell +"\n");
+				fileStr.add("Button " + col+"\n");
+				//updateScenarioPane(true);
+				((JTextField) compMap.get("inputTextField")).setText("");
+				System.out.println(fileStr);
+				controller = new JTextPaneController((JTextPane) compMap.get("scenarioPane"), (JScrollPane) compMap.get("scenarioScrollPane"));
+				controller.newDocCreated(fileStr);
+				controller.addElement("Cell " + cell,0);
+				controller.addElement("Button " + col,0);
 				// *********************************************************************************************************
 				// try {
 				// this.wait();
@@ -250,8 +257,7 @@ public class AuthoringApp {
 				}
 				try {
 					int temp = Integer.parseInt((((JTextField) compMap.get("inputTextField")).getText()));
-					fileStr.add("/~pause:" + temp);
-					updateScenarioPane(true);
+					controller.addElement("/~pause:" + temp,0);
 
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(gui, "pause need to have a number");

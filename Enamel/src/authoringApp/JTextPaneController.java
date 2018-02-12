@@ -68,6 +68,7 @@ public class JTextPaneController extends JTextPane{
 			e1.printStackTrace();
 		}
 		System.out.println(tp.getText());
+		System.out.println("****************************************");
 	}
 
 
