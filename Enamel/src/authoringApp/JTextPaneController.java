@@ -27,36 +27,44 @@ public class JTextPaneController extends JTextPane{
 		
 		try {
 			tp.setPage(getClass().getResource("defaultHTML.html"));
+			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 	}
-
-	public void newDocCreated(LinkedList<String> fileStr) {
+	
+	public LinkedList<Integer> newDocCreated(LinkedList<String> fileStr) {
 		// TODO Auto-generated method stub
-		//System.out.println(tp.getText());
+		// System.out.println(tp.getText());
 		doc = (HTMLDocument) tp.getDocument();
-		/*for (int i = 1; i < fileStr.size(); i++){
-			e = doc.getElement(new Integer(i - 1).toString());
+		LinkedList<Integer> n=new LinkedList<Integer>();
+		n.add(0);
+		for (int i = 1; i <= fileStr.size(); i++) {
+			e = doc.getElement(new Integer(i - 1).toString() );
 			try {
-				doc.insertAfterEnd(e, "<p id=\"" + i + "\">" + fileStr.get(i) + "</p>");
-			} catch (BadLocationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				System.out.println(fileStr.get(i-1));
+				doc.insertAfterEnd(e,  "<p id=\"" + i + "\">" + fileStr.get(i - 1) + "</p>");
+				n.add(i);
+			} catch (BadLocationException | IOException e1) {
+				// TODO Auto -generated catch block
 				e1.printStackTrace();
 			}
-		}*/
+			
+		}
+		System.out.println(tp.getText());
+		System.out.println("****************************************");
+		return n;
 	}
+
+	
 
 	public void addElement(String temp, int i) {
 		// TODO Auto-generated method stub
 		//doc = (HTMLDocument) tp.getDocument();
 		//doc = (HTMLDocument) tp.getDocument();
-		e = doc.getElement(new Integer(i).toString());
+		e = doc.getElement(new Integer(i-1).toString());
 		
 		try {
 			doc.insertAfterEnd(e, "<p id=\"" + i + "\">" + temp + "</p>");

@@ -25,6 +25,8 @@ public class AuthoringApp {
 	private static JFileChooser fc = new JFileChooser();
 	private static File f, currentFile;
 	private static LinkedList<String> fileStr;
+	private static LinkedList<Integer> id;
+
 	private static String scenarioStr;
 	private static int currentLine;
 	private static JPanel errorPanel;
@@ -40,6 +42,10 @@ public class AuthoringApp {
 				gui = new AuthoringAppGUI();
 				gui.setVisible(true);
 				compMap = ((AuthoringAppGUI) gui).getCompMap();
+				fileStr = new LinkedList<String>();
+				id= new LinkedList<Integer>();
+				id.add(0);
+				controller = new JTextPaneController((JTextPane) compMap.get("scenarioPane"), (JScrollPane) compMap.get("scenarioScrollPane"));
 				addActionListeners();
 			}
 		});
@@ -63,6 +69,8 @@ public class AuthoringApp {
 				// System.out.println(tempMap);
 				JTextField numCell = (JTextField) tempMap.get("numCell");
 				JTextField numCol = (JTextField) tempMap.get("numCol");
+				fileStr = new LinkedList<String>();
+				id= new LinkedList<Integer>();
 				// System.out.println(tempMap);
 				// ********************************************************************************************************
 				((JButton) tempMap.get("createButton")).addActionListener(new ActionListener() {
@@ -77,6 +85,15 @@ public class AuthoringApp {
 						isOpened = true;
 						stateChanged();
 						
+						
+						fileStr.add("Cell " + cell );
+						fileStr.add("Button " + col );
+						//updateScenarioPane(true);
+						((JTextField) compMap.get("inputTextField")).setText("");
+						id=controller.newDocCreated(fileStr);
+
+						id.add(1);
+						id.add(2);
 						temp.dispose();
 				
 						// this.notify();
@@ -88,33 +105,15 @@ public class AuthoringApp {
 
 				((JButton) tempMap.get("cancelButton")).addActionListener(new ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						cell = 0;
-						col = 0;
+						cell = Integer.parseInt(numCell.getText());
+						col = Integer.parseInt(numCol.getText());;
 						isOpened = false;
 						temp.dispose();
 					}
 				});
 				
-				((JButton) compMap.get("insertText")).setToolTipText("Insert Text");
-				((JButton) compMap.get("insertPause")).setToolTipText("Pause the program");
-				((JButton) compMap.get("insertSkip")).setToolTipText("Insert Text");
-				((JButton) compMap.get("insertUserInput")).setToolTipText("Insert Text");
-				((JButton) compMap.get("insertRepeatButton")).setToolTipText("Insert Text");
-				((JButton) compMap.get("insertRepeat")).setToolTipText("Insert Text");
-				((JButton) compMap.get("insertEndRepeat")).setToolTipText("Insert Text");
-				((JButton) compMap.get("insertResetButtons")).setToolTipText("Insert Text");
-				((JButton) compMap.get("insertSound")).setToolTipText("Insert Text");
-				((JButton) compMap.get("editRemoveLine")).setToolTipText("Insert Text");
-				fileStr = new LinkedList<String>();
-				fileStr.add("Cell " + cell +"\n");
-				fileStr.add("Button " + col+"\n");
-				//updateScenarioPane(true);
-				((JTextField) compMap.get("inputTextField")).setText("");
-				System.out.println(fileStr);
-				controller = new JTextPaneController((JTextPane) compMap.get("scenarioPane"), (JScrollPane) compMap.get("scenarioScrollPane"));
-				controller.newDocCreated(fileStr);
-				controller.addElement("Cell " + cell,0);
-				controller.addElement("Button " + col,0);
+				
+			
 				// *********************************************************************************************************
 				// try {
 				// this.wait();
@@ -145,10 +144,9 @@ public class AuthoringApp {
 						FileParser fp = new FileParser(f);
 						fileStr = fp.getArray();
 					}
-					updateScenarioPane(true);
+					id=controller.newDocCreated(fileStr);
 					isOpened = true;
 					((JTextField) compMap.get("inputTextField")).setText("");
-
 					stateChanged();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -221,7 +219,8 @@ public class AuthoringApp {
 
 				String temp = ((JTextField) compMap.get("inputTextField")).getText();
 				System.out.println(temp);
-				controller.addElement(temp, 0);
+				id.add(id.getLast()+1);
+				controller.addElement(temp, id.getLast());
 			}
 
 		});
@@ -291,7 +290,7 @@ public class AuthoringApp {
 	}
 
 	protected static void stateChanged() {
-		if (isOpened) {
+		if (isOpened) { 
 			System.out.println(true);
 			compMap.get("saveAsMenuItem").setEnabled(true);
 			compMap.get("insertText").setEnabled(true);

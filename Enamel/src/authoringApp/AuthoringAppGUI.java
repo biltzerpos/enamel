@@ -205,7 +205,7 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         displayAddButton.setName("displayAddButton"); // NOI18N
 
         insertSkip.setText("Skip");
-        insertSkip.setEnabled(false);
+        insertSkip.setEnabled(false); 
         insertSkip.setName("insertSkip"); // NOI18N
 
         authoringAppMenuBar.setName("authoringAppMenuBar"); // NOI18N
@@ -215,7 +215,7 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
 
         newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newMenuItem.setText("New");
-        newMenuItem.setName("newMenuItem"); // NOI18N
+        newMenuItem.setName("newMenuItem"); // NOI18N 
         fileMenu.add(newMenuItem);
 
         loadScenarioMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
