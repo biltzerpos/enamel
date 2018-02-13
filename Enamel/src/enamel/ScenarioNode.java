@@ -2,6 +2,7 @@ package enamel;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -25,8 +26,6 @@ public class ScenarioNode {
 	private String pause;
 	private String repeatButton;
 	private boolean resetButtons;
-	private String[] skipButton;
-	private boolean clearAll;
 	private String displayPins;
 	private String displayString;
 	private String dispCellChar;
@@ -36,20 +35,14 @@ public class ScenarioNode {
 	private boolean userInput;
 	private String text;
 	
+	private int[] numberOfButtons;
+	
 	/*
 	 * What does this class do?
 	 * It will take in each "node" of the scenario.
 	 * Within the provided scenarios, each scenario node is delimited by a
 	 * certain phrase.
 	 */
-	
-	public ScenarioNode(){
-		//default constructor
-	}
-	
-	public ScenarioNode(String stuff, ScenarioNode next) {
-		numNodeIncrement();
-	}
 	
 	public int numberOfNodes() {
 		return this.numOfNodes;
@@ -60,10 +53,9 @@ public class ScenarioNode {
 	}
 	
 	private void nodeDelimiter(String fileLine) {
-		if (this.numOfNodes == 0){ //creating first node
+		if (this.numOfNodes == 0){ //starting with first node
 			Scenario p = new Scenario();
-			p.createNode();
-			int numberOfButtons = 0;
+			Node firstNode = p.createNode();
 			if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
 				this.sound = fileLine.substring(8);
 			}
@@ -84,13 +76,16 @@ public class ScenarioNode {
 				this.resetButtons = true;
 			}
 			else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~skip-button:")) {
-				String skipLine = fileLine.substring(14);
-				this.skipButton = skipLine.split("\\s");
-				numberOfButtons++;
-				int i = 0;
+				String skipLine = fileLine.substring(14); //gives string after "/~skip-button:"
+				String[] split = skipLine.split("\\s"); //split string delimited by space
+				int buttonIndex = Integer.parseInt(split[0]); //jbutton index
+				String button = split[1]; //key phrase that button will skip to
+				firstNode.addButton(buttonIndex);
+				p.createNode(button);
+				numberOfButtons[numOfNodes]++;
 			}
 			else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~disp-clearAll")) {
-				this.clearAll = true;
+				//firstNode.setPins(Arrays.fill(firstNode.getPins(1), 0), 0);
 			}
 			else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-pins:")) {
 				this.displayPins = fileLine.substring(17);
