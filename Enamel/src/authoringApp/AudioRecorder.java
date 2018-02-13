@@ -15,6 +15,7 @@ public class AudioRecorder {
 
 	File path = new File("C:\\Users\\Qasim Ahmed\\git\\EECS2311-Group-11\\Enamel\\FactoryScenarios\\AudioFiles\\Recordaudio.wav");
 	AudioFileFormat.Type type = AudioFileFormat.Type.WAVE;     //WAVE file type	
+	
      
 	TargetDataLine data; 
 	

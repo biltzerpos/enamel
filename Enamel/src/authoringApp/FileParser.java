@@ -18,10 +18,10 @@ public class FileParser {
 	// Constructor
 	public FileParser(File file) throws IOException{
 		
-		// TODO Auto-generated constructor stub
+		// TODO Auto -generated constructor stub
 		parseFileIntoArray(file);
 	}
-
+ 
 	// Parse the file and save it into the array parsedText
 	private void parseFileIntoArray(File file) throws IOException {
 		

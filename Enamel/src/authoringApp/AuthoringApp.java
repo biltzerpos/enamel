@@ -25,6 +25,8 @@ public class AuthoringApp {
 	private static JFileChooser fc = new JFileChooser();
 	private static File f, currentFile;
 	private static LinkedList<String> fileStr;
+	private static LinkedList<Integer> id;
+
 	private static String scenarioStr;
 	private static int currentLine;
 	private static JPanel errorPanel;
@@ -32,6 +34,7 @@ public class AuthoringApp {
 	private static HashMap<String, Component> compMap;
 	private static int cell = 0; // number of cell
 	private static int col = 0; // number of collumn
+	private static JTextPaneController controller;
 
 	public static void main(String[] args) {
 		java.awt.EventQueue.invokeLater(new Runnable() {
@@ -39,10 +42,17 @@ public class AuthoringApp {
 				gui = new AuthoringAppGUI();
 				gui.setVisible(true);
 				compMap = ((AuthoringAppGUI) gui).getCompMap();
+				fileStr = new LinkedList<String>();
+				id= new LinkedList<Integer>();
+				id.add(0);
+				controller = new JTextPaneController((JTextPane) compMap.get("scenarioPane"), (JScrollPane) compMap.get("scenarioScrollPane"));
 				addActionListeners();
 			}
 		});
 	}
+	
+	
+
 
 	protected static void addActionListeners() {
 		((JMenuItem) compMap.get("newMenuItem")).addActionListener(new ActionListener() {
@@ -62,41 +72,55 @@ public class AuthoringApp {
 				// System.out.println(tempMap);
 				JTextField numCell = (JTextField) tempMap.get("numCell");
 				JTextField numCol = (JTextField) tempMap.get("numCol");
+				fileStr = new LinkedList<String>();
+				id= new LinkedList<Integer>();
 				// System.out.println(tempMap);
 				// ********************************************************************************************************
 				((JButton) tempMap.get("createButton")).addActionListener(new ActionListener() {
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						// synchronized(this) {
+
 						
+
+
+
 						cell = Integer.parseInt(numCell.getText());
 						col = Integer.parseInt(numCol.getText());
-						System.out.println(cell);
-						System.out.println(col);
+						//System.out.println(cell);
+						//System.out.println(col);
 						isOpened = true;
 						stateChanged();
-						fileStr = new LinkedList<String>();
-						fileStr.add("Cell " + cell);
-						fileStr.add("Button " + col);
-						updateScenarioPane(true);
+						
+						
+						fileStr.add("Cell " + cell );
+						fileStr.add("Button " + col );
+						//updateScenarioPane(true);
 						((JTextField) compMap.get("inputTextField")).setText("");
+						id=controller.newDocCreated(fileStr);
 
+						id.add(1);
+						id.add(2);
 						temp.dispose();
-
+				
 						// this.notify();
 						// notify();
 					}
+					
+					
 				});
 
 				((JButton) tempMap.get("cancelButton")).addActionListener(new ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						cell = 0;
-						col = 0;
+						cell = Integer.parseInt(numCell.getText());
+						col = Integer.parseInt(numCol.getText());;
 						isOpened = false;
 						temp.dispose();
 					}
 				});
-
+				
+				
+			
 				// *********************************************************************************************************
 				// try {
 				// this.wait();
@@ -104,9 +128,8 @@ public class AuthoringApp {
 				// // TODO Auto-generated catch block
 				// e1.printStackTrace();
 				// }
-			}
+			
 
-		});
 		((JMenuItem) compMap.get("loadScenarioMenuItem")).addActionListener(new ActionListener() {
 
 			@Override
@@ -127,10 +150,9 @@ public class AuthoringApp {
 						FileParser fp = new FileParser(f);
 						fileStr = fp.getArray();
 					}
-					updateScenarioPane(true);
+					id=controller.newDocCreated(fileStr);
 					isOpened = true;
 					((JTextField) compMap.get("inputTextField")).setText("");
-
 					stateChanged();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -203,9 +225,8 @@ public class AuthoringApp {
 
 				String temp = ((JTextField) compMap.get("inputTextField")).getText();
 				System.out.println(temp);
-				((JTextField) compMap.get("inputTextField")).setText("");
-				fileStr.add(temp);
-				updateScenarioPane(true);
+				id.add(id.getLast()+1);
+				controller.addElement(temp, id.getLast());
 			}
 
 		});
@@ -243,9 +264,13 @@ public class AuthoringApp {
 				try {
 					
 					int temp = Integer.parseInt((((JTextField) compMap.get("inputTextField")).getText()));
+
 		
 					fileStr.add("/~pause:" + temp);
 					updateScenarioPane(true);
+
+					controller.addElement("/~pause:" + temp,0);
+
 
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(gui, "pause need to have a number");
@@ -278,8 +303,8 @@ public class AuthoringApp {
 
 	}
 
-	protected static void stateChanged() {
-		if (isOpened) {
+	protected void stateChanged() {
+		if (isOpened) { 
 			System.out.println(true);
 			compMap.get("saveAsMenuItem").setEnabled(true);
 			compMap.get("insertText").setEnabled(true);
@@ -301,7 +326,7 @@ public class AuthoringApp {
 	
 		
 	
-	private static void updateScenarioPane(boolean isNew) {
+	private void updateScenarioPane(boolean isNew) {
 		if (isNew) {
 			scenarioStr = "";
 			for (int i = 0; i < fileStr.size(); i++) {
@@ -317,7 +342,7 @@ public class AuthoringApp {
 	// Opens a file chooser @ the specified directory and expects the file selected
 	// to be of the extension 'ext'. Returns the selected file. If extension is of
 	// wrong type, return null.
-	public static File openFileChooser(File currentDir, String ext) {
+	public File openFileChooser(File currentDir, String ext) {
 		fc.setCurrentDirectory(currentDir);
 		int returnVal = fc.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -332,5 +357,8 @@ public class AuthoringApp {
 			}
 		}
 		return null;
+	}
+		
+});
 	}
 }
