@@ -19,22 +19,19 @@ public class ScenarioNode {
 	private boolean repeat;
 	//tracks how many nodes were created (may need to be static?):
 	private int numOfNodes;
-	//key phrases:
+
 	private String cellClear;
 	private String sound;
 	private String skip;
 	private String pause;
 	private String repeatButton;
 	private boolean resetButtons;
-	private String displayPins;
-	private String displayString;
-	private String dispCellChar;
-	private String dispCellRaise;
 	private String dispCellLower;
 	private String dispCellClear;
 	private boolean userInput;
 	private String text;
 	
+	private int numOfCells;
 	private int[] numberOfButtons;
 	
 	/*
@@ -58,6 +55,10 @@ public class ScenarioNode {
 			Node firstNode = p.createNode();
 			if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
 				this.sound = fileLine.substring(8);
+			}
+			else if (fileLine.length() >= 4 && fileLine.substring(0, 4).equals("Cell")) {
+				String holder = fileLine.substring(5);
+				this.numOfCells = Integer.parseInt(holder);
 			}
 			else if (fileLine.length() >= 7 && fileLine.substring(0, 7).equals("/~skip:")) {
 				this.skip = fileLine.substring(7);
@@ -85,19 +86,25 @@ public class ScenarioNode {
 				numberOfButtons[numOfNodes]++;
 			}
 			else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~disp-clearAll")) {
-				//firstNode.setPins(Arrays.fill(firstNode.getPins(1), 0), 0);
+				for (Integer i = 0; i < numOfCells; i++) {
+					int[] pins = new int[8];
+					firstNode.setPins(pins, i);
+				}
 			}
 			else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-pins:")) {
-				this.displayPins = fileLine.substring(17);
+				//for (int i = 0; i < 8; i++)
+					//firstNode.setPins(int[i], 0);
+				//firstNode.setPins(numOfCells, 1);
 			}
 			else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
-				this.displayString = fileLine.substring(14);
+				//display string in braille cells, if greater than number of cells, then string will be cut off
+				//if smaller than number of cells, remaining cells are cleared
 			}
 			else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-char:")) {
-				this.dispCellChar = fileLine.substring(17);
+				//display a character in braille
 			}
 			else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-raise:")) {
-				this.dispCellRaise = fileLine.substring(18);
+				//raise a particular pin for a particular braille cell
 			}
 			else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-lower:")) {
 				this.dispCellLower = fileLine.substring(18);
