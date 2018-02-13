@@ -61,6 +61,9 @@ public class ScenarioNode {
 	
 	private void nodeDelimiter(String fileLine) {
 		if (this.numOfNodes == 0){ //creating first node
+			Scenario p = new Scenario();
+			p.createNode();
+			int numberOfButtons = 0;
 			if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
 				this.sound = fileLine.substring(8);
 			}
@@ -83,6 +86,7 @@ public class ScenarioNode {
 			else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~skip-button:")) {
 				String skipLine = fileLine.substring(14);
 				this.skipButton = skipLine.split("\\s");
+				numberOfButtons++;
 			}
 			else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~disp-clearAll")) {
 				this.clearAll = true;
@@ -112,7 +116,6 @@ public class ScenarioNode {
 			*/
 			else if (fileLine.length() >= 12 && fileLine.substring(0, 12).equals("/~user-input")) {
 				this.userInput = true;
-				ScenarioNode p = new ScenarioNode();
 			}
 			else { //no key phrase, therefore must be plain text
 				this.text = fileLine;
