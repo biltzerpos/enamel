@@ -87,6 +87,7 @@ public class ScenarioNode {
 				String skipLine = fileLine.substring(14);
 				this.skipButton = skipLine.split("\\s");
 				numberOfButtons++;
+				int i = 0;
 			}
 			else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~disp-clearAll")) {
 				this.clearAll = true;
