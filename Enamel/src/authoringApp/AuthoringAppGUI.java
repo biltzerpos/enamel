@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.JMenu;
 
 /**
@@ -131,13 +132,17 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         inputTextField.setName("inputTextField"); // NOI18N
 
         editRemoveLine.setText("Remove Line");
-        editRemoveLine.setToolTipText("");
+       
         editRemoveLine.setEnabled(false);
         editRemoveLine.setName("editRemoveLine"); // NOI18N
+        editRemoveLine.setToolTipText("Insert Text");
+        
 
         insertText.setText("Text");
         insertText.setEnabled(false);
         insertText.setName("insertText"); // NOI18N
+        insertText.setToolTipText("Inserts the text entered into combobox in JTextPane");
+        
 
         insertSkipButton.setText("Skip Button");
         insertSkipButton.setEnabled(false);
@@ -146,26 +151,34 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         insertRepeatButton.setText("Repeat Button");
         insertRepeatButton.setEnabled(false);
         insertRepeatButton.setName("insertRepeatButton"); // NOI18N
+        insertRepeatButton.setToolTipText("Insert Text");
 
         insertRepeat.setText("Repeat");
         insertRepeat.setEnabled(false);
         insertRepeat.setName("insertRepeat"); // NOI18N
+        insertRepeat.setToolTipText("Insert Text");
 
         insertUserInput.setText("User Input");
         insertUserInput.setEnabled(false);
         insertUserInput.setName("insertUserInput"); // NOI18N
+        insertUserInput.setToolTipText("Inserts the text entered by user in combobox into the JTextPane");
+        
 
         insertResetButtons.setText("Reset Buttons");
         insertResetButtons.setEnabled(false);
         insertResetButtons.setName("insertResetButtons"); // NOI18N
+        insertResetButtons.setToolTipText("Insert Text");
+        
 
         insertEndRepeat.setText("End Repeat");
         insertEndRepeat.setEnabled(false);
         insertEndRepeat.setName("insertEndRepeat"); // NOI18N
+        insertEndRepeat.setToolTipText("Insert Text");
 
         insertSound.setText("Sound");
         insertSound.setEnabled(false);
         insertSound.setName("insertSound"); // NOI18N
+        insertSound.setToolTipText("Insert Text");
 
         insertLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         insertLabel.setText("Insert:");
@@ -188,6 +201,7 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         insertPause.setText("Pause");
         insertPause.setEnabled(false);
         insertPause.setName("insertPause"); // NOI18N
+        insertPause.setToolTipText("Pauses the program for seconds entered by user");
 
         consoleLabel.setBackground(new java.awt.Color(255, 255, 255));
         consoleLabel.setText("   Console:");
@@ -207,6 +221,7 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         insertSkip.setText("Skip");
         insertSkip.setEnabled(false);
         insertSkip.setName("insertSkip"); // NOI18N
+        insertSkip.setToolTipText("Insert Text");
 
         authoringAppMenuBar.setName("authoringAppMenuBar"); // NOI18N
 
