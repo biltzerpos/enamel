@@ -1,5 +1,16 @@
 package enamel;
 
+import java.io.IOException;
+import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -9,6 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.sun.speech.freetts.Voice;
 import com.sun.speech.freetts.VoiceManager;
+
 
 public class TitleScreen extends JFrame implements ActionListener {
 	
@@ -26,6 +38,7 @@ public class TitleScreen extends JFrame implements ActionListener {
 	Thread loop;
 	boolean isVisual;
 	
+
 	public TitleScreen() throws IOException
 	{
 		loop = new Thread(
@@ -79,6 +92,7 @@ public class TitleScreen extends JFrame implements ActionListener {
 		
 		bottom.setBackground(Color.YELLOW);
 		
+
 		panel.add(bottom, BorderLayout.PAGE_END);
 		panel.add(label, BorderLayout.CENTER);
 		panel.setBackground(Color.YELLOW);
