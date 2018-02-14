@@ -218,8 +218,8 @@ public class AuthoringApp {
 			public void actionPerformed(ActionEvent e) {
 
 				String temp = ((JTextField) compMap.get("inputTextField")).getText();
-				System.out.println(temp);
 				id.add(id.getLast()+1);
+				fileStr.add(temp);
 				controller.addElement(temp, id.getLast());
 			}
 
@@ -238,6 +238,7 @@ public class AuthoringApp {
 		((JButton) compMap.get("insertResetButtons")).addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
+			
              				
 				}
              
@@ -256,7 +257,9 @@ public class AuthoringApp {
 				}
 				try {
 					int temp = Integer.parseInt((((JTextField) compMap.get("inputTextField")).getText()));
-					controller.addElement("/~pause:" + temp,0);
+					id.add(id.getLast()+1);
+					fileStr.add("/~pause:" + temp);
+					controller.addElement("/~pause:" + temp, id.getLast());
 
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(gui, "pause need to have a number");
@@ -270,8 +273,10 @@ public class AuthoringApp {
 		((JButton) compMap.get("insertRepeat")).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				id.add(id.getLast()+1);
 				fileStr.add("/~repeat");
-				updateScenarioPane(true);
+				controller.addElement("/~repeat", id.getLast());
+
 
 			}
 
@@ -280,8 +285,10 @@ public class AuthoringApp {
 		((JButton) compMap.get("insertEndRepeat")).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				id.add(id.getLast()+1);
 				fileStr.add("/~endrepeat");
-				updateScenarioPane(true);
+				controller.addElement("/~endrepeat", id.getLast());
+
 
 			}
 
