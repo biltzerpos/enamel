@@ -24,8 +24,9 @@ public class EditingScreen implements ActionListener {
 	JLabel lblSelectCell2;
 	JLabel lblSelectToClear2;
 	JLabel lblSelectCell_1_2;
-	JTextField txtEnterWordHere2;
-	JTextField txtEnterCharHere2;
+	JTextField nodeEnterWordHere;
+	JTextField nodeEnterCharHere;
+	JTextField repeatText;
 	JPanel optionCard;
 	JPanel blankOCard;
 	JPanel nodeCard;
@@ -34,7 +35,8 @@ public class EditingScreen implements ActionListener {
 	JLabel lblCurrentButton;
 	JLabel lblButtonType;
 	JLabel lblCellModifier;
-	JComboBox cellBox;
+	JComboBox btnCellBox;
+	JComboBox nodeCellBox;
 	JComboBox buttonBox;
 	JRadioButton radioButton;
 	JRadioButton radioButton_1;
@@ -154,31 +156,31 @@ public class EditingScreen implements ActionListener {
 		lblCellModifier.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
 		// Combo Box to display options for each button
-		cellBox = new JComboBox();
-		cellBox.setBounds(12, 130, 119, 22);
-		buttonCard.add(cellBox);
-		cellBox.addItem("Do nothing");
-		cellBox.addItem("Clear");
-		cellBox.addItem("Pins");
-		cellBox.addItem("Character");
-		cellBox.addItem("Word");
+		btnCellBox = new JComboBox();
+		btnCellBox.setBounds(12, 130, 119, 22);
+		buttonCard.add(btnCellBox);
+		btnCellBox.addItem("Do nothing");
+		btnCellBox.addItem("Clear");
+		btnCellBox.addItem("Pins");
+		btnCellBox.addItem("Character");
+		btnCellBox.addItem("Word");
 
 		// Label to display options for cell modifier
 		JLabel lblCellModifier2 = new JLabel("Cell Modifier:");
-		lblCellModifier2.setBounds(12, 89, 123, 25);
+		lblCellModifier2.setBounds(12, 105, 123, 25);
 		nodeCard.add(lblCellModifier2);
 		lblCellModifier2.setForeground(Color.BLACK);
 		lblCellModifier2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
 		// Combo Box to display options for each button
-		JComboBox cellBox2 = new JComboBox();
-		cellBox2.setBounds(12, 130, 119, 22);
-		nodeCard.add(cellBox2);
-		cellBox2.addItem("Do nothing");
-		cellBox2.addItem("Clear");
-		cellBox2.addItem("Pins");
-		cellBox2.addItem("Character");
-		cellBox2.addItem("Word");
+		nodeCellBox = new JComboBox();
+		nodeCellBox.setBounds(12, 143, 119, 22);
+		nodeCard.add(nodeCellBox);
+		nodeCellBox.addItem("Do nothing");
+		nodeCellBox.addItem("Clear");
+		nodeCellBox.addItem("Pins");
+		nodeCellBox.addItem("Character");
+		nodeCellBox.addItem("Word");
 
 		// Main Card for card layout
 		card = new JPanel(new CardLayout());
@@ -190,6 +192,16 @@ public class EditingScreen implements ActionListener {
 		card2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		card2.setBounds(12, 179, 119, 189);
 		nodeCard.add(card2);
+		
+		JLabel lblRepeatText = new JLabel("Repeat Text:");
+		lblRepeatText.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblRepeatText.setBounds(12, 53, 123, 25);
+		nodeCard.add(lblRepeatText);
+		
+		repeatText = new JTextField();
+		repeatText.setBounds(12, 79, 116, 22);
+		nodeCard.add(repeatText);
+		repeatText.setColumns(10);
 
 		blankCard2 = new JPanel();
 		blankCard2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -351,14 +363,14 @@ public class EditingScreen implements ActionListener {
 		charCard2.add(charChoose2, gbc_charChoose2);
 
 		// Text field for choosing character
-		txtEnterCharHere2 = new JTextField();
-		txtEnterCharHere2.setText("Enter Char Here");
+		nodeEnterCharHere = new JTextField();
+		nodeEnterCharHere.setText("Enter Char Here");
 		GridBagConstraints gbc_txtEnterCharHere2 = new GridBagConstraints();
 		gbc_txtEnterCharHere2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtEnterCharHere2.gridx = 0;
 		gbc_txtEnterCharHere2.gridy = 3;
-		charCard2.add(txtEnterCharHere2, gbc_txtEnterCharHere2);
-		txtEnterCharHere2.setColumns(10);
+		charCard2.add(nodeEnterCharHere, gbc_txtEnterCharHere2);
+		nodeEnterCharHere.setColumns(10);
 
 		// Word card
 		JPanel wordCard2 = new JPanel();
@@ -367,10 +379,10 @@ public class EditingScreen implements ActionListener {
 		wordCard2.setLayout(new BorderLayout(0, 0));
 
 		// Text field for adding word
-		txtEnterWordHere2 = new JTextField();
-		txtEnterWordHere2.setText("Enter Word Here");
-		wordCard2.add(txtEnterWordHere2, BorderLayout.NORTH);
-		txtEnterWordHere2.setColumns(10);
+		nodeEnterWordHere = new JTextField();
+		nodeEnterWordHere.setText("Enter Word Here");
+		wordCard2.add(nodeEnterWordHere, BorderLayout.NORTH);
+		nodeEnterWordHere.setColumns(10);
 		
 		JLabel lblAddwav = new JLabel("Add .wav:");
 		lblAddwav.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -679,7 +691,7 @@ public class EditingScreen implements ActionListener {
 		JButton btnApply = new JButton("Apply");
 		btnApply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String option = "" + cellBox.getSelectedItem();
+				String option = "" + btnCellBox.getSelectedItem();
 				if (option.equals("Clear")) {
 					int cell = Integer.parseInt("" + clearChoose.getSelectedItem());
 				} else if (option.equals("Pins")) {
@@ -702,22 +714,23 @@ public class EditingScreen implements ActionListener {
 			}
 		});
 		btnApply.setBounds(791, 636, 97, 25);
+		btnApply.getAccessibleContext().setAccessibleName("Apply Button");
 		panel.add(btnApply);
 
-		cellBox.addActionListener(new ActionListener() {
+		btnCellBox.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) (card.getLayout());
-				cl.show(card, (String) cellBox.getSelectedItem());
+				cl.show(card, (String) btnCellBox.getSelectedItem());
 			}
 		});
-		cellBox2.addActionListener(new ActionListener() {
+		nodeCellBox.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout) (card2.getLayout());
-				cl.show(card2, (String) cellBox2.getSelectedItem());
+				cl.show(card2, (String) nodeCellBox.getSelectedItem());
 			}
 		});
 
