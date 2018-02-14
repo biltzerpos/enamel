@@ -50,9 +50,6 @@ public class AuthoringApp {
 			}
 		});
 	}
-	
-	
-
 
 	protected static void addActionListeners() {
 		((JMenuItem) compMap.get("newMenuItem")).addActionListener(new ActionListener() {
@@ -80,10 +77,6 @@ public class AuthoringApp {
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						// synchronized(this) {
-
-						
-
-
 
 						cell = Integer.parseInt(numCell.getText());
 						col = Integer.parseInt(numCol.getText());
@@ -128,8 +121,9 @@ public class AuthoringApp {
 				// // TODO Auto-generated catch block
 				// e1.printStackTrace();
 				// }
-			
+			}
 
+		});
 		((JMenuItem) compMap.get("loadScenarioMenuItem")).addActionListener(new ActionListener() {
 
 			@Override
@@ -244,8 +238,7 @@ public class AuthoringApp {
 		((JButton) compMap.get("insertResetButtons")).addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent e) {
-             	fileStr.add("/~reset-buttons");		
-             	updateScenarioPane(true);
+             				
 				}
              
 			
@@ -262,15 +255,8 @@ public class AuthoringApp {
 					throw new IllegalArgumentException();
 				}
 				try {
-					
 					int temp = Integer.parseInt((((JTextField) compMap.get("inputTextField")).getText()));
-
-		
-					fileStr.add("/~pause:" + temp);
-					updateScenarioPane(true);
-
 					controller.addElement("/~pause:" + temp,0);
-
 
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(gui, "pause need to have a number");
@@ -303,7 +289,7 @@ public class AuthoringApp {
 
 	}
 
-	protected void stateChanged() {
+	protected static void stateChanged() {
 		if (isOpened) { 
 			System.out.println(true);
 			compMap.get("saveAsMenuItem").setEnabled(true);
@@ -326,7 +312,7 @@ public class AuthoringApp {
 	
 		
 	
-	private void updateScenarioPane(boolean isNew) {
+	private static void updateScenarioPane(boolean isNew) {
 		if (isNew) {
 			scenarioStr = "";
 			for (int i = 0; i < fileStr.size(); i++) {
@@ -342,7 +328,7 @@ public class AuthoringApp {
 	// Opens a file chooser @ the specified directory and expects the file selected
 	// to be of the extension 'ext'. Returns the selected file. If extension is of
 	// wrong type, return null.
-	public File openFileChooser(File currentDir, String ext) {
+	public static File openFileChooser(File currentDir, String ext) {
 		fc.setCurrentDirectory(currentDir);
 		int returnVal = fc.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -357,8 +343,5 @@ public class AuthoringApp {
 			}
 		}
 		return null;
-	}
-		
-});
 	}
 }
