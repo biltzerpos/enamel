@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/enamel/titlescreen.wav</name>
+			<type>1</type>
+			<location>C:/Users/rish_/OneDrive/Documents/titlescreen.wav</location>
+		</link>
+	</linkedResources>
 </projectDescription>
