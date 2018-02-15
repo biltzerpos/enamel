@@ -23,7 +23,7 @@ public class AuthoringApp {
 
 	private static JFrame gui;
 	private static JFileChooser fc = new JFileChooser();
-	private static File f, currentFile;
+	private static File f, currentFile,error;
 	private static LinkedList<String> fileStr;
 	private static LinkedList<Integer> id;
 
@@ -399,8 +399,7 @@ public class AuthoringApp {
 						fileStr.add("/~disp-cell-char:" + tmp[0]+" "+tmp[1]);
 						id.add(id.getLast() + 1);
 						controller.addElement("/~disp-cell-char:"+ tmp[0]+" "+tmp[1], id.getLast());
-						
-						
+		
 					
 					}
 				}
@@ -428,8 +427,7 @@ public class AuthoringApp {
 						id.add(id.getLast() + 1);
 						controller.addElement("/~disp-cell-raise:"+ tmp[0]+" "+tmp[1], id.getLast());
 						
-						
-					
+				
 					}
 				}
 				
@@ -456,8 +454,7 @@ public class AuthoringApp {
 						fileStr.add("/~disp-cell-lower:" + tmp[0]+" "+tmp[1]);
 						id.add(id.getLast() + 1);
 						controller.addElement("/~disp-cell-lower:"+ tmp[0]+" "+tmp[1], id.getLast());
-						
-						
+
 					
 					}
 				}
