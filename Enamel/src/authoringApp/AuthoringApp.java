@@ -293,6 +293,179 @@ public class AuthoringApp {
 			}
 
 		});
+		
+		((JButton) compMap.get("insertSound")).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				f = openFileChooser(new File("FactoryScenarios/AudioFiles"), "wav");
+				if (f!=null)
+				{
+					fileStr.add("/~sound:"+f.getName());
+					id.add(id.getLast()+1);
+					controller.addElement("/~sound:"+f.getName(), id.getLast());
+				}
+			}
+		}
+		);
+		
+		
+		((JButton) compMap.get("displayAddButton")).addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JComboBox temp = (JComboBox) compMap.get("displayComboBox");
+				String com = (String) temp.getItemAt(temp.getSelectedIndex());
+
+				if (com.equals("Display String")) {
+					if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+						JOptionPane.showMessageDialog(gui, "need a string");
+						throw new IllegalArgumentException();
+					} else {
+						String tmp = ((JTextField) compMap.get("inputTextField")).getText();
+						fileStr.add("/~disp-string:" + tmp);
+						id.add(id.getLast() + 1);
+						controller.addElement("/~disp-string:" + tmp, id.getLast());
+
+					}
+				}
+
+				if (com.equals("Display Clear All")) {
+
+					fileStr.add("/~disp-clearAll:");
+					id.add(id.getLast() + 1);
+					controller.addElement("/~disp-clearAll", id.getLast());
+
+				}
+				
+				if (com.equals("Display Clear Cell")) {
+					if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+						JOptionPane.showMessageDialog(gui, "need a number");
+						throw new IllegalArgumentException();
+					} else {
+						try {
+						int tmp = Integer.parseInt(((JTextField) compMap.get("inputTextField")).getText());
+						if (tmp>cell||tmp<0) 
+						{
+							JOptionPane.showMessageDialog(gui, "there are no cell "+tmp+" to clear");
+
+						}
+						fileStr.add("/~disp-clear-cell:" + tmp);
+						id.add(id.getLast() + 1);
+						controller.addElement("/~disp-clear-cell:" + tmp, id.getLast());
+						}
+						catch (Exception e1)
+						{
+							JOptionPane.showMessageDialog(gui, "Display Clear Cell need to have a number");
+
+						}
+					}
+				}
+				
+				if (com.equals("Display Cell Pins")) {
+					if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+						JOptionPane.showMessageDialog(gui, "need a binary string of length 8");
+						throw new IllegalArgumentException();
+					} else {
+						
+						String tmp = ((JTextField) compMap.get("inputTextField")).getText();
+						if (tmp.length()!=8 || !tmp.matches("[01]+"))
+						{
+							JOptionPane.showMessageDialog(gui, "need a binary string of length 8");
+							throw new IllegalArgumentException();
+						}
+						
+						fileStr.add("/~disp-cell-pins:" + tmp);
+						id.add(id.getLast() + 1);
+						controller.addElement("/~disp-cell-pins:" + tmp, id.getLast());
+						
+						
+					}
+				}
+				
+				if (com.equals("Display Cell Char")) {
+					if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+						JOptionPane.showMessageDialog(gui, "need a number and a character");
+						throw new IllegalArgumentException();
+					} else {
+						
+						String tmp[] = ((JTextField) compMap.get("inputTextField")).getText().split(" ");
+						tmp[1]=tmp[1].toUpperCase();
+						
+						if (tmp.length!=2 || !tmp[1].matches("[A-Z]")||!tmp[0].matches("[0-9]+"))
+						{
+							JOptionPane.showMessageDialog(gui, "need a number and a character");
+							throw new IllegalArgumentException();
+						}
+						
+						fileStr.add("/~disp-cell-char:" + tmp[0]+" "+tmp[1]);
+						id.add(id.getLast() + 1);
+						controller.addElement("/~disp-cell-char:"+ tmp[0]+" "+tmp[1], id.getLast());
+						
+						
+					
+					}
+				}
+				if (com.equals("Display Cell Raise")) {
+					if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+						JOptionPane.showMessageDialog(gui, "need a number and a character");
+						throw new IllegalArgumentException();
+					} else {
+						
+						String tmp[] = ((JTextField) compMap.get("inputTextField")).getText().split(" ");
+						tmp[1]=tmp[1].toUpperCase();
+						
+						if (tmp.length!=2 || !tmp[1].matches("[0-9]+")||!tmp[0].matches("[0-9]+"))
+						{
+							JOptionPane.showMessageDialog(gui, "need a number and a character");
+							throw new IllegalArgumentException();
+						}
+						if (Integer.parseInt(tmp[0])>cell||Integer.parseInt(tmp[0])<0||Integer.parseInt(tmp[1])>col||Integer.parseInt(tmp[1])<0)
+						{
+							JOptionPane.showMessageDialog(gui, "invalid number, out of range");
+							throw new IllegalArgumentException();
+						}
+						
+						fileStr.add("/~disp-cell-raise:" + tmp[0]+" "+tmp[1]);
+						id.add(id.getLast() + 1);
+						controller.addElement("/~disp-cell-raise:"+ tmp[0]+" "+tmp[1], id.getLast());
+						
+						
+					
+					}
+				}
+				
+				if (com.equals("Display Cell Lower")) {
+					if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
+						JOptionPane.showMessageDialog(gui, "need a number and a character");
+						throw new IllegalArgumentException();
+					} else {
+						
+						String tmp[] = ((JTextField) compMap.get("inputTextField")).getText().split(" ");
+						tmp[1]=tmp[1].toUpperCase();
+						
+						if (tmp.length!=2 || !tmp[1].matches("[0-9]+")||!tmp[0].matches("[0-9]+"))
+						{
+							JOptionPane.showMessageDialog(gui, "need a number and a character");
+							throw new IllegalArgumentException();
+						}
+						if (Integer.parseInt(tmp[0])>cell||Integer.parseInt(tmp[0])<0||Integer.parseInt(tmp[1])>col||Integer.parseInt(tmp[1])<0)
+						{
+							JOptionPane.showMessageDialog(gui, "invalid number, out of range");
+							throw new IllegalArgumentException();
+						}
+						
+						fileStr.add("/~disp-cell-lower:" + tmp[0]+" "+tmp[1]);
+						id.add(id.getLast() + 1);
+						controller.addElement("/~disp-cell-lower:"+ tmp[0]+" "+tmp[1], id.getLast());
+						
+						
+					
+					}
+				}
+
+
+			}
+
+		});
 
 	}
 
