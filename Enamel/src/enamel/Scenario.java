@@ -7,6 +7,8 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 
 public class Scenario {
 	private static int scenarioCounter;
+	private int scenarioNumber;
+	private String name;
 	private int idCounter; 
 	static {
 		scenarioCounter = 1;
@@ -19,6 +21,9 @@ public class Scenario {
 		this.graph = new SimpleDirectedGraph<>(DefaultEdge.class);
 		this.fileName = "Scenario_" + Scenario.scenarioCounter + ".txt";
 		this.head = null;
+		this.scenarioNumber = Scenario.scenarioCounter;
+		Scenario.scenarioCounter++;
+		
 	}
 	
 	public String getFileName() {
@@ -44,7 +49,17 @@ public class Scenario {
 		return new Node(idCounter-1, name);
 	}
 	
+	public String getName() {
+		return this.name;
+	}
 	
+	public int getNumber() {
+		return this.scenarioNumber;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public Node getHead() {
 		return this.head;
