@@ -1,5 +1,7 @@
 package enamel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Node {
@@ -9,6 +11,7 @@ public class Node {
 	private String repeatText;
 	Map<Integer, NodeButton> buttonList;
 	private Map<Integer, int[]> pins;
+	private String audioFile;
 	
 	public Node(int id) {
 		this(id, String.valueOf(id), null, null);
@@ -33,6 +36,7 @@ public class Node {
 		this.response = response;
 		this.pins = pins;
 		this.buttonList = new HashMap<>();
+		this.audioFile = "";
 	}
 	
 	public Node(int id, Map<Integer, int[]> pins) {
@@ -50,6 +54,7 @@ public class Node {
 		this.response = response;
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
+		this.audioFile = "";
 	}
 	
 	public Node(int id, String name, Map<Integer, int[]> listOfPins, String response, String repeatText, Map<Integer, NodeButton> buttonList) {
@@ -59,6 +64,7 @@ public class Node {
 		this.response = response;
 		this.repeatText = repeatText;
 		this.buttonList = new HashMap<>(buttonList);
+		this.audioFile = "";
 	}
 	
 	public Node(Node other) {
@@ -68,6 +74,7 @@ public class Node {
 		this.response = other.response;
 		this.repeatText = other.repeatText;
 		this.buttonList = other.buttonList;
+		this.audioFile = other.audioFile;
 	}
 	
 	public int getId() {
@@ -115,23 +122,48 @@ public class Node {
 	}
 	
 	public void addButton(int number) {
-		this.buttonList.put(number, new NodeButton(number));
+		this.buttonList.put(number, new SkipButton(number));
 	}
 	
 	public void addButton(int number, String response, Node nextNode) {
-		this.buttonList.put(number, new NodeButton(number, response, nextNode));
+		this.buttonList.put(number, new SkipButton(number, response, nextNode));
 	}
 	
 	public void addButton(int number, Node nextNode) {
-		this.buttonList.put(number, new NodeButton(number, nextNode));
+		this.buttonList.put(number, new SkipButton(number, nextNode));
 	}
 	
 	public NodeButton getButton(int buttonNumber) {
+		if (this.buttonList.containsKey(buttonNumber)) {
+			throw new IllegalArgumentException("This button does not exist yet");
+		}
 		return this.buttonList.get(buttonNumber);
 	}
 	
-	public Node getNext(int buttonNumber) { 
-		return this.buttonList.get(buttonNumber).getNextNode();
+	public Node getNext(int buttonNumber) {
+		
+		NodeButton button = this.buttonList.get(buttonNumber);
+		if (button.getClass() == SkipButton.class) {
+			return ((SkipButton) button).getNextNode();
+		}
+		return null;
+	}
+	
+	public void setAudioFile(String audioFile) {
+		try {
+			Scanner file = new Scanner(new File(audioFile));
+			file.close();
+			this.audioFile = audioFile;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			throw new IllegalArgumentException("The file name does not exist"); 
+		}
+		
+		
+	}
+	
+	public String getAudioFile() {
+		return this.audioFile;
 	}
 
 	/* (non-Javadoc)

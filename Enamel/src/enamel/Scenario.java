@@ -113,7 +113,12 @@ public class Scenario {
 	
 	public void setEdge(Node from, Node to, int buttonNumber) {
 		this.graph.addEdge(from, to);
-		from.getButton(buttonNumber).setNextNode(to);
+		NodeButton button = from.getButton(buttonNumber);
+		if (button.getClass() == SkipButton.class) {
+			((SkipButton) button).setNextNode(to);
+		} else {
+			throw new IllegalArgumentException("This button is not designed to point to any node");
+		}
 	}
 	
 	
