@@ -718,7 +718,7 @@ public class EditingScreen implements ActionListener {
 
 		// Apply button
 		JButton btnApply = new JButton("Apply");
-		btnApply.addActionListener(new ActionListener() {
+		btnApply.addActionListener(new ActionListener() {//
 			public void actionPerformed(ActionEvent arg0) {
 				String option = "" + btnCellBox.getSelectedItem();
 				if (option.equals("Clear")) {
