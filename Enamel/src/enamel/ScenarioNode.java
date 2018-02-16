@@ -3,6 +3,7 @@ package enamel;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -12,27 +13,18 @@ import com.sun.speech.freetts.Voice;
 
 public class ScenarioNode {
 	
-	private ScenarioNode node;
 	private Scanner fileScanner;
 	private String scenarioFilePath;
 	private Voice voice;
 	private boolean repeat;
 	//tracks how many nodes were created (may need to be static?):
+	private int nodeTrack;
+	BrailleCell b = new BrailleCell();
+	Scenario p = new Scenario();
 	private int numOfNodes;
-
-	private String cellClear;
-	private String sound;
-	private String skip;
-	private String pause;
-	private String repeatButton;
-	private boolean resetButtons;
-	private String dispCellLower;
-	private String dispCellClear;
-	private boolean userInput;
-	private String text;
-	
 	private int numOfCells;
 	private int[] numberOfButtons;
+	private int numOfButtons; //number of buttons passed by scenario file
 	
 	/*
 	 * What does this class do?
@@ -41,40 +33,63 @@ public class ScenarioNode {
 	 * certain phrase.
 	 */
 	
-	public int numberOfNodes() {
-		return this.numOfNodes;
+	public int nodeTrack() {
+		return this.nodeTrack;
 	}
 	
-	private void numNodeIncrement() {
-		this.numOfNodes++;
+	private void nodeTrackIncrement() {
+		this.nodeTrack++;
 	}
 	
 	private void nodeDelimiter(String fileLine) {
-		if (this.numOfNodes == 0){ //starting with first node
-			Scenario p = new Scenario();
+		String nodeName;
+		if (fileLine.length() >= 4 && fileLine.substring(0, 5).equals("Cells") && 
+			fileLine.substring(6).matches("^[0-9]*[1-9][0-9]*$")) {
+			int num = Integer.parseInt(fileLine.substring(6));
+			this.numOfCells = num;
+		}
+		if (fileLine.length() >= 4 && fileLine.substring(0, 6).equals("Button") && 
+				fileLine.substring(7).matches("^[0-9]*[1-9][0-9]*$")) {
+			int num = Integer.parseInt(fileLine.substring(7));
+			this.numOfButtons = num;
+		}
+		if (this.nodeTrack == 0){ //starting with first node
 			Node firstNode = p.createNode();
 			if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
-				this.sound = fileLine.substring(8);
-			}
-			else if (fileLine.length() >= 4 && fileLine.substring(0, 4).equals("Cell")) {
-				String holder = fileLine.substring(5);
-				this.numOfCells = Integer.parseInt(holder);
+				String soundFile = fileLine.substring(8);
+				//this.sound = fileLine.substring(8);
 			}
 			else if (fileLine.length() >= 7 && fileLine.substring(0, 7).equals("/~skip:")) {
-				this.skip = fileLine.substring(7);
+				String skipLine = fileLine.substring(7);
+				//need to connect each response node to the next node (NEXTT)
 			}
 			else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~pause:")) {
-				this.pause = fileLine.substring(8);
+				//where to store pause element? ***********
+				//this.pause = fileLine.substring(8);
 			}
 			else if (fileLine.length() >= 16 && fileLine.substring(0, 16).equals("/~repeat-button:")) {
-				this.repeatButton = fileLine.substring(16);
+				String repeatButtonLine = fileLine.substring(16);
+				int buttonIndex = Integer.parseInt(repeatButtonLine);
+				//buttonIndex may not be a unique integer because skip button also produces integers
+				//to account for this, we add 100
+				firstNode.addButton(buttonIndex + 100);
+				numberOfButtons[nodeTrack]++;
 			}
 			else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~repeat")) {
-				//repeatedText.clear();
-				repeat = true;
+				this.repeat = true;
+				if (!firstNode.getRepeatedText().isEmpty()){
+					firstNode.setRepeatedText(null);
+				}
+			}
+			else if (this.repeat) {
+				if (fileLine.length() >= 11 && fileLine.substring(0, 11).equals("/~endrepeat")) {
+					this.repeat = false;
+				} else {
+					firstNode.addRepeatedText(fileLine);
+				}
 			}
 			else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~reset-buttons")) {
-				this.resetButtons = true;
+				//sets all buttons to be unresponsive
 			}
 			else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~skip-button:")) {
 				String skipLine = fileLine.substring(14); //gives string after "/~skip-button:"
@@ -82,35 +97,77 @@ public class ScenarioNode {
 				int buttonIndex = Integer.parseInt(split[0]); //jbutton index
 				String button = split[1]; //key phrase that button will skip to
 				firstNode.addButton(buttonIndex);
-				p.createNode(button);
-				numberOfButtons[numOfNodes]++;
+				Node next = p.createNode(button);
+				p.setEdge(firstNode, next, buttonIndex);
+				numberOfButtons[nodeTrack]++;
 			}
 			else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~disp-clearAll")) {
-				for (Integer i = 0; i < numOfCells; i++) {
-					int[] pins = new int[8];
+				int[] pins = new int[8];
+				for (int i = 0; i < this.numOfCells; i++) {
 					firstNode.setPins(pins, i);
 				}
 			}
 			else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-pins:")) {
-				//for (int i = 0; i < 8; i++)
-					//firstNode.setPins(int[i], 0);
-				//firstNode.setPins(numOfCells, 1);
+				String breakDown = fileLine.substring(17);
+				String[] split = breakDown.split("\\s");
+				int brailleCell = Integer.parseInt(split[0]);
+				for (int i = 0; i < 8; i++) {
+					firstNode.setPin(brailleCell, i, split[1].charAt(i));	
+				}
 			}
 			else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
+				String line = fileLine.substring(14);
+				/*
+				 * Functionality note:  if string is less than cells displayed, will leave remaining cells empty.
+				 * If string is greater than cells displayed, then it will be cut off.
+				 */
+				int i = 0;
+				while (i < line.length() && line.length() <= this.numOfCells) {
+					char a = line.charAt(i);
+					String brailleString = b.getCharacter(a);
+					for (int n = 0; i < 8; n++) {
+						int k = Character.getNumericValue(brailleString.charAt(n));
+						firstNode.setPin(i, n, k);
+					}
+				}
 				//display string in braille cells, if greater than number of cells, then string will be cut off
 				//if smaller than number of cells, remaining cells are cleared
 			}
 			else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-char:")) {
-				//display a character in braille
+				/*
+				 * Limitation: this does not read capital letters, only lowercase (limitation of braille alphabet
+				 * in BrailleCell class).  Will need to add to alphabet for uppercase.
+				 */
+				String charac = fileLine.substring(17);
+				String[] param = charac.split("\\s");
+				int brailleCell = Integer.parseInt(param[0]);
+				char dispChar = param[1].charAt(0);
+				String characterBraille = b.getCharacter(dispChar);
+				for (int i = 0; i < 8; i++) {
+					int k = Character.getNumericValue(characterBraille.charAt(i));
+					firstNode.setPin(brailleCell, i, k);
+				}
 			}
 			else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-raise:")) {
-				//raise a particular pin for a particular braille cell
+				String breakdown = fileLine.substring(18);
+				String[] param = breakdown.split("\\s");
+				int brailleCell = Integer.parseInt(param[0]);
+				int pinToRaise = Integer.parseInt(param[1]);
+				firstNode.setPin(brailleCell, pinToRaise, 1);
 			}
 			else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-lower:")) {
-				this.dispCellLower = fileLine.substring(18);
+				String breakdown = fileLine.substring(18);
+				String[] param = breakdown.split("\\s");
+				int brailleCell = Integer.parseInt(param[0]);
+				int pinToRaise = Integer.parseInt(param[1]);
+				firstNode.setPin(brailleCell, pinToRaise, 0);
 			}
 			else if (fileLine.length() >= 18 && fileLine.substring(0, 18).equals("/~disp-cell-clear:")) {
-				this.dispCellClear = fileLine.substring(18);
+				String breakdown = fileLine.substring(18);
+				String[] param = breakdown.split("\\s");
+				int brailleCell = Integer.parseInt(param[0]);
+				int[] pins = new int[8];
+				firstNode.setPins(pins, brailleCell);
 			}
 			/* this key phrase is not on the scenario format document
 			else if (fileLine.length() >= 21 && fileLine.substring(0, 21).equals("/~disp-cell-lowerPins")) {
@@ -118,13 +175,14 @@ public class ScenarioNode {
 			}
 			*/
 			else if (fileLine.length() >= 12 && fileLine.substring(0, 12).equals("/~user-input")) {
-				this.userInput = true;
+				//nothing needs to be done here as the nodes and edges are created with /~skip-button
+				nodeTrackIncrement();
 			}
 			else { //no key phrase, therefore must be plain text
-				this.text = fileLine;
+				firstNode.setResponse(fileLine);
 			}
 		}
-		if (this.numOfNodes > 0){ // i.e., not the first node
+		if (this.nodeTrack > 0){ // i.e., not the first node
 			//will fill in with the same control statements as above
 		}
 	}
