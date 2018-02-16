@@ -85,7 +85,7 @@ public class ScenarioNode {
 				if (fileLine.length() >= 11 && fileLine.substring(0, 11).equals("/~endrepeat")) {
 					this.repeat = false;
 				} else {
-					firstNode.addRepeatedText(fileLine);
+					firstNode.addToRepeatedText(fileLine);
 				}
 			}
 			else if (fileLine.length() >= 15 && fileLine.substring(0, 15).equals("/~reset-buttons")) {

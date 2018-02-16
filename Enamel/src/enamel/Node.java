@@ -97,12 +97,16 @@ public class Node {
 		return this.response;
 	}
 	
-	public void addToResonse(String addition) {
+	public void addToResponse(String addition) {
 		this.response += addition;
 	}
 	
 	public void setRepeatedText(String repeatText) {
 		this.repeatText = repeatText;
+	}
+	
+	public void addToRepeatedText(String addition) {
+		this.repeatText += addition;
 	}
 	
 	public String getRepeatedText() {
