@@ -7,12 +7,17 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EditingScreen implements ActionListener {
 
 	private JFrame frame;
 	List<JButton> buttons = new ArrayList<JButton>();
+	Node currentNode;
+	NodeButton currentNodeButton;
+	private static HashMap<Character, String> alphabet = new HashMap<Character, String>();
+
 	JPanel panel;
 	JPanel subPanel;
 	JPanel card;
@@ -60,6 +65,7 @@ public class EditingScreen implements ActionListener {
 	private JButton btnNewButton;
 	private JTextField speakText2;
 	private JTextField pauseText;
+
 	// int[] indvCell = new int[boxCount];
 
 	// Node currentNode;
@@ -78,6 +84,35 @@ public class EditingScreen implements ActionListener {
 	}
 
 	public EditingScreen() {
+		alphabet.put('a', "10000000");
+		alphabet.put('b', "11000000");
+		alphabet.put('c', "10100000");
+		alphabet.put('d', "10011000");
+		alphabet.put('e', "10001000");
+		alphabet.put('f', "11010000");
+		alphabet.put('g', "11011000");
+		alphabet.put('h', "11001000");
+		alphabet.put('i', "01010000");
+		alphabet.put('j', "01011000");
+		alphabet.put('k', "10100000");
+		alphabet.put('l', "11100000");
+		alphabet.put('m', "10110000");
+		alphabet.put('n', "10111000");
+		alphabet.put('o', "10101000");
+		alphabet.put('p', "11110000");
+		alphabet.put('q', "11111000");
+		alphabet.put('r', "11101000");
+		alphabet.put('s', "01110000");
+		alphabet.put('t', "01111000");
+		alphabet.put('u', "10100100");
+		alphabet.put('v', "11100100");
+		alphabet.put('w', "01011100");
+		alphabet.put('x', "10110100");
+		alphabet.put('y', "10111100");
+		alphabet.put('z', "10101100");
+		alphabet.put(' ', "11111111");
+		currentNode = new Node(3);
+		currentNodeButton = currentNode.getButton(currentButton);
 		initialize();
 
 	}
@@ -90,13 +125,13 @@ public class EditingScreen implements ActionListener {
 		frame.setBounds(100, 100, 975, 739);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-//
+		//
 		// Initialize Main JPanel
 		panel = new JPanel();
 		panel.setBounds(0, 0, 957, 692);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
-		//panel.getAccessibleContext().setAccessibleName("Main panel");
+		// panel.getAccessibleContext().setAccessibleName("Main panel");
 
 		// Label to display the amount of buttons
 		lblAvaliableButtons = new JLabel("Avaliable Buttons:");
@@ -105,8 +140,8 @@ public class EditingScreen implements ActionListener {
 		lblAvaliableButtons.setBounds(50, 600, 183, 16);
 		panel.add(lblAvaliableButtons);
 
-		lblCurrentButton = new JLabel("Current Button: 0");
-		lblCurrentButton.getAccessibleContext().setAccessibleName(lblCurrentButton.getText());
+		lblCurrentButton = new JLabel("Current Button: " + currentButton);
+		// lblCurrentButton.getAccessibleContext().setAccessibleName(lblCurrentButton.getText());
 		lblCurrentButton.setForeground(Color.BLACK);
 		lblCurrentButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblCurrentButton.setBounds(50, 571, 183, 16);
@@ -193,12 +228,12 @@ public class EditingScreen implements ActionListener {
 		card2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		card2.setBounds(12, 179, 119, 189);
 		nodeCard.add(card2);
-		
+
 		JLabel lblRepeatText = new JLabel("Repeat Text:");
 		lblRepeatText.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblRepeatText.setBounds(12, 53, 123, 25);
 		nodeCard.add(lblRepeatText);
-		
+
 		repeatText = new JTextField();
 		repeatText.getAccessibleContext().setAccessibleName(repeatText.getText());
 		repeatText.setBounds(12, 79, 116, 22);
@@ -287,53 +322,53 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_2_6.gridy = 2;
 		pinsCard2.add(pin21, gbc_radioButton_2_6);
 
-		JRadioButton pin22 = new JRadioButton("");
-		pin22.getAccessibleContext().setAccessibleName("Pin 2");
+		JRadioButton pin25 = new JRadioButton(""); //5
+		pin25.getAccessibleContext().setAccessibleName("Pin 5");
 		GridBagConstraints gbc_radioButton_2_7 = new GridBagConstraints();
 		gbc_radioButton_2_7.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_2_7.gridx = 2;
 		gbc_radioButton_2_7.gridy = 2;
-		pinsCard2.add(pin22, gbc_radioButton_2_7);
+		pinsCard2.add(pin25, gbc_radioButton_2_7);
 
-		JRadioButton pin23 = new JRadioButton("");
-		pin23.getAccessibleContext().setAccessibleName("Pin 3");
+		JRadioButton pin22 = new JRadioButton(""); //2
+		pin22.getAccessibleContext().setAccessibleName("Pin 2");
 		GridBagConstraints gbc_radioButton_2_8 = new GridBagConstraints();
 		gbc_radioButton_2_8.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_2_8.gridx = 1;
 		gbc_radioButton_2_8.gridy = 3;
-		pinsCard2.add(pin23, gbc_radioButton_2_8);
+		pinsCard2.add(pin22, gbc_radioButton_2_8);
 
-		JRadioButton pin24 = new JRadioButton("");
-		pin24.getAccessibleContext().setAccessibleName("Pin 4");
+		JRadioButton pin26 = new JRadioButton(""); //6
+		pin26.getAccessibleContext().setAccessibleName("Pin 6");
 		GridBagConstraints gbc_radioButton_2_9 = new GridBagConstraints();
 		gbc_radioButton_2_9.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_2_9.gridx = 2;
 		gbc_radioButton_2_9.gridy = 3;
-		pinsCard2.add(pin24, gbc_radioButton_2_9);
+		pinsCard2.add(pin26, gbc_radioButton_2_9);
 
-		JRadioButton pin25 = new JRadioButton("");
-		pin25.getAccessibleContext().setAccessibleName("Pin 5");
+		JRadioButton pin23 = new JRadioButton(""); //3
+		pin23.getAccessibleContext().setAccessibleName("Pin 3");
 		GridBagConstraints gbc_radioButton_2_10 = new GridBagConstraints();
 		gbc_radioButton_2_10.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_2_10.gridx = 1;
 		gbc_radioButton_2_10.gridy = 4;
-		pinsCard2.add(pin25, gbc_radioButton_2_10);
+		pinsCard2.add(pin23, gbc_radioButton_2_10);
 
-		JRadioButton pin26 = new JRadioButton("");
-		pin26.getAccessibleContext().setAccessibleName("Pin 6");
+		JRadioButton pin27 = new JRadioButton(""); //7
+		pin27.getAccessibleContext().setAccessibleName("Pin 7");
 		GridBagConstraints gbc_radioButton_2_11 = new GridBagConstraints();
 		gbc_radioButton_2_11.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_2_11.gridx = 2;
 		gbc_radioButton_2_11.gridy = 4;
-		pinsCard2.add(pin26, gbc_radioButton_2_11);
+		pinsCard2.add(pin27, gbc_radioButton_2_11);
 
-		JRadioButton pin27 = new JRadioButton("");
-		pin27.getAccessibleContext().setAccessibleName("Pin 7");
+		JRadioButton pin24 = new JRadioButton(""); //4
+		pin24.getAccessibleContext().setAccessibleName("Pin 4");
 		GridBagConstraints gbc_pin2_7 = new GridBagConstraints();
 		gbc_pin2_7.insets = new Insets(0, 0, 0, 5);
 		gbc_pin2_7.gridx = 1;
 		gbc_pin2_7.gridy = 5;
-		pinsCard2.add(pin27, gbc_pin2_7);
+		pinsCard2.add(pin24, gbc_pin2_7);
 
 		JRadioButton pin28 = new JRadioButton("");
 		pin28.getAccessibleContext().setAccessibleName("Pin 8");
@@ -396,16 +431,16 @@ public class EditingScreen implements ActionListener {
 		nodeEnterWordHere.getAccessibleContext().setAccessibleName(nodeEnterWordHere.getText());
 		wordCard2.add(nodeEnterWordHere, BorderLayout.NORTH);
 		nodeEnterWordHere.setColumns(10);
-		
+
 		JLabel lblAddwav = new JLabel("Add .wav:");
 		lblAddwav.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblAddwav.setBounds(12, 381, 123, 16);
 		nodeCard.add(lblAddwav);
-		
+
 		JLabel lblNoFileChosen = new JLabel("No file chosen");
 		lblNoFileChosen.setBounds(12, 398, 99, 16);
 		nodeCard.add(lblNoFileChosen);
-		
+
 		JButton btnChooseFile_1 = new JButton("Choose File");
 		btnChooseFile_1.getAccessibleContext().setAccessibleName("Choose Audio File");
 		btnChooseFile_1.addActionListener(new ActionListener() {
@@ -423,7 +458,7 @@ public class EditingScreen implements ActionListener {
 		});
 		btnChooseFile_1.setBounds(12, 419, 123, 25);
 		nodeCard.add(btnChooseFile_1);
-		
+
 		JButton btnClearFile = new JButton("Clear File");
 		btnClearFile.getAccessibleContext().setAccessibleName("Clear Audio File");
 		btnClearFile.addActionListener(new ActionListener() {
@@ -433,27 +468,27 @@ public class EditingScreen implements ActionListener {
 		});
 		btnClearFile.setBounds(12, 457, 123, 25);
 		nodeCard.add(btnClearFile);
-		
+
 		JButton btnCreatewav_1 = new JButton("Create .wav");
 		btnCreatewav_1.getAccessibleContext().setAccessibleName("Create a new wave file");
 		btnCreatewav_1.setBounds(12, 495, 123, 25);
 		nodeCard.add(btnCreatewav_1);
-		
+
 		JLabel lblSpeak = new JLabel("Speak:");
 		lblSpeak.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblSpeak.setBounds(12, 522, 113, 25);
 		nodeCard.add(lblSpeak);
-		
+
 		speakText2 = new JTextField();
 		speakText2.setBounds(12, 560, 123, 22);
 		nodeCard.add(speakText2);
 		speakText2.setColumns(10);
-		
+
 		JLabel lblPause = new JLabel("Pause:");
 		lblPause.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblPause.setBounds(12, 13, 66, 16);
 		nodeCard.add(lblPause);
-		
+
 		pauseText = new JTextField();
 		pauseText.setBounds(73, 13, 62, 22);
 		nodeCard.add(pauseText);
@@ -539,53 +574,53 @@ public class EditingScreen implements ActionListener {
 		gbc_radioButton_6.gridy = 2;
 		pinsCard.add(pin1, gbc_radioButton_6);
 
-		JRadioButton pin2 = new JRadioButton("");
-		pin2.getAccessibleContext().setAccessibleName("Pin 2");
+		JRadioButton pin5 = new JRadioButton(""); //5
+		pin5.getAccessibleContext().setAccessibleName("Pin 5");
 		GridBagConstraints gbc_radioButton_7 = new GridBagConstraints();
 		gbc_radioButton_7.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_7.gridx = 2;
 		gbc_radioButton_7.gridy = 2;
-		pinsCard.add(pin2, gbc_radioButton_7);
+		pinsCard.add(pin5, gbc_radioButton_7);
 
-		JRadioButton pin3 = new JRadioButton("");
-		pin3.getAccessibleContext().setAccessibleName("Pin 3");
+		JRadioButton pin2 = new JRadioButton(""); //2
+		pin2.getAccessibleContext().setAccessibleName("Pin 2");
 		GridBagConstraints gbc_radioButton_8 = new GridBagConstraints();
 		gbc_radioButton_8.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_8.gridx = 1;
 		gbc_radioButton_8.gridy = 3;
-		pinsCard.add(pin3, gbc_radioButton_8);
+		pinsCard.add(pin2, gbc_radioButton_8);
 
-		JRadioButton pin4 = new JRadioButton("");
-		pin4.getAccessibleContext().setAccessibleName("Pin 4");
+		JRadioButton pin6 = new JRadioButton(""); //6
+		pin6.getAccessibleContext().setAccessibleName("Pin 6");
 		GridBagConstraints gbc_radioButton_9 = new GridBagConstraints();
 		gbc_radioButton_9.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_9.gridx = 2;
 		gbc_radioButton_9.gridy = 3;
-		pinsCard.add(pin4, gbc_radioButton_9);
+		pinsCard.add(pin6, gbc_radioButton_9);
 
-		JRadioButton pin5 = new JRadioButton("");
-		pin5.getAccessibleContext().setAccessibleName("Pin 5");
+		JRadioButton pin3 = new JRadioButton(""); //3
+		pin3.getAccessibleContext().setAccessibleName("Pin 3");
 		GridBagConstraints gbc_radioButton_10 = new GridBagConstraints();
 		gbc_radioButton_10.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_10.gridx = 1;
 		gbc_radioButton_10.gridy = 4;
-		pinsCard.add(pin5, gbc_radioButton_10);
+		pinsCard.add(pin3, gbc_radioButton_10);
 
-		JRadioButton pin6 = new JRadioButton("");
-		pin6.getAccessibleContext().setAccessibleName("Pin 6");
+		JRadioButton pin7 = new JRadioButton(""); //7
+		pin7.getAccessibleContext().setAccessibleName("Pin 7");
 		GridBagConstraints gbc_radioButton_11 = new GridBagConstraints();
 		gbc_radioButton_11.insets = new Insets(0, 0, 5, 5);
 		gbc_radioButton_11.gridx = 2;
 		gbc_radioButton_11.gridy = 4;
-		pinsCard.add(pin6, gbc_radioButton_11);
+		pinsCard.add(pin7, gbc_radioButton_11);
 
-		JRadioButton pin7 = new JRadioButton("");
-		pin7.getAccessibleContext().setAccessibleName("Pin 7");
+		JRadioButton pin4 = new JRadioButton(""); //4
+		pin4.getAccessibleContext().setAccessibleName("Pin 4");
 		GridBagConstraints gbc_pin7 = new GridBagConstraints();
 		gbc_pin7.insets = new Insets(0, 0, 0, 5);
 		gbc_pin7.gridx = 1;
 		gbc_pin7.gridy = 5;
-		pinsCard.add(pin7, gbc_pin7);
+		pinsCard.add(pin4, gbc_pin7);
 
 		JRadioButton pin8 = new JRadioButton("");
 		pin8.getAccessibleContext().setAccessibleName("Pin 8");
@@ -720,24 +755,67 @@ public class EditingScreen implements ActionListener {
 		JButton btnApply = new JButton("Apply");
 		btnApply.addActionListener(new ActionListener() {//
 			public void actionPerformed(ActionEvent arg0) {
-				String option = "" + btnCellBox.getSelectedItem();
-				if (option.equals("Clear")) {
-					int cell = Integer.parseInt("" + clearChoose.getSelectedItem());
-				} else if (option.equals("Pins")) {
-					int cell = Integer.parseInt("" + blockChooser.getSelectedItem());
-					System.out.println(cell);
-				} else if (option.equals("Character")) {
-					int cell = Integer.parseInt("" + charChoose.getSelectedItem());
-					if (txtEnterCharHere.getText().length() != 1) {
-						// Display Some Error Here
-					}
+				
+				if (lblCurrentButton.getText().equals("Node Selected")) {
+					String option = "" + nodeCellBox.getSelectedItem();
 
-				} else if (option.equals("Word")) {
-					if (txtEnterWordHere.getText().length() != boxCount) {
-						// Display Some Error Here
+					currentNode.setResponse(speakText2.getText());
+					currentNode.setRepeatedText(repeatText.getText());
+
+					if (option.equals("Clear")) {
+						int cell = Integer.parseInt("" + clearChoose2.getSelectedItem());
+						int[] pins = new int[8];
+						String[] hold = alphabet.get("").split("");
+						for (int i = 0; i < 8; i++) {
+							pins[i] = Integer.parseInt(hold[i]);
+							System.out.println("Test");
+						}
+						currentNode.setPins(pins, cell);
+
+					} 
+					
+					else if (option.equals("Pins")) {
+						int cell = Integer.parseInt("" + blockChooser2.getSelectedItem());
+						System.out.println(cell);
+
+						} 
+					
+					else if (option.equals("Character")) {
+						int cell = Integer.parseInt("" + charChoose2.getSelectedItem());
+
+						if (txtEnterCharHere.getText().length() != 1) {
+							// Display Some Error Here
+						}
+
+						int[] pins = new int[8];
+						String[] hold = alphabet.get(nodeEnterCharHere.getText()).split("");
+						for (int i = 0; i < 8; i++) {
+							pins[i] = Integer.parseInt(hold[i]);
+						}
+						currentNode.setPins(pins, cell);
+
+						
+					} 
+					
+					else if (option.equals("Word")) {
+						if (nodeEnterWordHere.getText().length() != boxCount) {
+							// Display Some Error Here
+						}
+						String[] word = nodeEnterWordHere.getText().split("");
+						int[] pins = new int[8];
+						for (int i = 0; i < word.length; i++)
+						{
+							String[] hold = alphabet.get(word[i]).split("");
+							for (int j = 0; j < 8; j++)
+							{
+								pins[i] = Integer.parseInt(hold[i]);
+							}
+						}
+					} 
+					
+					else {
+						// Display some error here for nothing selected
 					}
-				} else {
-					// Display some error here for nothing selected
 				}
 
 			}
@@ -793,9 +871,10 @@ public class EditingScreen implements ActionListener {
 		{
 			if (e.getSource().equals(buttons.get(i))) {
 				currentButton = i;
+				lblCurrentButton.setText("Current Button: " + currentButton);
 			}
 		}
-		lblCurrentButton.setText("Current Button: " + currentButton);
+		// lblCurrentButton.setText("Hello");
 
 	}
 }
