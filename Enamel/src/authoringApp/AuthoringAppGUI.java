@@ -124,13 +124,14 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         scenarioPane.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         scenarioPane.setName("scenarioPane"); // NOI18N
         scenarioScrollPane.setViewportView(scenarioPane);
+        
 
         inputTextField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         inputTextField.setForeground(new java.awt.Color(204, 204, 204));
         inputTextField.setText("(Insert text/argument)");
         inputTextField.setName("inputTextField"); // NOI18N
         inputTextField.setToolTipText("this is your console, input your command here");
-
+        
         editRemoveLine.setText("Remove Line");
         editRemoveLine.setToolTipText("");
         editRemoveLine.setEnabled(false);
@@ -151,6 +152,8 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         insertRepeatButton.setEnabled(false);
         insertRepeatButton.setName("insertRepeatButton"); // NOI18N
         insertRepeatButton.setToolTipText("click here to insert the repeat button");
+        insertRepeatButton.getAccessibleContext().setAccessibleName("click here to insert the repeat button");
+        insertRepeatButton.getAccessibleContext().setAccessibleDescription("click here to insert the repeat button");
         
         insertRepeat.setText("Repeat");
         insertRepeat.setEnabled(false);
