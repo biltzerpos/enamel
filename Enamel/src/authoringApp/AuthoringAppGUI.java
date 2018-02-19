@@ -129,43 +129,53 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         inputTextField.setForeground(new java.awt.Color(204, 204, 204));
         inputTextField.setText("(Insert text/argument)");
         inputTextField.setName("inputTextField"); // NOI18N
+        inputTextField.setToolTipText("this is your console, input your command here");
 
         editRemoveLine.setText("Remove Line");
         editRemoveLine.setToolTipText("");
         editRemoveLine.setEnabled(false);
         editRemoveLine.setName("editRemoveLine"); // NOI18N
+        editRemoveLine.setToolTipText("click here to remove previous line");
 
         insertText.setText("Text");
         insertText.setEnabled(false);
         insertText.setName("insertText"); // NOI18N
+        insertText.setToolTipText("click here to insert plain text");
 
         insertSkipButton.setText("Skip Button");
         insertSkipButton.setEnabled(false);
         insertSkipButton.setName("insertSkipButton"); // NOI18N
-
+        insertSkipButton.setToolTipText("click here to insert the skip button");
+        
         insertRepeatButton.setText("Repeat Button");
         insertRepeatButton.setEnabled(false);
         insertRepeatButton.setName("insertRepeatButton"); // NOI18N
-
+        insertRepeatButton.setToolTipText("click here to insert the repeat button");
+        
         insertRepeat.setText("Repeat");
         insertRepeat.setEnabled(false);
         insertRepeat.setName("insertRepeat"); // NOI18N
-
+        insertRepeat.setToolTipText("click here to insert the beginning of the repeat loop");
+        
         insertUserInput.setText("User Input");
         insertUserInput.setEnabled(false);
         insertUserInput.setName("insertUserInput"); // NOI18N
+        insertUserInput.setToolTipText("click here to create choices");
 
         insertResetButtons.setText("Reset Buttons");
         insertResetButtons.setEnabled(false);
         insertResetButtons.setName("insertResetButtons"); // NOI18N
-
+        insertResetButtons.setToolTipText("click here to insert the reset button");
+        
         insertEndRepeat.setText("End Repeat");
         insertEndRepeat.setEnabled(false);
         insertEndRepeat.setName("insertEndRepeat"); // NOI18N
-
+        insertEndRepeat.setToolTipText("click here to end the repeat loop");
+        
         insertSound.setText("Sound");
         insertSound.setEnabled(false);
         insertSound.setName("insertSound"); // NOI18N
+        insertSound.setToolTipText("click here to insert sound file");
 
         insertLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         insertLabel.setText("Insert:");
@@ -188,6 +198,8 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
         insertPause.setText("Pause");
         insertPause.setEnabled(false);
         insertPause.setName("insertPause"); // NOI18N
+        insertPause.setToolTipText("click here to insert pause function need to have a time after that");
+        
 
         consoleLabel.setBackground(new java.awt.Color(255, 255, 255));
         consoleLabel.setText("   Console:");
@@ -212,6 +224,7 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
 
         fileMenu.setText("File");
         fileMenu.setName("fileMenu"); // NOI18N
+        fileMenu.setToolTipText("File");
 
         newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newMenuItem.setText("New");
