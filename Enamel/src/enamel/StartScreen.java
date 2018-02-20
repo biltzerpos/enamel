@@ -151,7 +151,8 @@ public class StartScreen {
 				}
 				
 				s.setScenarioFile(file);
-				
+				frame.dispose(); 
+				//EditingScreen test = new EditingScreen(setScenarioFile(file));
 			}
 			
 		});
@@ -227,7 +228,7 @@ public class StartScreen {
 		            e1.printStackTrace();
 		        }
 				frame.dispose(); 
-				EditingScreen test = new EditingScreen();
+				//EditingScreen test = new EditingScreen(setScenarioFile(cust_filename + ".txt"));
 			}
 		});
 		btnSaveNewFile.setBounds(237, 210, 177, 40);
