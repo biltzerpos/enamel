@@ -7,6 +7,7 @@ package enamel;
 
 import java.awt.EventQueue;
 
+
 import java.awt.Window;
 
 import javax.swing.JFrame;
