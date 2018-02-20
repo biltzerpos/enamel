@@ -756,9 +756,9 @@ public class EditingScreen implements ActionListener {
 		btnApply.addActionListener(new ActionListener() {//
 			public void actionPerformed(ActionEvent arg0) {
 				
+				
 				if (lblCurrentButton.getText().equals("Node Selected")) {
 					String option = "" + nodeCellBox.getSelectedItem();
-
 					currentNode.setResponse(speakText2.getText());
 					currentNode.setRepeatedText(repeatText.getText());
 
@@ -783,18 +783,24 @@ public class EditingScreen implements ActionListener {
 					else if (option.equals("Character")) {
 						int cell = Integer.parseInt("" + charChoose2.getSelectedItem());
 
-						if (txtEnterCharHere.getText().length() != 1) {
+						//System.out.println(nodeEnterCharHere.getText().length());
+						if (nodeEnterCharHere.getText().length() > 1) {
 							// Display Some Error Here
+							
 						}
-
+						else{
 						int[] pins = new int[8];
-						String[] hold = alphabet.get(nodeEnterCharHere.getText()).split("");
+						//System.out.println(alphabet.get(nodeEnterCharHere.getText()));
+						char[] x = nodeEnterCharHere.getText().toCharArray();
+						String[] hold = alphabet.get(x[0]).split("");
+						System.out.println(nodeEnterCharHere.getText());
 						for (int i = 0; i < 8; i++) {
 							pins[i] = Integer.parseInt(hold[i]);
+							System.out.println(pins[i]);
 						}
 						currentNode.setPins(pins, cell);
 
-						
+						}
 					} 
 					
 					else if (option.equals("Word")) {
