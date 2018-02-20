@@ -130,7 +130,7 @@ public class Node {
 	}
 	
 	public void addButton(int number, String response, String audioFile, Node nextNode) {
-		this.buttonList.put(number, new SkipButton(number, response, nextNode));
+		this.buttonList.put(number, new SkipButton(number, response, audioFile ,nextNode));
 	}
 	
 	public void addButton(int number, Node nextNode) {

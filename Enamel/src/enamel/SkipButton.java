@@ -33,6 +33,15 @@ public class SkipButton extends NodeButton {
 
 		// TODO Auto-generated constructor stub
 	}
+	
+	public SkipButton(int buttonNumber, String response, String audioFile, Node nextNode) {
+		super(buttonNumber);
+		this.response = response;
+		this.nextNode = nextNode;
+		this.audioFile = audioFile;
+
+		// TODO Auto-generated constructor stub
+	}
 
 	public SkipButton(int buttonNumber, String response, Node nextNode, int[] pins) {
 		super(buttonNumber);
@@ -40,6 +49,16 @@ public class SkipButton extends NodeButton {
 		this.nextNode = nextNode;
 		this.setPins(pins);
 		this.audioFile = "";
+
+		// TODO Auto-generated constructor stub
+	}
+	
+	public SkipButton(int buttonNumber, String response, Node nextNode, int[] pins, String audioFile) {
+		super(buttonNumber);
+		this.response = response;
+		this.nextNode = nextNode;
+		this.setPins(pins);
+		this.audioFile = audioFile;
 
 		// TODO Auto-generated constructor stub
 	}
