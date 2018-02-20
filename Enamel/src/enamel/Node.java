@@ -129,7 +129,7 @@ public class Node {
 		this.buttonList.put(number, new SkipButton(number));
 	}
 	
-	public void addButton(int number, String response, Node nextNode) {
+	public void addButton(int number, String response, String audioFile, Node nextNode) {
 		this.buttonList.put(number, new SkipButton(number, response, nextNode));
 	}
 	
