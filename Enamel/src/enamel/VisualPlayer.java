@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 /**
  * This class simulates the hardware for a device with physical Braille cells
@@ -78,11 +79,12 @@ public class VisualPlayer extends Player {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			//@Override
+			@Override
 			public void run() {
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				frame.getContentPane().setLayout(new BorderLayout());
 
 				for (int i = 0; i < brailleCellNumber; i++) {
