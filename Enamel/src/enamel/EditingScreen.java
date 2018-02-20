@@ -17,7 +17,8 @@ public class EditingScreen implements ActionListener {
 	Node currentNode;
 	NodeButton currentNodeButton;
 	private static HashMap<Character, String> alphabet = new HashMap<Character, String>();
-
+	Scenario scenario;
+	
 	JPanel panel;
 	JPanel subPanel;
 	JPanel card;
@@ -83,6 +84,42 @@ public class EditingScreen implements ActionListener {
 		});
 	}
 
+	public EditingScreen(Scenario hold) {
+		alphabet.put('a', "10000000");
+		alphabet.put('b', "11000000");
+		alphabet.put('c', "10100000");
+		alphabet.put('d', "10011000");
+		alphabet.put('e', "10001000");
+		alphabet.put('f', "11010000");
+		alphabet.put('g', "11011000");
+		alphabet.put('h', "11001000");
+		alphabet.put('i', "01010000");
+		alphabet.put('j', "01011000");
+		alphabet.put('k', "10100000");
+		alphabet.put('l', "11100000");
+		alphabet.put('m', "10110000");
+		alphabet.put('n', "10111000");
+		alphabet.put('o', "10101000");
+		alphabet.put('p', "11110000");
+		alphabet.put('q', "11111000");
+		alphabet.put('r', "11101000");
+		alphabet.put('s', "01110000");
+		alphabet.put('t', "01111000");
+		alphabet.put('u', "10100100");
+		alphabet.put('v', "11100100");
+		alphabet.put('w', "01011100");
+		alphabet.put('x', "10110100");
+		alphabet.put('y', "10111100");
+		alphabet.put('z', "10101100");
+		alphabet.put(' ', "11111111");
+		scenario = new Scenario(hold);
+		currentNode = scenario.getHead();
+		currentNodeButton = scenario.getHead().getButton(0);
+		currentButton = 0;
+		initialize();
+
+	}
+	
 	public EditingScreen() {
 		alphabet.put('a', "10000000");
 		alphabet.put('b', "11000000");
@@ -111,9 +148,11 @@ public class EditingScreen implements ActionListener {
 		alphabet.put('y', "10111100");
 		alphabet.put('z', "10101100");
 		alphabet.put(' ', "11111111");
-		currentNode = new Node(3);
-		currentNode.addButton(1);
-		currentNodeButton = currentNode.getButton(1);
+		scenario = new Scenario();
+		currentNode = scenario.getHead();
+		currentNode.addButton(0);
+		currentNodeButton = scenario.getHead().getButton(0);
+		currentButton = 0;
 		initialize();
 
 	}
@@ -121,7 +160,7 @@ public class EditingScreen implements ActionListener {
 	private void initialize() { // Initialize GUI
 		int x1 = 0;
 
-		// Initialize Main JFrame
+		// Initialize Main JFrame 
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setBounds(100, 100, 975, 739);
@@ -879,6 +918,7 @@ public class EditingScreen implements ActionListener {
 		{
 			if (e.getSource().equals(buttons.get(i))) {
 				currentButton = i;
+				currentNodeButton = scenario.getHead().getButton(i);
 				lblCurrentButton.setText("Current Button: " + currentButton);
 			}
 		}
