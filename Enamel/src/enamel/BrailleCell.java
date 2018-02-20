@@ -207,5 +207,5 @@ public class BrailleCell {
 		return alphabet.get(a);
 	}
 	
-	
+
 }

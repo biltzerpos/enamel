@@ -34,7 +34,11 @@ public class Node {
 		this.id = id;
 		this.name = name;
 		this.response = response;
-		this.pins = pins;
+		if (pins != null) {
+			this.pins = pins;
+		} else {
+			this.pins = new HashMap<>();
+		}
 		this.buttonList = new HashMap<>();
 		this.audioFile = "";
 	}
