@@ -805,7 +805,7 @@ public class EditingScreen implements ActionListener {
 					
 					else if (option.equals("Word")) {
 						if (nodeEnterWordHere.getText().length() != boxCount) {
-							// Display Some Error Here
+							// Display Some Error Here 
 						}
 						String[] word = nodeEnterWordHere.getText().split("");
 						int[] pins = new int[8];
