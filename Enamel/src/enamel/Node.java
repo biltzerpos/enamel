@@ -138,7 +138,7 @@ public class Node {
 	}
 	
 	public NodeButton getButton(int buttonNumber) {
-		if (this.buttonList.containsKey(buttonNumber)) {
+		if (!this.buttonList.containsKey(buttonNumber)) {
 			throw new IllegalArgumentException("This button does not exist yet");
 		}
 		return this.buttonList.get(buttonNumber);
