@@ -28,6 +28,21 @@ public class Scenario {
 		
 	}
 	
+	
+	
+	public Scenario(Scenario other) {
+		this.scenarioNumber = other.scenarioNumber;
+		this.name = other.name;
+		this.idCounter = other.idCounter;
+		this.numButtons = other.numButtons;
+		this.numCells = other.numCells;
+		this.graph = other.graph;
+		this.fileName = other.fileName;
+		this.head = other.head;
+	}
+
+
+
 	public String getFileName() {
 		return this.fileName;
 	}
