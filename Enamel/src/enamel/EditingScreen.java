@@ -116,6 +116,8 @@ public class EditingScreen implements ActionListener {
 		currentNode = scenario.getHead();
 		currentNodeButton = scenario.getHead().getButton(0);
 		currentButton = 0;
+		buttonCount = scenario.getNumButtons();
+		boxCount = scenario.getNumCells();
 		initialize();
 
 	}
