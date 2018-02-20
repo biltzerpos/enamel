@@ -9,7 +9,9 @@ public class Scenario {
 	private static int scenarioCounter;
 	private int scenarioNumber;
 	private String name;
-	private int idCounter; 
+	private int idCounter;
+	private int numButtons;
+	private int numCells;
 	static {
 		scenarioCounter = 1;
 	};
@@ -121,5 +123,20 @@ public class Scenario {
 		}
 	}
 	
+	public void setNumButtons(int num) {
+		this.numButtons = num;
+	}
+	
+	public int getNumButtons() {
+		return this.numButtons;
+	}
+	
+	public void setNumCells(int cells) {
+		this.numCells = cells;
+	}
+	
+	public int getNumCells() {
+		return this.numCells;
+	}
 	
 }
