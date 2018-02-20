@@ -226,7 +226,8 @@ public class StartScreen {
 		            System.err.println("Error occurred");
 		            e1.printStackTrace();
 		        }
-				
+
+				EditingScreen test = new EditingScreen();
 			}
 		});
 		btnSaveNewFile.setBounds(237, 210, 177, 40);
