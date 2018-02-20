@@ -1,5 +1,5 @@
 package authoringApp;
-//The code needs to be modified. It is from an online source.
+// The code needs to be modified. It is from an online source(www.codejava.net).
 import java.io.File;
 import java.io.IOException;
 
