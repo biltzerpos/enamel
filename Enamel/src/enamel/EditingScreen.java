@@ -112,7 +112,8 @@ public class EditingScreen implements ActionListener {
 		alphabet.put('z', "10101100");
 		alphabet.put(' ', "11111111");
 		currentNode = new Node(3);
-		currentNodeButton = currentNode.getButton(currentButton);
+		currentNode.addButton(1);
+		currentNodeButton = currentNode.getButton(1);
 		initialize();
 
 	}
@@ -122,6 +123,7 @@ public class EditingScreen implements ActionListener {
 
 		// Initialize Main JFrame
 		frame = new JFrame();
+		frame.setVisible(true);
 		frame.setBounds(100, 100, 975, 739);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
