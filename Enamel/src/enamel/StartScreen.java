@@ -226,7 +226,7 @@ public class StartScreen {
 		            System.err.println("Error occurred");
 		            e1.printStackTrace();
 		        }
-				frame.dispose();
+				frame.dispose(); 
 				EditingScreen test = new EditingScreen();
 			}
 		});

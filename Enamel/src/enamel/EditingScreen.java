@@ -121,7 +121,7 @@ public class EditingScreen implements ActionListener {
 	private void initialize() { // Initialize GUI
 		int x1 = 0;
 
-		// Initialize Main JFrame
+		// Initialize Main JFrame 
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setBounds(100, 100, 975, 739);
