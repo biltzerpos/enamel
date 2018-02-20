@@ -7,6 +7,7 @@ package enamel;
 
 import java.awt.EventQueue;
 
+
 import java.awt.Window;
 
 import javax.swing.JFrame;
@@ -29,10 +30,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
 import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 
 public class StartScreen {
 	public String cust_file;
@@ -44,6 +42,10 @@ public class StartScreen {
 	private JTextField txtSetFileName;
 	public int cellnumber;
 	public int buttonnumber;
+	public String buttontext;
+	public String celltext;
+	private JTextField buttontextfield;
+	private JTextField celltextfield;
 
 	/**
 	 * Launch the application.
@@ -104,116 +106,6 @@ public class StartScreen {
 		lblEnterFileName.setVisible(false);
 		lblEnterFileName.setBounds(16, 210, 178, 14);
 		panel.add(lblEnterFileName);
-		
-		JRadioButton brailleB1 = new JRadioButton("1");
-		brailleB1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				buttonnumber = 1;
-			}
-		});
-		brailleB1.setVisible(false);
-		brailleB1.setBounds(6, 146, 37, 23);
-		panel.add(brailleB1);
-		
-		JRadioButton brailleB2 = new JRadioButton("2");
-		brailleB2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				buttonnumber = 2;
-			}
-		});
-		brailleB2.setVisible(false);
-		brailleB2.setBounds(58, 146, 43, 23);
-		panel.add(brailleB2);
-		
-		JRadioButton brailleB3 = new JRadioButton("3");
-		brailleB3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				buttonnumber = 3;
-			}
-		});
-		brailleB3.setVisible(false);
-		brailleB3.setBounds(6, 180, 37, 23);
-		panel.add(brailleB3);
-		
-		JRadioButton brailleB4 = new JRadioButton("4");
-		brailleB4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				buttonnumber = 4;
-			}
-		});
-		brailleB4.setVisible(false);
-		brailleB4.setBounds(58, 180, 43, 23);
-		panel.add(brailleB4);
-		
-		JRadioButton brailleC1 = new JRadioButton("1");
-		brailleC1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cellnumber = 1;				
-			}
-		});
-		brailleC1.setVisible(false);
-		brailleC1.setBounds(237, 146, 43, 23);
-		panel.add(brailleC1);
-		
-		JRadioButton brailleC2 = new JRadioButton("2");
-		brailleC2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cellnumber = 2;
-			}
-		});
-		brailleC2.setVisible(false);
-		brailleC2.setBounds(305, 146, 37, 23);
-		panel.add(brailleC2);
-		
-		JRadioButton brailleC3 = new JRadioButton("3");
-		brailleC3.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cellnumber = 3;
-			}
-		});
-		brailleC3.setVisible(false);
-		brailleC3.setBounds(372, 146, 37, 23);
-		panel.add(brailleC3);
-		
-		JRadioButton brailleC4 = new JRadioButton("4");
-		brailleC4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cellnumber = 4;
-			}
-		});
-		brailleC4.setVisible(false);
-		brailleC4.setBounds(237, 180, 43, 23);
-		panel.add(brailleC4);
-		
-		JRadioButton brailleC5 = new JRadioButton("5");
-		brailleC5.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cellnumber = 5;
-			}
-		});
-		brailleC5.setVisible(false);
-		brailleC5.setBounds(305, 180, 37, 23);
-		panel.add(brailleC5);
-		
-		JRadioButton brailleC6 = new JRadioButton("6");
-		brailleC6.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				cellnumber = 6;
-			}
-		});
-		brailleC6.setVisible(false);
-		brailleC6.setBounds(372, 180, 42, 23);
-		panel.add(brailleC6);
 		
 		txtSetFileName = new JTextField();
 		txtSetFileName.setVisible(false);
@@ -279,16 +171,6 @@ public class StartScreen {
 				btnChooseExistingFile.setVisible(false);
 				txtNewtextfile.setVisible(true);
 				txtSetFileName.setVisible(true);
-				brailleB1.setVisible(true);
-				brailleB2.setVisible(true);
-				brailleB3.setVisible(true);
-				brailleB4.setVisible(true);
-				brailleC1.setVisible(true);
-				brailleC2.setVisible(true);
-				brailleC3.setVisible(true);
-				brailleC4.setVisible(true);
-				brailleC5.setVisible(true);
-				brailleC6.setVisible(true);	
 				lblSelectCellNumber .setVisible(true);
 				lblSelectCellNumber .setVisible(true);
 				lblEnterFileText.setVisible(true);
@@ -326,9 +208,16 @@ public class StartScreen {
 				try {
 					
 		            PrintWriter out = new PrintWriter(new FileWriter(cust_filename + ".txt"));
+		            
 		            txtNewtextfile.getText();
-		            txtNewtextfile.write(out);
-		            out.println(txtNewtextfile);
+		            buttontextfield.getText();
+		            celltextfield.getText();
+		            out.println("Button " + buttontext);
+		            out.println("Cell "+ celltext);
+		            out.println(cust_filename);
+		            out.println();
+		            out.println();
+		            out.println(cust_file);
 		            out.flush();
 		            out.close();
 		            
@@ -342,6 +231,55 @@ public class StartScreen {
 		});
 		btnSaveNewFile.setBounds(237, 210, 177, 40);
 		panel.add(btnSaveNewFile);
+		
+		buttontextfield = new JTextField();
+		buttontextfield.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					buttontext = buttontextfield.getText();
+					buttonnumber = Integer.parseInt(buttontext);
+					if (buttonnumber / 1 == buttonnumber) {
+					buttontextfield.setVisible(false);
+					lblSelectButtonNumber.setVisible(false);
+					vm = VoiceManager.getInstance();
+			        voice = vm.getVoice ("kevin16");
+			        voice.allocate();
+			        voice.speak(buttontext);
+			       
+			        btnSaveNewFile.setVisible(true);
+					}
+			}
+			}
+		});
+		buttontextfield.setBounds(6, 150, 188, 20);
+		panel.add(buttontextfield);
+		buttontextfield.setColumns(10);
+		
+		celltextfield = new JTextField();
+		celltextfield.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					celltext = celltextfield.getText();
+					cellnumber = Integer.parseInt(celltext);
+					
+					if (cellnumber / 1 == cellnumber) {
+					celltextfield.setVisible(false);
+					lblSelectButtonNumber.setVisible(false);
+					vm = VoiceManager.getInstance();
+			        voice = vm.getVoice ("kevin16");
+			        voice.allocate();
+			        voice.speak(celltext);
+			       
+			        btnSaveNewFile.setVisible(true);
+					}
+			}
+			}});
+		
+		celltextfield.setBounds(237, 150, 173, 20);
+		panel.add(celltextfield);
+		celltextfield.setColumns(10);
 
 	}
 }
