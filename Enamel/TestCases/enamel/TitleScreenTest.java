@@ -1,7 +1,5 @@
 package enamel;
 
-import static org.junit.Assert.*;
-
 import javax.swing.JFrame;
 
 import org.junit.Before;
