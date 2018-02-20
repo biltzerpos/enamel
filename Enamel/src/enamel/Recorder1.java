@@ -20,6 +20,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Recorder1 {
 
@@ -35,9 +38,7 @@ public class Recorder1 {
     static final long RECORD_TIME = 60000;  // 1 minute
     
     //Change recording time to allow user to choose when they want to stop
- 
-    // path of the wav file
-    File wavFile = new File("FactoryScenarios\\AudioFiles\\"+cust_file+".wav");
+
  
     // format of audio file
     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
@@ -45,6 +46,8 @@ public class Recorder1 {
     // the line from which audio data is captured
     TargetDataLine line;
  
+	static JButton btnNewButton = new JButton("Start Recording");
+	static Boolean recordstart = btnNewButton.isVisible();
     /**
      * Defines an audio format
      */
@@ -102,7 +105,6 @@ public class Recorder1 {
         });
  
         stopper.start();
-
         // start recording
         recorder.start();
 	}
@@ -139,45 +141,69 @@ public class Recorder1 {
 			        voice = vm.getVoice ("kevin16");
 			        voice.allocate();
 			        voice.speak(cust_file);
+			        
+			        
+		            try {
+		            
+		            // path of the wav file
+		            File wavFile = new File("FactoryScenarios\\AudioFiles\\"+cust_file+".wav");	
+		            AudioFormat format = getAudioFormat();
+		            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+		     
+		                // checks if system supports the data line
+		            if (!AudioSystem.isLineSupported(info)) {
+		                System.out.println("Line not supported");
+		                System.exit(0);
+		            }
+		            line = (TargetDataLine) AudioSystem.getLine(info);
+		            line.open(format);
+		            line.start();   // start capturing
+
+		 
+
+			        
+		            System.out.println("Start capturing...");
+		            
+		            AudioInputStream ais = new AudioInputStream(line);
+		 
+		            System.out.println("Start recording...");
+		            
+		            
+		 
+		            // start recording
+
+						AudioSystem.write(ais, fileType, wavFile);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} catch (LineUnavailableException ex) {
+		            ex.printStackTrace();
+					}
+			        
 				}
 			}
 		});
 		textField.setBounds(10, 39, 173, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnNewButton.setVisible(false);
+			}
+		});
+		
+
+		btnNewButton.setBounds(10, 76, 173, 23);
+		frame.getContentPane().add(btnNewButton);
 	}
 	
+
     /**
      * Captures the sound and record into a WAV file
      */
+    
     void start() {
-        try {
-            AudioFormat format = getAudioFormat();
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
- 
-            // checks if system supports the data line
-            if (!AudioSystem.isLineSupported(info)) {
-                System.out.println("Line not supported");
-                System.exit(0);
-            }
-            line = (TargetDataLine) AudioSystem.getLine(info);
-            line.open(format);
-            line.start();   // start capturing
- 
-            System.out.println("Start capturing...");
- 
-            AudioInputStream ais = new AudioInputStream(line);
- 
-            System.out.println("Start recording...");
- 
-            // start recording
-            AudioSystem.write(ais, fileType, wavFile);
- 
-        } catch (LineUnavailableException ex) {
-            ex.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+    	
+
     }
 
 }
