@@ -13,6 +13,12 @@ public class GraphCanvas extends JFrame {
 	public int startingY;
 	public int width;
 	public int height;
+	
+	public static void main(String[] args) {
+		GraphCanvas frame = new GraphCanvas();
+		frame.setVisible(true);
+	}
+	
 	/**
 	 * Create the application.
 	 * @wbp.parser.entryPoint
@@ -76,10 +82,6 @@ public class GraphCanvas extends JFrame {
     		g.draw(new RoundRectangle2D.Float(x, y, width, height, 10, 10));
     		g.drawLine(firstX + dline * (i + 1), bottom, x + width / 2, y);
     	}
-    }
-    
-    public RoundRectangle2D.Float createRectangle() {
-    	return null;
     }
 
 }
