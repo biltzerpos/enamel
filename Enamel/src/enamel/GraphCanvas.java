@@ -13,9 +13,11 @@ public class GraphCanvas extends JFrame {
 	public int startingY;
 	public int width;
 	public int height;
+	public Node c;
+	public Scenario s;
 	
 	public static void main(String[] args) {
-		GraphCanvas frame = new GraphCanvas();
+		GraphCanvas frame = new GraphCanvas(null, null);
 		frame.setVisible(true);
 	}
 	
@@ -23,8 +25,10 @@ public class GraphCanvas extends JFrame {
 	 * Create the application.
 	 * @wbp.parser.entryPoint
 	 */
-	public GraphCanvas() {
+	public GraphCanvas(Scenario s, Node n) {
 		super();
+		this.c = n;
+		this.s = s;
 		initialize();
 	}
 
@@ -40,6 +44,11 @@ public class GraphCanvas extends JFrame {
 		this.height = 484;
 		setSize(600, 544);
 	}
+	
+	public void update() {
+		repaint();
+	}
+	
 
     /**
      * @wbp.parser.entryPoint
@@ -53,7 +62,8 @@ public class GraphCanvas extends JFrame {
         int width = 200;
         int height = 75;
         
-        graphics2.drawString("Node Name", this.width/2-width/2 + 5, this.height/2);
+        graphics2.drawString(c.getName(), this.width/2-width/2 + 5, this.height/2);
+        graphics2.drawString(c.getResponse().substring(0, Math.min(c.getResponse().length(), 24)) + "...", this.width/2-width/2 + 20, this.height/2+30);
         int nodeX = this.width / 2 + this.startingX - width / 2;
         int nodeY = this.height / 2 + this.startingY- height / 2;
         RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(nodeX, nodeY, width, height, 10, 10);
@@ -67,11 +77,12 @@ public class GraphCanvas extends JFrame {
         roundedRectangle = new RoundRectangle2D.Float(this.width/2+this.startingX-width+10, lineEnd, width, height, 10, 10);
         
         roundedRectangle = new RoundRectangle2D.Float(this.width/2+this.startingX+10, lineEnd, width, height, 10, 10);
-        this.createRectangles(graphics2, nodeX, nodeY + height, width, lineEnd, 10, 5, height);
+        this.createRectangles(graphics2, nodeX, nodeY + height, width, lineEnd, 10, s.getNextNodes(c).length, height);
     }
     
     
     public void createRectangles(Graphics2D g, int firstX, int bottom, int firstWidth, int y, int space, int num, int height) {
+    	Node[] nextNodes = s.getNextNodes(c);
     	int spaces = (num + 1) * space;
     	int width = (this.width - spaces) / Math.max(num, 1);
     	int rect = space + width;
