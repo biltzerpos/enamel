@@ -3,6 +3,7 @@ package enamel;
 import java.util.*;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.*;
+import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 public class Scenario {
@@ -30,13 +31,14 @@ public class Scenario {
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	public Scenario(Scenario other) {
 		this.scenarioNumber = other.scenarioNumber;
 		this.name = other.name;
 		this.idCounter = other.idCounter;
 		this.numButtons = other.numButtons;
 		this.numCells = other.numCells;
-		this.graph = other.graph;
+		this.graph = (SimpleDirectedGraph<Node, DefaultEdge>) ((AbstractBaseGraph<Node, DefaultEdge>)other.graph).clone();
 		this.fileName = other.fileName;
 		this.head = other.head;
 	}
