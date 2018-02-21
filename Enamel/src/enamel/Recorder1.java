@@ -35,7 +35,7 @@ public class Recorder1 {
 	/**
 	 * Launch the application.
 	 */
-    static final long RECORD_TIME = 60000;  // 1 minute
+    static final long RECORD_TIME = 3000;  // 30 seconds limit past user
     
     //Change recording time to allow user to choose when they want to stop
 
