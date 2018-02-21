@@ -150,10 +150,9 @@ public class EditingScreen implements ActionListener {
 		alphabet.put('y', "10111100");
 		alphabet.put('z', "10101100");
 		alphabet.put(' ', "11111111");
-		scenario = new Scenario();
-		currentNode = scenario.getHead();
+		currentNode = new Node(1);
 		currentNode.addButton(0);
-		currentNodeButton = scenario.getHead().getButton(0);
+		currentNodeButton = currentNode.getButton(0);
 		currentButton = 0;
 		initialize();
 
@@ -808,19 +807,60 @@ public class EditingScreen implements ActionListener {
 					if (option.equals("Clear")) {
 						int cell = Integer.parseInt("" + clearChoose2.getSelectedItem());
 						int[] pins = new int[8];
-						String[] hold = alphabet.get("").split("");
+						String[] hold = alphabet.get(' ').split("");
+						//CLEARREADIOBUTTON2
+						if (clearRadioButton2.isSelected()){
 						for (int i = 0; i < 8; i++) {
 							pins[i] = Integer.parseInt(hold[i]);
-							System.out.println("Test");
 						}
 						currentNode.setPins(pins, cell);
+						}
 
 					} 
 					
 					else if (option.equals("Pins")) {
 						int cell = Integer.parseInt("" + blockChooser2.getSelectedItem());
 						System.out.println(cell);
+						
+						if (pin21.isSelected())
+							currentNode.setPin(cell, 1, 1);
+						else
+							currentNode.setPin(cell, 1, 0);
+						
+						if (pin22.isSelected())
+							currentNode.setPin(cell, 2, 1);
+						else
+							currentNode.setPin(cell, 2, 0);
+						
+						if (pin23.isSelected())
+							currentNode.setPin(cell, 3, 1);
+						else
+							currentNode.setPin(cell, 3, 0);
+						
+						if (pin24.isSelected())
+							currentNode.setPin(cell, 4, 1);
+						else
+							currentNode.setPin(cell, 4, 0);
+						
+						if (pin25.isSelected())
+							currentNode.setPin(cell, 5, 1);
+						else
+							currentNode.setPin(cell, 5, 0);
 
+						if (pin26.isSelected())
+							currentNode.setPin(cell, 6, 1);
+						else
+							currentNode.setPin(cell, 6, 0);
+						
+						if (pin27.isSelected())
+							currentNode.setPin(cell, 7, 1);
+						else
+							currentNode.setPin(cell, 7, 0);
+						
+						if (pin28.isSelected())
+							currentNode.setPin(cell, 8, 1);
+						else
+							currentNode.setPin(cell, 8, 0);
 						} 
 					
 					else if (option.equals("Character")) {
@@ -833,10 +873,8 @@ public class EditingScreen implements ActionListener {
 						}
 						else{
 						int[] pins = new int[8];
-						//System.out.println(alphabet.get(nodeEnterCharHere.getText()));
 						char[] x = nodeEnterCharHere.getText().toCharArray();
 						String[] hold = alphabet.get(x[0]).split("");
-						System.out.println(nodeEnterCharHere.getText());
 						for (int i = 0; i < 8; i++) {
 							pins[i] = Integer.parseInt(hold[i]);
 							System.out.println(pins[i]);
@@ -847,24 +885,34 @@ public class EditingScreen implements ActionListener {
 					} 
 					
 					else if (option.equals("Word")) {
-						if (nodeEnterWordHere.getText().length() != boxCount) {
+						if (nodeEnterWordHere.getText().length() > boxCount) {
 							// Display Some Error Here 
 						}
+						else{
 						String[] word = nodeEnterWordHere.getText().split("");
 						int[] pins = new int[8];
 						for (int i = 0; i < word.length; i++)
 						{
-							String[] hold = alphabet.get(word[i]).split("");
+							char[] x = word[i].toCharArray();
+
+							String[] hold = alphabet.get(x[0]).split("");
 							for (int j = 0; j < 8; j++)
 							{
-								pins[i] = Integer.parseInt(hold[i]);
+								pins[j] = Integer.parseInt(hold[j]);
+								
 							}
+							currentNode.setPins(pins, i);
 						}
-					} 
+					} }
 					
 					else {
 						// Display some error here for nothing selected
 					}
+				}
+				
+				else //CHANGE BUTTON STUFF 
+				{
+					
 				}
 
 			}
