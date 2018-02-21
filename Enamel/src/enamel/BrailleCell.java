@@ -198,4 +198,14 @@ public class BrailleCell {
 	public int getNumberOfPins() {
 		return listOfPins.length;
 	}
+	
+	public String getCharacter(char a) {
+		a = Character.toLowerCase(a);
+		if (!alphabet.containsKey(a)) {
+			throw new IllegalArgumentException("Non standard character");
+		}
+		return alphabet.get(a);
+	}
+	
+
 }

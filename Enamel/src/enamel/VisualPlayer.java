@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 /**
  * This class simulates the hardware for a device with physical Braille cells
@@ -51,11 +52,13 @@ public class VisualPlayer extends Player {
 	private GridLayout cellGrid = new GridLayout(4, 2);
 	LinkedList<JPanel> panelList = new LinkedList<JPanel>();
 	LinkedList<JButton> buttonList = new LinkedList<JButton>();
+
 	JPanel southPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
 	JRadioButton[] pins = new JRadioButton[8];
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
 	private boolean displayed = false;
+	
 
 	
 	/**
@@ -76,11 +79,12 @@ public class VisualPlayer extends Player {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			//@Override
+			@Override
 			public void run() {
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 				frame.getContentPane().setLayout(new BorderLayout());
 
 				for (int i = 0; i < brailleCellNumber; i++) {
@@ -111,7 +115,6 @@ public class VisualPlayer extends Player {
 
 				for (int i = 0; i < buttonNumber; i++) {
 					JButton button = new JButton("" + (i + 1));
-
 					buttonList.add(button);
 					southPanel.add(button);
 				}

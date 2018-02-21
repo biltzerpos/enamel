@@ -1,9 +1,14 @@
 package enamel;
 
-public class ToyAuthoring {
+import java.io.*;
+import javax.swing.*;
+import javax.swing.filechooser.*;
 
-    public static void main(String[] args) { 	  	
-    	    ScenarioParser s = new ScenarioParser(true);
-    	    s.setScenarioFile("FactoryScenarios/Scenario_" + 1 + ".txt");
-    }
+public class ToyAuthoring {
+	public static void main(String[] args) throws IOException {
+		ScenarioParser s = new ScenarioParser(true);
+		s.setScenarioFile("FactoryScenarios/Scenario_2.txt");
+		
+	}
+ 
 }
