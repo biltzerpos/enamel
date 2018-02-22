@@ -1,103 +1,98 @@
 package authoringApp;
 
-//edited by QASIM Ahmed
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//import java.awt.Window;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
-
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
-
 import org.apache.commons.io.FilenameUtils;
-
-import enamel.ScenarioParser;
 import enamel.ToyAuthoring;
 
+/**
+ * An application to create scenario files that are compatible with a Treasure Braille Box simulation.
+ * @author Xiahan Chen, Huy Hoang Minh Cu, Qasim Mahir
+ */
 public class AuthoringApp {
 
 	private static JFrame gui;
 	private static JFileChooser fc = new JFileChooser();
-	private static File f, currentFile,error;
+	private static File f, currentFile, error;
 	private static LinkedList<String> fileStr;
 	private static LinkedList<Integer> id;
-
-	private static String scenarioStr;
-	private static int currentLine;
 	private static JPanel errorPanel;
-	private static boolean isSaved = true, isOpened = false;
 	private static HashMap<String, Component> compMap;
-	private static int cell = 0; // number of cell
-	private static int col = 0; // number of collumn
 	private static JTextPaneController controller;
+	
+	private static int currentLine, cell = 0, col = 0;
+	private static boolean isSaved = true, isOpened = false;
 
+
+	/**
+	 * Initializes the application by drawing the GUI and initializing a controller for the JTextPane. LinkedLists are created for an id+string pair that represents elements on the JTextPane.
+	 * @param args unused
+	 */
 	public static void main(String[] args) {
+		
 		java.awt.EventQueue.invokeLater(new Runnable() {
+			
 			public void run() {
+				
 				gui = new AuthoringAppGUI();
 				gui.setVisible(true);
 				compMap = ((AuthoringAppGUI) gui).getCompMap();
 				fileStr = new LinkedList<String>();
-				id= new LinkedList<Integer>();
+				id = new LinkedList<Integer>();
 				id.add(0);
 				controller = new JTextPaneController((JTextPane) compMap.get("scenarioPane"), (JScrollPane) compMap.get("scenarioScrollPane"));
 				addActionListeners();
+				
 			}
+			
 		});
+		
 	}
 
+	/**
+	 * Implements all the action listeners for various components within the GUI.
+	 */
 	protected static void addActionListeners() {
+		
 		((JMenuItem) compMap.get("newMenuItem")).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				if (!isSaved) {
 					JOptionPane.showMessageDialog(gui, "please save first");
-					// TODO: give unsaved warning then save file;
 				}
-				// open new file
 
 				isSaved = false;
 				NewFileGUI temp = new NewFileGUI();
 				temp.setVisible(true);
 				HashMap<String, Component> tempMap = ((NewFileGUI) temp).getCompMap();
-				// System.out.println(tempMap);
 				JTextField numCell = (JTextField) tempMap.get("numCell");
 				JTextField numCol = (JTextField) tempMap.get("numCol");
 				fileStr = new LinkedList<String>();
-				id= new LinkedList<Integer>();
-				// System.out.println(tempMap);
-				// ********************************************************************************************************
+				id = new LinkedList<Integer>();
 				((JButton) tempMap.get("createButton")).addActionListener(new ActionListener() {
 
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						// synchronized(this) {
 
 						cell = Integer.parseInt(numCell.getText());
 						col = Integer.parseInt(numCol.getText());
-						//System.out.println(cell);
-						//System.out.println(col);
 						isOpened = true;
 						stateChanged();
 						
 						
 						fileStr.add("Cell " + cell );
 						fileStr.add("Button " + col );
-						//updateScenarioPane(true);
 						((JTextField) compMap.get("inputTextField")).setText("");
-						id=controller.newDocCreated(fileStr);
+						id = controller.newDocCreated(fileStr);
 
 						id.add(1);
 						id.add(2);
 						temp.dispose();
-				
-						// this.notify();
-						// notify();
 					}
 					
 					
@@ -111,16 +106,7 @@ public class AuthoringApp {
 						temp.dispose();
 					}
 				});
-				
-				
-			
-				// *********************************************************************************************************
-				// try {
-				// this.wait();
-				// } catch (InterruptedException e1) {
-				// // TODO Auto-generated catch block
-				// e1.printStackTrace();
-				// }
+
 			}
 
 		});
@@ -134,7 +120,6 @@ public class AuthoringApp {
 				}
 
 				if (!isSaved) {
-					// save current file
 				}
 				try {
 					f = openFileChooser(new File("FactoryScenarios/"), "txt");
@@ -149,7 +134,6 @@ public class AuthoringApp {
 					((JTextField) compMap.get("inputTextField")).setText("");
 					stateChanged();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -162,7 +146,6 @@ public class AuthoringApp {
 				try {
 					save.stringArrayToFile(fileStr);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -190,7 +173,6 @@ public class AuthoringApp {
 					try {
 						save.stringArrayToFile(fileStr);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -249,7 +231,6 @@ public class AuthoringApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// ((JTextField) compMap.get("inputTextField")).setText("");
 
 				if (((JTextField) compMap.get("inputTextField")).getText().isEmpty()) {
 					JOptionPane.showMessageDialog(gui, "pause need to have a number");
@@ -269,7 +250,6 @@ public class AuthoringApp {
 
 		});
 
-		// i dont know if this is right
 		((JButton) compMap.get("insertRepeat")).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -312,6 +292,7 @@ public class AuthoringApp {
 		((JButton) compMap.get("displayAddButton")).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("rawtypes")
 				JComboBox temp = (JComboBox) compMap.get("displayComboBox");
 				String com = (String) temp.getItemAt(temp.getSelectedIndex());
 
@@ -465,7 +446,10 @@ public class AuthoringApp {
 		});
 
 	}
-
+	
+	/**
+	 * Enables the components when a scenario file is opened in the application.
+	 */
 	protected static void stateChanged() {
 		if (isOpened) { 
 			System.out.println(true);
@@ -486,32 +470,23 @@ public class AuthoringApp {
 		}
 	}
 
-	
-		
-	
-	private static void updateScenarioPane(boolean isNew) {
-		if (isNew) {
-			scenarioStr = "";
-			for (int i = 0; i < fileStr.size(); i++) {
-				scenarioStr += i + ": " + fileStr.get(i) + "\n";
-			}
-			currentLine = fileStr.size() + 1;
-		} else {
-			scenarioStr += currentLine + ": " + fileStr.get(currentLine) + "\n";
-		}
-		((JTextPane) compMap.get("scenarioPane")).setText(scenarioStr);
-	}
-
-	// Opens a file chooser @ the specified directory and expects the file selected
-	// to be of the extension 'ext'. Returns the selected file. If extension is of
-	// wrong type, return null.
+	/**
+	 * Opens a FileChooser interface for the user to select a file.
+	 * 
+	 * @param currentDir
+	 *            The directory that will first appear on the FileChooser.
+	 * @param ext
+	 *            Expected file extension to be returned.
+	 * @return The file selected by the user and is of the appropriate
+	 *         extension, otherwise null.
+	 */
 	public static File openFileChooser(File currentDir, String ext) {
 		fc.setCurrentDirectory(currentDir);
 		int returnVal = fc.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			String selectedExt = FilenameUtils.getExtension(fc.getSelectedFile().getName());
 			if (!ext.equals(selectedExt)) {
-				/* final JPanel */errorPanel = new JPanel();
+				errorPanel = new JPanel();
 				JOptionPane.showMessageDialog(errorPanel, "Could not open file, Wrong file type", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				return null;
