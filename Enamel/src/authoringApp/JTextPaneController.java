@@ -1,7 +1,5 @@
 package authoringApp;
 
-import java.awt.Component;
-import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -10,75 +8,93 @@ import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
-import javax.xml.soap.Node;
 
-public class JTextPaneController extends JTextPane{
-	
+/**
+ * Extension of JTextPane implementing features to add HTML DOM format and CSS
+ * styling.
+ * 
+ * @author Xiahan Chen, Huy Hoang Minh Cu, Qasim Mahir
+ *
+ */
+public class JTextPaneController extends JTextPane {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4947922282601680749L;
 	private JTextPane tp;
 	private JScrollPane sp;
 	HTMLDocument doc;
 	Element e;
-	
-	//Constructor
+
+	/**
+	 * Initializes the JTextPaneControllers and sets the JTextPane to display
+	 * defaultHTML.html.
+	 * 
+	 * @param tp
+	 *            The JTextPane from the GUI.
+	 * @param sp
+	 *            The JScrollPane from the GUI.
+	 */
 	public JTextPaneController(JTextPane tp, JScrollPane sp) {
-		// TODO Auto-generated constructor stub
 		this.tp = tp;
 		this.sp = sp;
-		
+
 		try {
 			tp.setPage(getClass().getResource("defaultHTML.html"));
-			
+
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 	}
-	
+
+	/**
+	 * Populates the lines of the JTextPane using the strings from a scenario
+	 * file.
+	 * 
+	 * @param fileStr
+	 *            A linked List with each element representing a line of the
+	 *            scenario file.
+	 * @return LinkedList n - A linked list of integer IDs within the HTML file.
+	 */
 	public LinkedList<Integer> newDocCreated(LinkedList<String> fileStr) {
-		// TODO Auto-generated method stub
-		// System.out.println(tp.getText());
+
 		doc = (HTMLDocument) tp.getDocument();
-		LinkedList<Integer> n=new LinkedList<Integer>();
+		LinkedList<Integer> n = new LinkedList<Integer>();
 		n.add(0);
 		for (int i = 1; i <= fileStr.size(); i++) {
-			e = doc.getElement(new Integer(i - 1).toString() );
+			e = doc.getElement(new Integer(i - 1).toString());
 			try {
-				System.out.println(fileStr.get(i-1));
-				doc.insertAfterEnd(e,  "<p id=\"" + i + "\">" + fileStr.get(i - 1) + "</p>");
+				doc.insertAfterEnd(e, "<p id=\"" + i + "\">" + fileStr.get(i - 1) + "</p>");
 				n.add(i);
 			} catch (BadLocationException | IOException e1) {
-				// TODO Auto -generated catch block
 				e1.printStackTrace();
 			}
-			
+
 		}
-		System.out.println(tp.getText());
-		System.out.println("****************************************");
 		return n;
 	}
 
-	
-
+	/**
+	 * Adds an Element with it's string after the specified element.
+	 * 
+	 * @param temp
+	 *            The String to be inserted.
+	 * @param i
+	 *            The id to be inserted after.
+	 */
 	public void addElement(String temp, int i) {
-		// TODO Auto-generated method stub
-		//doc = (HTMLDocument) tp.getDocument();
-		//doc = (HTMLDocument) tp.getDocument();
-		e = doc.getElement(new Integer(i-1).toString());
-		
+		e = doc.getElement(new Integer(i - 1).toString());
+
 		try {
 			doc.insertAfterEnd(e, "<p id=\"" + i + "\">" + temp + "</p>");
 		} catch (BadLocationException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println(tp.getText());
-		System.out.println("****************************************");
+
 	}
 
-
-	
 }
