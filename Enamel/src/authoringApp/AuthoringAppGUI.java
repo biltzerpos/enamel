@@ -138,11 +138,20 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
 
 		scenarioScrollPane.setName("scenarioScrollPane"); // NOI18N
 
+<<<<<<< HEAD
 		scenarioPane.setEditable(false);
 		scenarioPane.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 		scenarioPane.setName("scenarioPane"); // NOI18N
 		scenarioScrollPane.setViewportView(scenarioPane);
+=======
+        scenarioPane.setEditable(false);
+        scenarioPane.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        scenarioPane.setName("scenarioPane"); // NOI18N
+        scenarioScrollPane.setViewportView(scenarioPane);
+        
+>>>>>>> refs/remotes/origin/master
 
+<<<<<<< HEAD
 		inputTextField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 		inputTextField.setForeground(new java.awt.Color(204, 204, 204));
 		inputTextField.setText("(Insert text/argument)");
@@ -154,16 +163,53 @@ public class AuthoringAppGUI extends javax.swing.JFrame {
 		editRemoveLine.setEnabled(false);
 		editRemoveLine.setName("editRemoveLine"); // NOI18N
 		editRemoveLine.setToolTipText("click here to remove previous line");
+=======
+        inputTextField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        inputTextField.setForeground(new java.awt.Color(204, 204, 204));
+        inputTextField.setText("(Insert text/argument)");
+        inputTextField.setName("inputTextField"); // NOI18N
+        inputTextField.setToolTipText("this is your console, input your command here");
+        
+        editRemoveLine.setText("Remove Line");
+        editRemoveLine.setToolTipText("");
+        editRemoveLine.setEnabled(false);
+        editRemoveLine.setName("editRemoveLine"); // NOI18N
+        editRemoveLine.setToolTipText("click here to remove previous line");
+>>>>>>> refs/remotes/origin/master
 
 		insertText.setText("Text");
 		insertText.setEnabled(false);
 		insertText.setName("insertText"); // NOI18N
 		insertText.setToolTipText("click here to insert plain text");
 
+<<<<<<< HEAD
 		insertSkipButton.setText("Skip Button");
 		insertSkipButton.setEnabled(false);
 		insertSkipButton.setName("insertSkipButton"); // NOI18N
 		insertSkipButton.setToolTipText("click here to insert the skip button");
+=======
+        insertSkipButton.setText("Skip Button");
+        insertSkipButton.setEnabled(false);
+        insertSkipButton.setName("insertSkipButton"); // NOI18N
+        insertSkipButton.setToolTipText("click here to insert the skip button");
+        
+        insertRepeatButton.setText("Repeat Button");
+        insertRepeatButton.setEnabled(false);
+        insertRepeatButton.setName("insertRepeatButton"); // NOI18N
+        insertRepeatButton.setToolTipText("click here to insert the repeat button");
+        insertRepeatButton.getAccessibleContext().setAccessibleName("click here to insert the repeat button");
+        insertRepeatButton.getAccessibleContext().setAccessibleDescription("click here to insert the repeat button");
+        
+        insertRepeat.setText("Repeat");
+        insertRepeat.setEnabled(false);
+        insertRepeat.setName("insertRepeat"); // NOI18N
+        insertRepeat.setToolTipText("click here to insert the beginning of the repeat loop");
+        
+        insertUserInput.setText("User Input");
+        insertUserInput.setEnabled(false);
+        insertUserInput.setName("insertUserInput"); // NOI18N
+        insertUserInput.setToolTipText("click here to create choices");
+>>>>>>> refs/remotes/origin/master
 
 		insertRepeatButton.setText("Repeat Button");
 		insertRepeatButton.setEnabled(false);

@@ -1,5 +1,9 @@
 package authoringApp;
+<<<<<<< HEAD
 
+=======
+// The code needs to be modified. It is from an online source(www.codejava.net).
+>>>>>>> refs/remotes/origin/master
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.AudioFileFormat;
