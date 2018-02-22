@@ -170,6 +170,8 @@ public class AuthoringApp {
 		});
 		
 		
+		                                                          
+		
 		((JMenuItem) compMap.get("textPaneEditingMenuItem")).addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -178,11 +180,14 @@ public class AuthoringApp {
 			}
 
 		});
+		
+		
+		
 		((JMenuItem) compMap.get("saveAsMenuItem")).addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				f = openFileChooser(new File("FactoryScenarios/"), "txt");
+				f = saveFileChooser(new File("FactoryScenarios/"), "txt");
 				if (f != null) {
 					currentFile = f;
 					gui.setTitle("Authoring App - " + currentFile.getName());
@@ -521,4 +526,23 @@ public class AuthoringApp {
 		}
 		return null;
 	}
+	
+	public static File saveFileChooser(File currentDir, String ext) {
+		fc.setCurrentDirectory(currentDir);
+		int returnVal = fc.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String selectedExt = FilenameUtils.getExtension(fc.getSelectedFile().getName());
+			if (!ext.equals(selectedExt)) {
+				/* final JPanel */errorPanel = new JPanel();
+				JOptionPane.showMessageDialog(errorPanel, "Could not save file, Wrong file type", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return null;
+			} else {
+				return fc.getSelectedFile();
+			}
+		}
+		return null;
+	}
+	
+	
 }
