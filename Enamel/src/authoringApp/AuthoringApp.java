@@ -3,6 +3,8 @@ package authoringApp;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -24,8 +26,9 @@ public class AuthoringApp {
 	private static HashMap<String, Component> compMap;
 	private static JTextPaneController controller;
 	
-	private static int currentLine, cell = 0, col = 0;
+	private static int currentLine = 0, cell = 0, col = 0;
 	private static boolean isSaved = true, isOpened = false;
+	private static String currentID;
 
 
 	/**
@@ -57,6 +60,32 @@ public class AuthoringApp {
 	 * Implements all the action listeners for various components within the GUI.
 	 */
 	protected static void addActionListeners() {
+		gui.addKeyListener(new KeyListener(){
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(true);
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(true);
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyChar() == KeyEvent.VK_DOWN){
+					currentLine++;
+					System.out.println("Line: " + currentLine + " ID: " + id.get(currentLine));
+				}
+				else if (e.getKeyChar() == KeyEvent.VK_UP){
+					currentLine--;
+					System.out.println("Line: " + currentLine + " ID: " + id.get(currentLine));
+				}
+			}
+		});
 		
 		((JMenuItem) compMap.get("newMenuItem")).addActionListener(new ActionListener() {
 
