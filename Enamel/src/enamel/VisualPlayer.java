@@ -1,18 +1,15 @@
 package enamel;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Level;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 /**
@@ -40,26 +37,21 @@ import javax.swing.SwingUtilities;
  * @author Team 4: Yassin Mohamed, Qassim Allauddin, Derek Li, Artem Solovey.
  * @author ENAMEL team: Sunjik Lee, Li Yin, Vassilios Tzerpos.
  */
-/**
- * @author Yassin
- *
- */
 public class VisualPlayer extends Player {
 
 	
 	private JFrame frame;
-	private GridLayout cellGrid = new GridLayout(4, 2);
-	LinkedList<JPanel> panelList = new LinkedList<JPanel>();
+	//private GridLayout cellGrid = new GridLayout(4, 2);
+	List<BrailleCellPanel> brailleCellPanelList = new LinkedList<BrailleCellPanel>();
 	LinkedList<JButton> buttonList = new LinkedList<JButton>();
 	JPanel southPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
-	JRadioButton[] pins = new JRadioButton[8];
+	//LinkedList<ArrayList<JRadioButton>> pinList = new LinkedList<ArrayList<JRadioButton>>();
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
-	private boolean displayed = false;
 
 	
 	/**
-	 * Initializes the parameters for a window with <code>brailleCellNumber</code> Braille
+	 * Creates and displays a window with <code>brailleCellNumber</code> Braille
 	 * cells and <code>jbuttonNumber</code> buttons. The two parameters must be
 	 * positive integers.
 	 * 
@@ -67,11 +59,13 @@ public class VisualPlayer extends Player {
 	 *            the number of braille cells the Simulator should have
 	 * @param buttonNumber
 	 *            the number of buttons the Simulator should have
+	 * @throws IOException 
+	 * @throws SecurityException 
 	 * @throws IllegalArgumentException
 	 *             if one or both of the two parameters is negative or 0
 	 */
-	public VisualPlayer(int brailleCellNumber, int buttonNumber) {
-		
+	public VisualPlayer(int brailleCellNumber, int buttonNumber) throws SecurityException, IOException {
+
 		super(brailleCellNumber, buttonNumber);
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -85,25 +79,9 @@ public class VisualPlayer extends Player {
 
 				for (int i = 0; i < brailleCellNumber; i++) {
 
-					JPanel panel = new JPanel(cellGrid);
-					for (int j = 0; j < 8; j++) {
-						JRadioButton radioButton = new JRadioButton();
-						radioButton.setEnabled(false);
-						radioButton.setSize(25, 25);
-						radioButton.getAccessibleContext().setAccessibleName("Cell " + (j + 1));
-
-						pins[j] = radioButton;
-
-						panel.add(radioButton);
-						panel.repaint();
-					}
-					
-					panel.setVisible(true);
-
-					panelList.add(panel);
-					panel.setSize(50, 50);
-					panel.setBorder(BorderFactory.createLineBorder(Color.black));
-					centerPanel.add(panel);
+					BrailleCellPanel bcp = new BrailleCellPanel();
+                    brailleCellPanelList.add(bcp);
+                    centerPanel.add(bcp);
 
 					if (i == (brailleCellNumber - 1))
 						frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -111,66 +89,17 @@ public class VisualPlayer extends Player {
 
 				for (int i = 0; i < buttonNumber; i++) {
 					JButton button = new JButton("" + (i + 1));
-
 					buttonList.add(button);
 					southPanel.add(button);
 				}
 
 				frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
-
 				frame.repaint();
 				frame.setVisible(true);
+				refresh();
 			}
 		});
-		
-
-}
-	
-	
-	
-	
-
-	
-	/**
-	 * This method is meant for the ScenarioParser class to use to update the
-	 * parameters based on the input. To set the number of cells and buttons on
-	 * the player the constructor <code> VisualPlayer(int, int) </code> should
-	 * instead be used
-	 * 
-	 * @param buttonNumber
-	 */
-	public void setButton(int buttonNumber)
-	{
-		
-		if (!displayed) {
-			if (buttonNumber > 0)
-				this.buttonNumber = buttonNumber;
-			else
-				throw new IllegalArgumentException("Non-positive integer entered.");
-		}
-		
 	}
-	
-	/**
-	 * This method is meant for the ScenarioParser class to use to update the
-	 * parameters based on the input. To set the number of cells and buttons on
-	 * the player the constructor <code> VisualPlayer(int, int) </code> should
-	 * instead be used
-	 * 
-	 * @param cellNumber
-	 */
-	public void setCell(int cellNumber)
-	{
-		if (!displayed) {
-			if (cellNumber > 0)
-				this.brailleCellNumber = cellNumber;
-			else
-				throw new IllegalArgumentException("Non-positive integer entered.");
-		}
-		
-	}
-	
-	
 
 	/**
 	 * Returns a reference to the button at the index passed as argument. The
@@ -203,11 +132,17 @@ public class VisualPlayer extends Player {
      */
 	@Override
 	public void refresh() {
-		for (BrailleCell s : brailleList) {
-			for (int i = 0; i < s.getNumberOfPins(); i++) {
-				pins[pinIndex[i]].setSelected(s.getPinState(i));
-			}
-		}
+
+	    for (int j = 0; j < brailleList.size(); j++) 
+	    { 
+	        BrailleCell cell = this.brailleList.get(j);
+	        for (int i = 0; i < 8 ; i++) {
+	            brailleCellPanelList.get(j).setRadioButtons(cell.listOfPins);
+	        }
+	        this.centerPanel.repaint();
+	        frame.revalidate();
+	        frame.repaint();
+	    }
 	}
 	
 	/**
