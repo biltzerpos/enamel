@@ -1,0 +1,22 @@
+to-do list:
+1. add a TextView to Authoring App GUI. this textview should display String[] fileStr as indexed
+similarily to any IDE. i.e.
+
+	1. This is a text file
+	2. the number followed by period is not a part of the text file
+	3. the textView should also have a function scrollbar
+	4. there should be a limited about of indices displayed at a time.
+	5. design the dimensions of the textview as seen fit
+
+2. use FileParser to parse var "currentFile" when "open" is clicked. Retrieve the parsed string
+& save it as "fileStr". this array should be used to populate the textView described above.
+
+3. establish controls for syntax and text inputs. e.g. ~/skip should be added to a file with a
+button while "a sentence in the scenario" should be added via a text input box. the app
+should check if inputs are valid and syntax is correct/will compile. 
+
+4. Need if statement on openFileChooser to add .txt extension to the file if not already
+specified by the user.
+
+5. please read SaveAsFile.java notes. Made functional changes to accommodate for how
+writing to files work.
