@@ -1,5 +1,5 @@
 package enamel;
-
+// Goodbye
 import java.util.HashMap;
 import java.util.*;
 
