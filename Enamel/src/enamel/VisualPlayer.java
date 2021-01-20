@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import javax.swing.JButton;
@@ -40,10 +41,12 @@ public class VisualPlayer extends Player {
 
 	
 	private JFrame frame;
+	//private GridLayout cellGrid = new GridLayout(4, 2);
 	List<BrailleCellPanel> brailleCellPanelList = new LinkedList<BrailleCellPanel>();
 	LinkedList<JButton> buttonList = new LinkedList<JButton>();
 	JPanel southPanel = new JPanel();
 	JPanel centerPanel = new JPanel();
+	//LinkedList<ArrayList<JRadioButton>> pinList = new LinkedList<ArrayList<JRadioButton>>();
 	int[] pinIndex = {0, 2, 4, 1, 3, 5, 6, 7};
 
 	
@@ -56,10 +59,12 @@ public class VisualPlayer extends Player {
 	 *            the number of braille cells the Simulator should have
 	 * @param buttonNumber
 	 *            the number of buttons the Simulator should have
+	 * @throws IOException 
+	 * @throws SecurityException 
 	 * @throws IllegalArgumentException
 	 *             if one or both of the two parameters is negative or 0
 	 */
-	public VisualPlayer(int brailleCellNumber, int buttonNumber)  {
+	public VisualPlayer(int brailleCellNumber, int buttonNumber) throws SecurityException, IOException {
 
 		super(brailleCellNumber, buttonNumber);
 
@@ -74,9 +79,9 @@ public class VisualPlayer extends Player {
 
 				for (int i = 0; i < brailleCellNumber; i++) {
 
-				    BrailleCellPanel bcp = new BrailleCellPanel();
-				    brailleCellPanelList.add(bcp);
-				    centerPanel.add(bcp);
+					BrailleCellPanel bcp = new BrailleCellPanel();
+                    brailleCellPanelList.add(bcp);
+                    centerPanel.add(bcp);
 
 					if (i == (brailleCellNumber - 1))
 						frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
